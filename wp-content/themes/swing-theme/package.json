@@ -1,0 +1,51 @@
+{
+  "name": "swing-theme",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "compile:css": "node-sass sass/ -o ./ && stylelint '*.css' --fix || true && stylelint '*.css' --fix",
+    "compile:rtl": "rtlcss style.css style-rtl.css",
+    "lint:scss": "wp-scripts lint-style 'sass/**/*.scss'",
+    "lint:js": "wp-scripts lint-js 'js/*.js'",
+    "bundle": "dir-archiver --src . --dest ../_s.zip --exclude .DS_Store .stylelintrc.json .eslintrc .git .gitattributes .github .gitignore README.md composer.json composer.lock node_modules vendor package-lock.json package.json .travis.yml phpcs.xml.dist sass style.css.map yarn.lock",
+    "start": "run-p dev sass-watch",
+    "build": "run-p rollup-build sass-build",
+    "dev": "rollup -c -w",
+    "rollup-build": "rollup -c",
+    "watch": "sass --watch src/theme.scss:assets/css/bundle.css",
+    "sass-watch": "sass --watch src/theme.scss:assets/css/bundle.css",
+    "sass-watch-admin": "sass --watch --no-source-map src/admin/admin.scss:build/admin.css",
+    "sass-build": "sass --style compressed src/theme.scss:assets/css/bundle.css",
+    "zip": "mkdir -p packaged && zip -rq packaged/theme_$(date '+%Y-%m-%d-%H-%M').zip ./* -x *.git* -x node_modules/\\* -x scripts/\\* -x debug.txt -x packaged/\\* && open packaged",
+    "package": "run-s build zip",
+    "postinstall": "chmod +x scripts/ssl.sh && scripts/ssl.sh && npm run build",
+    "untrack": "git update-index --assume-unchanged rollup.config.js && git update-index --assume-unchanged assets/css/bundle.css && git update-index --assume-unchanged assets/js/bundle.js",
+    "deploy": "clear && node scripts/deploy.js",
+    "deploy-skip-build": "clear && node scripts/deploy.js --skip-build"
+  },
+  "dependencies": {
+    "animejs": "^3.2.1",
+    "bootstrap-scss": "^4.6.1",
+    "gsap": "^3.10.4",
+    "rxjs": "^7.5.5",
+    "svelte": "3.33.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-buble": "^0.21.3",
+    "@rollup/plugin-commonjs": "^11.1.0",
+    "@rollup/plugin-node-resolve": "^7.1.3",
+    "@wordpress/scripts": "^19.2.2",
+    "node-sass": "^7.0.1",
+    "npm-run-all": "^4.1.5",
+    "rollup": "2.39.1",
+    "rollup-plugin-browsersync": "^1.1.0",
+    "rollup-plugin-filesize": "^7.0.0",
+    "rollup-plugin-scss": "^2.6.1",
+    "rollup-plugin-svelte": "^6.1.1",
+    "rollup-plugin-terser": "^5.3.1",
+    "rtlcss": "^3.5.0",
+    "rxjs": "^6.6.0",
+    "sass": "^1.26.9",
+    "svelte-preprocess": "^4.10.7"
+  }
+}

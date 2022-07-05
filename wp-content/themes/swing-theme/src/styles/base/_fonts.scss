@@ -1,0 +1,54 @@
+// @see https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face
+
+//*** GELICA ***//
+@font-face { 
+   font-family: "Gelica";  
+   src: url("../fonts/gelica/gelica-regular.otf") format("opentype"); 
+   font-weight: 400;
+}
+@font-face { 
+   font-family: "Gelica";  
+   src: url("../fonts/gelica/gelica-medium.otf") format("opentype"); 
+   font-weight: 500;
+}
+@font-face { 
+   font-family: "Gelica";  
+   src: url("../fonts/gelica/gelica-mediumitalic.otf") format("opentype"); 
+   font-weight: 500;
+   font-style: italic;
+}
+@font-face { 
+   font-family: "Gelica";  
+   src: url("../fonts/gelica/gelica-semibold.otf") format("opentype"); 
+   font-weight: 600;
+}
+@font-face { 
+   font-family: "Gelica";  
+   src: url("../fonts/gelica/gelica-semibolditalic.otf") format("opentype"); 
+   font-weight: 600;
+   font-style: italic;
+}
+@font-face { 
+   font-family: "Gelica";  
+   src: url("../fonts/gelica/gelica-bold.otf") format("opentype"); 
+   font-weight: 700;
+}
+
+
+
+//*** PROXIMA NOVA ***//
+@font-face { 
+   font-family: "Proxima Nova";  
+   src: url("../fonts/proxima-nova/proximanova-regular.otf") format("opentype"); 
+   font-weight: 400;
+}
+@font-face { 
+   font-family: "Proxima Nova";  
+   src: url("../fonts/proxima-nova/proximanova-bold.otf") format("opentype"); 
+   font-weight: 700;
+}
+@font-face { 
+   font-family: "Proxima Nova";  
+   src: url("../fonts/proxima-nova/proximanova-extrabold.otf") format("opentype"); 
+   font-weight: 800;
+}

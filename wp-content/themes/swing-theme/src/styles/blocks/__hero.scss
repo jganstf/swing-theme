@@ -1,0 +1,49 @@
+////////////////////////// HERO //////////////////////////
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom:100px; //people
+  > .row {
+    width:100%;
+    @include respond-below(md) {
+      flex-direction: column;
+    }
+  }
+}
+.hero-img {
+  @include rel;
+  padding-bottom: 3%;
+  .decor-img {
+    @include bg(); //!focalpointerpicker
+    background-image: url(../img/team/placeholder@2x-6fed1fb3.jpg);
+    height: 100%;
+    padding-bottom: 40%;
+    width:100%;
+  }
+}
+.hero-content {
+  padding: 81.5px 115px;
+  h2 {
+    // font-family:$font-heading; //TODO wrong
+    // font-size:45px;
+    //TODO @include clamp('font-size', 38px, 45px);
+    font-weight: 300; //light
+    // letter-spacing: 0.004em;//18px;
+    // line-height: 1.33333; //60px
+    @include respond-below(xs) {
+      font-size: 38px;
+      letter-spacing: 0;
+      line-height: 1.36842105263; //52px
+    }
+  }
+}
+
+.page-template-people {
+  .hero .row {
+    flex-direction: row-reverse;
+  }
+  // .hero-content {
+  //   background-color: $gray;
+  // }
+}

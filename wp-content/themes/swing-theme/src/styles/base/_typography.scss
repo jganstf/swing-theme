@@ -1,0 +1,31 @@
+$font-gelica: 'Gelica', san-seif;
+// $font-crimson-pro: san-seif;
+$font-promixa-nova: 'Proxima Nova', san-serif;
+// $font-nunito: san-seif;
+
+$font-heading: $font-gelica;
+$font-body: $font-promixa-nova;
+
+//mobile-first declaration
+
+
+@mixin heading-common {
+   font-family: $font-heading;
+   font-weight: 400;
+   line-height: 1;
+}
+@mixin h4 {}
+@mixin h2 {
+   @include heading-common;
+   font-size: 66px;
+   @include respond-below(sm) {
+      @include h4;
+   }
+}
+@mixin h1 {
+   @include heading-common;
+   font-size: 74px;
+   @include respond-below(sm) {
+      @include h4;
+   }
+}

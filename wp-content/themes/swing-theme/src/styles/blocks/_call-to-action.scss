@@ -1,0 +1,13 @@
+.call-to-action {
+   @include rel;
+   padding: 100px 0;
+   text-align:center;
+   &:before {
+      content:"";
+      @include section-full;
+      // @extend .blue-section;
+   }
+   h2  {
+      @include h2;
+   }
+}

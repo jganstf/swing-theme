@@ -1,0 +1,170 @@
+footer {
+  width: 100%;
+  color: #000;
+  position: relative;
+  font-weight: 400;
+}
+
+.footer-main {
+  padding: 2rem 0;
+
+  .inner-wrap {
+    @include inner-wrap(1152px);
+    display: flex;
+  }
+}
+
+.footer-logo .logo-link {
+  margin: 1rem 0;
+  max-width:200px;
+  img {
+    max-width:100%;
+  }
+}
+
+.footer-links {
+  display: flex;
+  flex-grow: 1;
+  justify-content: flex-start;
+  border-top: 1px solid #555;
+  border-bottom: 1px solid #555;
+  padding: 2rem 0;
+  // padding: 0;
+  // padding-left: 1.2%;
+  font-size: 14px;
+  margin: 0;
+  flex-wrap: wrap;
+
+  > div {
+    margin: 0;
+    margin-left: auto;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li > span,
+  a {
+    display: inline-block;
+    font-family: $font-heading;
+    font-weight: 700;
+    letter-spacing: 0.01125em; //0.18px
+    color: $blue;
+    transition:0.35s;
+
+    &:hover { //TODO
+      color: $red;
+    }
+  }
+}
+
+.social-links {
+  align-self: center;
+  flex-shrink: 0;
+  flex-direction: column;
+  display: flex;
+}
+
+.social-icon {
+  position: relative;
+  // background-size: contain;
+  // background-position: center 50%;
+  // background-repeat: no-repeat;
+  width: 2em;
+  height: 2em;
+  display: inline-block;
+  margin: 0 2px;
+  transition: all 0.2s;
+  fill: $color-primary;
+  border-radius: 100%;
+  opacity: 0.85;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  svg {
+    position: relative;
+    &:hover {
+      path { fill: $red; }
+    }
+  }
+  path {
+    // fill: $color-primary; //TODO color accent
+    transition: 0.2s;
+  }
+}
+
+.footer-bottom {
+  background: #fff; //$color-secondary;
+  padding: 14px 0;
+  font-size: 12px;
+  color: #000;
+
+  .main {
+    padding: 0 2rem;
+  }
+
+  a:onot(.btn) {
+    display: inline-block;
+    &:not(.btn) {
+      color: $red;
+    }
+    text-decoration: none !important;
+    font-weight: 400;
+    &:not(:last-child){
+      margin-right:0.5rem;
+    }
+
+    span {
+      display: inline-block;
+      transition: transform 0.25s, color 0.2s;
+    }
+
+    &:hover {
+      span {
+        color: $red;
+        transform: translateY(-1px);
+      }
+    }
+  }
+
+  .inner-wrap {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  p {
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .btn {
+    padding: 0rem 2rem;
+    padding-right: 4rem;
+    min-width: unset;
+    min-height: 2em;
+    height: 3em;
+    margin-bottom: 0;
+    &:after {
+      width:  3em;
+      height: 100%;
+    }
+  }
+}
+.footer-terms {
+  margin-top: 1rem;
+  text-decoration: underline;
+  transition:0.2s;
+  &:hover {
+  }
+}
+.verification {
+  img {
+    max-height: 40px;
+    max-width: 40px;
+  }
+}

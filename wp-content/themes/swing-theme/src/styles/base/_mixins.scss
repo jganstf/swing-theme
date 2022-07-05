@@ -1,0 +1,233 @@
+// mixins - //TODO
+
+// Grid breakpoints
+//
+// Define the minimum dimensions at which your layout will change,
+// adapting to different screen sizes, for use in media queries.
+$grid-breakpoints: (
+	xs: 375px,
+	sm: 576px,
+	md: 768px,
+	lg: 992px,
+	xl: 1099px,
+	2xl: 1299px,
+	3xl: 1499px,
+);
+
+@mixin respond-above($breakpoint) {
+	// If the breakpoint exists in the map.
+	@if map-has-key($grid-breakpoints, $breakpoint) {
+		// Get the breakpoint value.
+		$breakpoint-value: map-get($grid-breakpoints, $breakpoint);
+		// Write the media query.
+		@media (min-width: ($breakpoint-value)) {
+			@content;
+		}
+		// If the breakpoint doesn't exist in the map.
+	} @else {
+		// Log a warning.
+		@warn 'Invalid breakpoint: #{$breakpoint}.';
+	}
+}
+@mixin respond-below($breakpoint) {
+	// If the breakpoint exists in the map.
+	@if map-has-key($grid-breakpoints, $breakpoint) {
+		// Get the breakpoint value.
+		$breakpoint-value: map-get($grid-breakpoints, $breakpoint);
+		// Write the media query.
+		@media (max-width: ($breakpoint-value - 1)) {
+			@content;
+		}
+		// If the breakpoint doesn't exist in the map.
+	} @else {
+		// Log a warning.
+		@warn 'Invalid breakpoint: #{$breakpoint}.';
+	}
+}
+
+@mixin fillall() {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+.fillall {
+	@include fillall;
+}
+@mixin inner-wrap($max-width: 1440px) {
+	max-width: $max-width;
+	margin: 0 auto;
+	width: 100%;
+}
+.inner-wrap {
+	@include inner-wrap;
+}
+
+@mixin main {
+	width: 100%;
+	margin: 0 auto;
+	padding: 0 4.4444445%;
+	position: relative;
+	// @media (max-width: 700px) {
+	// }
+}
+.main {
+	@include main;
+}
+
+@mixin main-content-wrap {
+	position: relative;
+	flex-grow: 1;
+	background-color: #fff;
+}
+.main-content-wrap {
+  @include main-content-wrap;
+}
+
+@mixin section-full {
+	margin-left: calc(-100vw / 2 + 100% / 2);
+	margin-right: calc(-100vw / 2 + 100% / 2);
+	max-width: 100vw;
+	// width: 100vw;
+}
+.section-full {
+	@include section-full;
+}
+
+@mixin bgrel() {
+	position: relative;
+	z-index: 1;
+	&::before {
+		z-index: -1;
+	}
+}
+.bg-rel {
+	@include bgrel;
+}
+@mixin rel() {
+	position: relative;
+	z-index: 1;
+	&:after,
+	&:before {
+		content: '';
+		z-index: -1;
+	}
+}
+.rel {
+	@include rel;
+}
+
+@mixin bg($position: center, $repeat: no-repeat, $size: cover) {
+	background-position: $position;
+	background-repeat: $repeat;
+	background-size: $size;
+}
+@mixin cover() {
+	@include fillall();
+	@include section-full();
+	width: 100vw;
+	z-index: -1;
+}
+.cover {
+	@include cover;
+}
+@mixin bg-cover($position: center, $repeat: no-repeat, $size: cover, $idx: -1) {
+	@include bg($position, $repeat, $size);
+	// @include fillall();
+	// @include section-full();
+	width: 100vw;
+	@include cover();
+	// z-index: $idx;
+}
+.bg-full,
+.bg-cover {
+	@include bg-cover();
+}
+
+
+/**
+ * Clickables
+ */
+@mixin btn() {
+	align-self: flex-start;
+	align-items: center;
+	border-radius: 1em;
+	border: 0;
+	border-radius:1.85em;
+	background-color: $color-primary;
+	color:#fff;
+	display: inline-flex;
+	font-family: $font-body;
+	font-size: 20px;
+	font-weight: 800;
+	justify-content: center;
+	line-height: 1;
+	margin: 1rem 0;
+	&:not(:last-child) {
+		margin-right: 1rem;
+	}
+	padding: 1em 3em;
+	transition: background-color 0.2s ease-in-out;
+	line-height: 1.42857142857;
+	position: relative;
+	text-align:center;
+	text-transform: capitalize;
+	transition:0.2s;
+	white-space: nowrap;
+	&:hover {
+		text-decoration: none;
+		background-color: $blue;
+		box-shadow: 0px 4px 4px rgba(0,0,0,0.25);
+		transform: scale(1.04);
+		background-color: $blue50;
+	}
+}
+li.btn *,
+*:not(li).btn {
+	@include btn;
+}
+li.btn * {
+	margin-right: 0;
+}
+.btn-outline {
+	background-color: transparent;
+	border: 2px solid $color-primary;
+}
+.secondary-btn {
+	background-color: $blue-dark;
+	&:hover {
+		background-color: $blue30;
+	}
+}
+
+@mixin clamp(
+	$property,
+	$min-size,
+	$scaler,
+	$max-size,
+	$min-size-left: false,
+	$scaler-left: false,
+	$max-size-left: false
+) {
+	@if $min-size-left == false {
+		#{$property}: $max-size;
+		#{$property}: #{'min(max(#{$min-size}, #{$scaler}), #{$max-size})'};
+		#{$property}: clamp($min-size, $scaler, $max-size);
+	} @else if $min-size-left == 0 or $min-size-left == auto {
+		#{$property}: $max-size $min-size-left;
+		#{$property}: #{'min(max(#{$min-size}, #{$scaler}), #{$max-size})'}
+			$min-size-left;
+		#{$property}: clamp($min-size, $scaler, $max-size) $min-size-left;
+	} @else {
+		#{$property}: $max-size $min-size-left;
+		#{$property}: #{'min(max(#{$min-size}, #{$scaler}), #{$max-size})'}
+			#{'min(max(#{$min-size-left}, #{$scaler-left}), #{$max-size-left})'};
+		#{$property}: clamp($min-size, $scaler, $max-size)
+			clamp($min-size-left, $scaler-left, $max-size-left);
+	}
+}
+
+// @mixin prop($pl, $ps, $po: 'font-size', $lg: 1100, $sm: 575) {
+//   @include clamp($ps, ($po, calc( $pl - $ps ) / ($lg - $sm), $pl)); //rfs
+// }

@@ -1,0 +1,37 @@
+@import "../node_modules/bootstrap-scss/bootstrap";
+
+@import 'styles/base';
+
+@import 'styles/blocks';
+
+@import 'styles/templates';
+
+
+#main_content, //!
+#main-content {
+   padding-top: 82px;
+}
+
+.logged-in {
+   .navbar-wrap {
+      margin-top: 32px !important;
+      @media screen and (max-width: 782px) {
+         margin-top: 46px !important;
+      }
+   }
+   #mobile-menu {
+      margin-top: 32px !important;
+      @media screen and (max-width: 782px) {
+         margin-top: 46px !important;
+      }
+   }
+}
+
+.logo-link,
+.footer-logo {
+   object-fit: contain;
+   object-position: left center;
+}
+
+
+@import 'styles/media-queries';

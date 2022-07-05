@@ -1,0 +1,7 @@
+.gs-hero {
+   padding: 100px 0;
+   background-color: $blue;
+   .decor-img {
+      clip-path: ellipse(10% 100% at 90% 0%);
+   }
+}

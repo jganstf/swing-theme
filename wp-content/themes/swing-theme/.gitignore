@@ -1,0 +1,10 @@
+.DS_Store
+node_modules
+*.css.map
+*.js.map
+assets/css/bundle.css
+assets/js/bundle.js  
+debug.txt
+www
+scripts/www
+package-lock.json
