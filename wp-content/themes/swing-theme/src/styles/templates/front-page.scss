@@ -33,12 +33,12 @@
    }
 }
 
-.home-classes-covered {
+.home-about {
    padding: 100px 0;
    h2 {
-      @include h2;
+      // @include h2;
       margin-bottom: 3rem; //match
-      max-width: 10em;
+      // max-width: 10em;
    }
    p {
       max-width: 50em;
@@ -48,18 +48,18 @@
       margin: 2rem -0.5rem -1rem;
       text-align: center;
    }
+   h3 {
+      @include heading-common;
+      color: $blue-dark;
+      font-weight: 500;
+      font-family: $font-heading;
+      margin-bottom: 1rem;
+   }
    .grid-item {
       border-radius: 0.5rem;
       margin: 1rem 0.5rem;
       padding: 4% 3%;
       width: calc(33.3333% - 1rem);
-      h3 {
-         @include heading-common;
-         color: $blue;
-         font-weight: 500;
-         font-family: $font-heading;
-         margin-bottom: 1rem;
-      }
       p {
          color: #000;
       }
@@ -69,7 +69,8 @@
          max-width: 90%;
       }
       .icon-img {
-         border-radius: 50%;
+         @include bg;
+         border-radius: 50%; //internal with image
          width: 150px;
          height: 150px;
          margin: 2rem auto 0;
@@ -126,6 +127,7 @@
       }
    }
 }
+
 .toggle-switch-wrap {
    position: absolute;
    top:   1rem;
