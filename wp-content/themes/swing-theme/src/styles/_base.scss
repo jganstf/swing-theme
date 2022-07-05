@@ -1,5 +1,6 @@
 // @import "base/util";
 //! @import "base/reset";
+@import 'base/xd';
 @import 'base/variables';
 @import 'base/fonts';
 @import 'base/typography';
@@ -230,4 +231,17 @@ optgroup {
         color: $blue-dark;
      }
   }
+}
+
+div.light-blue {
+  position: relative;
+  z-index: 1;
+  &:before {
+     content:"";
+     @include cover;
+     background: #E8F1FC;//$blue30;
+  }
+  // h2 {
+  //   color: $blue-dark;
+  // }
 }

@@ -9,16 +9,16 @@ while(have_posts()): the_post(); ?>
    <div class="main page-content-wrap">
       <div class="inner-wrap">
          <?php //the_content() ?>
-         <div class="home-classes-covered blue-section">
-            <h2>An Easier Way to Get Classes Covered</h2>
-            <p>Schools and district administrators are looking for new and innovative wats to manage teacher vacancies, and substitute teachers want more autonomy over their schedule and teaching careers.</p>
+         <div class="home-about light-blue">
+            <h2 class="h2-dark-blue"><?php echo $fields['about_heading'];?></h2>
+            <p><?php echo $fields['about_content'];?></p>
             <div class="grid-three">
-               <?php foreach([1,2,3] as $card):?>
+               <?php foreach($fields['about_items'] as $item):?>
                   <div class="card grid-item">
-                     <h3>The Challenge</h3>
-                     <p><strong>Teacher vacancies disrupt student learning</strong></p>
-                     <p>The growing teacher shortage is disrupting learning outcomes, contributing to teacher burnout, and overburdening administrators</p>
-                     <div class="icon-img" style="background-image: url('https://picsum.photos/150/150')"></div>
+                     <h3><?php echo $item['heading']; ?></h3>
+                     <p><strong><?php echo $item['statement']; ?></strong></p>
+                     <p><?php echo $item['content']; ?></p>
+                     <div class="icon-img" style="background-image: url(<?php echo $item['img']['sizes']['medium']; ?>)"></div>
                   </div>
                <?php endforeach;?>
             </div>

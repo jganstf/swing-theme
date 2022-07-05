@@ -1,5 +1,4 @@
-<?php $fields = get_fields(); 
-echo '<script>console.log('.json_encode($fields, JSON_PRETTY_PRINT).');</script>';//debug?>
+<?php $fields = get_fields(); ?>
 <div class="home-hero blue-section">
    <div class="decor-img" style="background-image: url(<?php echo get_the_post_thumbnail_url($post, '2048x2048');?>)"></div>
    <div class="main">
