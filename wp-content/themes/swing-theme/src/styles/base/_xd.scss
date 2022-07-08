@@ -230,7 +230,7 @@
   letter-spacing: var(--unnamed-character-spacing-0);
   color: var(--swing-blue-shd);
 }
-.h2-dark-blue {
+@mixin h2-dark-blue {
   font-family: var(--unnamed-font-family-gelica);
   font-style: var(--unnamed-font-style-normal);
   font-weight: var(--unnamed-font-weight-medium);
@@ -238,6 +238,9 @@
   line-height: var(--unnamed-line-spacing-49-7400016784668);
   letter-spacing: var(--unnamed-character-spacing-0);
   color: var(--swing-blue-shd);
+}
+.h2-dark-blue {
+  @include h2-dark-blue;
 }
 .hero-subhead-black {
   font-family: var(--unnamed-font-family-gelica);

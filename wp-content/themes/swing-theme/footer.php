@@ -84,14 +84,14 @@
                   <a href="/terms">Terms of Service</a>
                </div>
             </div>
-            <div class="verification">
+            <!-- <div class="verification">
                <div id="swing-trustlock">
                   <iframe id="TL_iFrame_id_5762_498_1548468535" src="https://app.trustlock.co/iframe/5762/my-badge/498" frameborder="0" vspace="0" hspace="0" scrolling="no" style="width: -webkit-fill-available;"></iframe>
                </div>
                <?php //foreach($option_fields['verifications'] as $v): ?>
-                  <!-- <img src="<?php //echo $v['image']['sizes']['thumbnail']; ?>" alt="<?php //echo $v['image']['alt']; ?>" weight="<?php //echo $v['image']['weight']; ?>" height="<?php //echo $v['image']['height']; ?>"/> -->
+                  <!-- <img src="<?php //echo $v['image']['sizes']['thumbnail']; ?>" alt="<?php //echo $v['image']['alt']; ?>" weight="<?php //echo $v['image']['weight']; ?>" height="<?php //echo $v['image']['height']; ?>"/> -- >
                <?php //endforeach;?>
-            </div>
+            </div> -->
          </div>
       </div>
    </div>
