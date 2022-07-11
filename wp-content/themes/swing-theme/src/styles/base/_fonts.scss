@@ -39,6 +39,11 @@
 //*** PROXIMA NOVA ***//
 @font-face { 
    font-family: "Proxima Nova";  
+   src: url("../fonts/proxima-nova/proximanova-light.otf") format("opentype"); 
+   font-weight: 300;
+}
+@font-face { 
+   font-family: "Proxima Nova";  
    src: url("../fonts/proxima-nova/proximanova-regular.otf") format("opentype"); 
    font-weight: 400;
 }

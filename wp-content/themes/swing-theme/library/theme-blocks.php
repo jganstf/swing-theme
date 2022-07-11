@@ -13,6 +13,93 @@ add_filter( 'block_categories_all', function( $categories, $post ) {
    );
 }, 10, 2 );
 
+add_action('acf/init', 'theme_register_blocks' );
+function theme_register_blocks() {
+   if( ! function_exists('acf_register_block') ) {
+      return;
+   }
+	acf_register_block([
+		'name'			=> 'theme-partners-slider',
+		'title'			=> 'Partners Slider',
+		'render_template'	=> 'blocks/partners-slider.php',
+		'category'		=> 'theme-blocks',
+		'icon'			=> 'thumbs-up',
+		'mode'			=> 'edit',
+      'keywords'		=> ['partners', 'slider', 'swing', 'for', 'schools'],
+      'supports' => ['align' => false],
+   ]);
+	acf_register_block([
+		'name'			=> 'theme-helpful-articles',
+		'title'			=> 'Helpful Articles',
+		'render_template'	=> 'blocks/helpful-articles.php',
+		'category'		=> 'theme-blocks',
+		'icon'			=> 'thumbs-up',
+		'mode'			=> 'edit',
+      'keywords'		=> ['whitepaper', 'helpful', 'articles', 'swing', 'education'],
+      'supports' => ['align' => false],
+   ]);
+	// acf_register_block([
+	// 	'name'			=> 'theme-whitepaper-block',
+	// 	'title'			=> 'Whitepaper',
+	// 	'render_template'	=> 'blocks/whitepaper.php',
+	// 	'category'		=> 'theme-blocks',
+	// 	'icon'			=> 'thumbs-up',
+	// 	'mode'			=> 'edit',
+   //    'keywords'		=> ['whitepaper', 'swing', 'education'],
+   //    'supports' => ['align' => false],
+   // ]);
+	acf_register_block([
+		'name'			=> 'swing-page-hero',
+		'title'			=> 'Page Hero',
+		'render_template'	=> 'blocks/page-hero.php',
+		'category'		=> 'theme-blocks',
+		'icon'			=> 'thumbs-up',
+		'mode'			=> 'edit',
+      'keywords'		=> ['page', 'hero', 'swing', 'education'],
+      'supports' => ['align' => false],
+   ]);
+	acf_register_block([
+		'name'			=> 'swing-testimonial-slider',
+		'title'			=> 'Testimonial Slider',
+		'render_template'	=> 'blocks/testimonial-slider.php',
+		'category'		=> 'theme-blocks',
+		'icon'			=> 'thumbs-up',
+		'mode'			=> 'edit',
+      'keywords'		=> ['testimonial', 'slider', 'swing', 'education'],
+      'supports' => ['align' => false],
+   ]);
+	acf_register_block([
+		'name'			=> 'swing-stats',
+		'title'			=> 'Swing Stats',
+		'render_template'	=> 'blocks/swing-stats.php',
+		'category'		=> 'theme-blocks',
+		'icon'			=> 'thumbs-up',
+		'mode'			=> 'edit',
+      'keywords'		=> ['stats', 'swing', 'education'],
+      'supports' => ['align' => false],
+   ]);
+	acf_register_block([
+		'name'			=> 'swing-cards',
+		'title'			=> 'Swing Cards',
+		'render_template'	=> 'blocks/swing-cards.php',
+		'category'		=> 'theme-blocks',
+		'icon'			=> 'thumbs-up',
+		'mode'			=> 'edit',
+      'keywords'		=> ['cards', 'swing', 'education'],
+      'supports' => ['align' => false],
+   ]);
+	acf_register_block([
+		'name'			=> 'swing-stats',
+		'title'			=> 'Swing Stats',
+		'render_template'	=> 'blocks/swing-stats.php',
+		'category'		=> 'theme-blocks',
+		'icon'			=> 'thumbs-up',
+		'mode'			=> 'edit',
+      'keywords'		=> ['stats', 'swing', 'education'],
+      'supports' => ['align' => false],
+   ]);
+}
+
 /**
  * Theme Youtube Callback Function.
  *
@@ -50,55 +137,45 @@ function theme_block_youtube($block, $content = '', $is_preview = false, $post_i
 }
 
 /////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////
-
-function theme_register_blocks() {
-   if( ! function_exists('acf_register_block') ) {
-      return;
-   }
-	acf_register_block([
-		'name'			=> 'theme-portfolio-slider',
-		'title'			=> 'Portfolio Slider',
-		'render_template'	=> 'blocks/portfolio-slider.php',
-		'category'		=> 'theme-blocks',
-		'icon'			=> 'thumbs-up',
-		'mode'			=> 'edit',
-      'keywords'		=> ['portfolio', 'slider', 'portagevc'],
-      'supports' => ['align' => false],
-  ]);
-// 	acf_register_block([
-// 		'name'			=> 'theme-youtube-grid',
-// 		'title'			=> 'Youtube Grid',
-// 		'render_callback'	=> 'theme_block_youtube',
-// 		'category'		=> 'common',
-// 		'icon'			=> 'thumbs-up',
-// 		'mode'			=> 'edit',
-//       'keywords'		=> ['youtube', 'theme'],
-//       'supports' => ['align' => false],
-//       // 'enqueue_assets' => function() {
-//       //   wp_enqueue_script( 'block-youtube-grid', 'https://cdn.jsdelivr.net/npm/macy@2.5.1/dist/macy.min.js', [], '', true );
-//       // }
-//       // 'enqueue_script' => 'https://cdn.jsdelivr.net/npm/macy@2.5.1/dist/macy.min.js',
-//   ]);
-}
-add_action('acf/init', 'theme_register_blocks' );
 
 function theme_register_blocks_style() {
    if ( function_exists( 'register_block_style' ) ) {
       register_block_style(
-         'core/quote',
+         'core/group',
          array(
-            'name'         => 'blue-quote',
-            'label'        => __( 'Blue Quote', 'textdomain' ),
-            'is_default'   => true,
-            'inline_style' => '.wp-block-quote.is-style-blue-quote { color: blue; }',
+            'name'         => 'swing-blue-bg',
+            'label'        => __( 'Swing Blue Background', 'textdomain' ),
+            'is_default'   => false,
+            'inline_style' => '.wp-block-group.is-style-swing-blue',
+         )
+      );
+      register_block_style(
+         'core/group',
+         array(
+            'name'         => 'light-blue-bg',
+            'label'        => __( 'Light Blue Background', 'textdomain' ),
+            'is_default'   => false,
+            'inline_style' => '.wp-block-group.is-style-light-blue',
+         )
+      );
+      register_block_style(
+         'acf/swing-page-hero',
+         array(
+            'name'         => 'hero-about',
+            'label'        => __( 'About Page Hero', 'textdomain' ),
+            'is_default'   => false,
+            'inline_style' => '.hero.ph-about',
+         )
+      );
+      register_block_style(
+         'acf/swing-page-hero',
+         array(
+            'name'         => 'hero-getting-started',
+            'label'        => __( 'Getting Started Hero', 'textdomain' ),
+            'is_default'   => false,
+            'inline_style' => '.hero.ph-getting-started',
          )
       );
   }
 }
-// add_action('acf/init', 'theme_register_blocks' );
+add_action('acf/init', 'theme_register_blocks_style' );

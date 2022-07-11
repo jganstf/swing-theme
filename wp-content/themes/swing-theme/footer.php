@@ -17,7 +17,7 @@
                   <?php include( locate_template('template-parts/social-links.php',false,false, $args=['social' => $social_links]) ); ?>
                </div>
             </div>
-            <div class="footer-links d-flex">
+            <div class="footer-links">
                <div class="col">
                   <h4>Swing For Subs</h4>
                   <?php
@@ -76,8 +76,11 @@
             <div>
                <div class="d-flex">
                   <div class="footer-copyright">
-                     <p translate="no">© <?php echo date('Y') ?> SWING EDUCATION, SAN MATEO, CS 94402</p>
-                     <p>Swing, Swing Education, and the logo at the top of the page are trademarks of Swing Education, Inc</p>
+                     <p translate="no">
+                        © <?php echo date('Y') ?> SWING EDUCATION, SAN MATEO, CS 94402
+                        <br/>
+                        Swing, Swing Education, and the logo at the top of the page are trademarks of Swing Education, Inc
+                     </p>
                   </div>
                </div>
                <div class="footer-terms">

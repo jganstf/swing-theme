@@ -38,7 +38,7 @@ function pvc_scripts() {
 	wp_enqueue_style('slick-styles', 'https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css', false, $theme->version);
 	wp_enqueue_style('slick-theme', 'https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css', false, $theme->version);
 	wp_enqueue_script('slick', 'https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js', ['jquery'], $theme->version, true);
-	wp_enqueue_script('waypoints', 'https://cdn.jsdelivr.net/npm/waypoints@4.0.1/lib/jquery.waypoints.min.js', ['jquery'], $theme->version, true);
+	// wp_enqueue_script('waypoints', 'https://cdn.jsdelivr.net/npm/waypoints@4.0.1/lib/jquery.waypoints.min.js', ['jquery'], $theme->version, true);
 	
 
 	//lozad - lazy image loading

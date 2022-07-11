@@ -1,6 +1,6 @@
 <?php $fields = get_fields(); ?>
 
-<div class="blue-section">
+<div class="media text">
    <?php foreach([1,2] as $section):?>
       <div class="blue-media-text <?php $i%2 == 1 ? 'has-media-on-right': ''; ?>">
          <div class="decor-img" style="background-image: url()"></div>

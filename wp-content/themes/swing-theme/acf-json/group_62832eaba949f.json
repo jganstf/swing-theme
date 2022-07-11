@@ -80,9 +80,14 @@
     "location": [
         [
             {
-                "param": "post_type",
+                "param": "page_template",
                 "operator": "==",
-                "value": "page"
+                "value": "default"
+            },
+            {
+                "param": "page_template",
+                "operator": "!=",
+                "value": "default"
             }
         ]
     ],
@@ -95,5 +100,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1657038219
+    "modified": 1657581558
 }

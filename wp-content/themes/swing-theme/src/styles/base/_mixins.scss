@@ -55,7 +55,7 @@ $grid-breakpoints: (
 .fillall {
 	@include fillall;
 }
-@mixin inner-wrap($max-width: 1440px) {
+@mixin inner-wrap($max-width: 1556px) {
 	max-width: $max-width;
 	margin: 0 auto;
 	width: 100%;
@@ -154,7 +154,7 @@ $grid-breakpoints: (
 	align-items: center;
 	border-radius: 1em;
 	border: 0;
-	border-radius:1.85em;
+	border-radius: 35px 35px 35px 35px; //rel
 	background-color: $color-primary;
 	color:#fff;
 	display: inline-flex;
@@ -164,9 +164,10 @@ $grid-breakpoints: (
 	justify-content: center;
 	line-height: 1;
 	margin: 1rem 0;
-	&:not(:last-child) {
-		margin-right: 1rem;
-	}
+	// comment for cta
+	// &:not(:last-child) {
+	// 	margin-right: 1rem;
+	// }
 	padding: 1em 3em;
 	transition: background-color 0.2s ease-in-out;
 	line-height: 1.42857142857;
@@ -182,24 +183,32 @@ $grid-breakpoints: (
 		transform: scale(1.04);
 		background-color: $blue50;
 	}
+	&.white {
+		background: #FFF;
+		color: var(--swing-blue);
+	}
 }
-li.btn *,
+li.btn *, //navbar
 *:not(li).btn {
 	@include btn;
 }
 li.btn * {
 	margin-right: 0;
 }
-.btn-outline {
-	background-color: transparent;
-	border: 2px solid $color-primary;
-}
-.secondary-btn {
-	background-color: $blue-dark;
-	&:hover {
-		background-color: $blue30;
-	}
-}
+// .btn-outline {
+// 	background-color: transparent;
+// 	border: 2px solid $color-primary;
+// }
+// .secondary-btn {
+// 	background-color: $blue-dark;
+// 	&:hover {
+// 		background-color: $blue30;
+// 	}
+// }
+// .white-btn {
+// 	background: #FFF;
+// 	color: var(--swing-blue);
+// }
 
 @mixin clamp(
 	$property,
@@ -231,3 +240,21 @@ li.btn * {
 // @mixin prop($pl, $ps, $po: 'font-size', $lg: 1100, $sm: 575) {
 //   @include clamp($ps, ($po, calc( $pl - $ps ) / ($lg - $sm), $pl)); //rfs
 // }
+
+// .main-content-wrap {
+// 	p {
+// 		@include bdy-md;
+// 	}
+// }
+@mixin card {
+	border-radius: $border-radius;//8px 8px 8px 8px;//! 20px;
+	padding: 51px 66px 90px; //106-1rem
+	text-align: center;
+	p {
+		@include bdy-md;
+	}
+	&.light {
+		background-color: #F6F9FE;
+	}
+}
+.card { @include card; }

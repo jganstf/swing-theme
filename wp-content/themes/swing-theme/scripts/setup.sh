@@ -1,0 +1,1 @@
+wp scaffold post-type movie --label=Team --theme=swing-theme

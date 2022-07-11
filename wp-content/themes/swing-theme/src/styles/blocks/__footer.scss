@@ -3,10 +3,11 @@ footer {
   color: #000;
   position: relative;
   font-weight: 400;
+  border-bottom: 9px solid var(--swing-blue-shd); //TODO html
 }
 
 .footer-main {
-  padding: 2rem 0;
+  padding: 84px 0 78px;
 
   .inner-wrap {
     @include inner-wrap(1152px);
@@ -16,24 +17,35 @@ footer {
 
 .footer-logo .logo-link {
   margin: 1rem 0;
-  max-width:200px;
+  width:165px;
+  height: 50px;
   img {
     max-width:100%;
   }
 }
 
 .footer-links {
+  border-bottom: 1px solid #555;
+  border-top: 1px solid #555;
   display: flex;
   flex-grow: 1;
-  justify-content: flex-start;
-  border-top: 1px solid #555;
-  border-bottom: 1px solid #555;
-  padding: 2rem 0;
-  // padding: 0;
-  // padding-left: 1.2%;
   font-size: 14px;
-  margin: 0;
+  justify-content: flex-start;
+  margin: 62.41px 0 0;
+  padding: 78px 0;
   flex-wrap: wrap;
+
+  .col:first-child {
+    padding-left: 0;
+  }
+  .col:last-child {
+    padding-right: 0;
+  }
+
+  h4 {
+    @include hdr-sm;
+    margin-bottom: 1rem;
+  }
 
   > div {
     margin: 0;
@@ -49,14 +61,16 @@ footer {
   li > span,
   a {
     display: inline-block;
-    font-family: $font-heading;
-    font-weight: 700;
-    letter-spacing: 0.01125em; //0.18px
-    color: $blue;
+    @include bdy-md;
+    margin-bottom: 1rem;
+    // font-family: $font-heading;
+    // font-weight: 700;
+    // letter-spacing: 0.01125em; //0.18px
+    // color: $blue;
     transition:0.35s;
 
     &:hover { //TODO
-      color: $red;
+      // color: $red;
     }
   }
 }
@@ -73,34 +87,36 @@ footer {
   // background-size: contain;
   // background-position: center 50%;
   // background-repeat: no-repeat;
-  width: 2em;
-  height: 2em;
+  width:  50px;
+  height: 50px;
   display: inline-block;
-  margin: 0 2px;
-  transition: all 0.2s;
+  margin: 0 2px 0 1.3125rem;
+  transition: all 0.2s ease-out;
   fill: $color-primary;
   border-radius: 100%;
-  opacity: 0.85;
+  // opacity: 0.85;
+  opacity: 1;
 
   &:hover {
-    opacity: 1;
+    transform: scale(1.15);
   }
 
   svg {
     position: relative;
+    transition: 0.2s;
     &:hover {
-      path { fill: $red; }
+      // filter: brightness(120%);
+      // transform: scale(1.01);
     }
   }
   path {
-    // fill: $color-primary; //TODO color accent
-    transition: 0.2s;
+    // transition: 0.2s;
   }
 }
 
 .footer-bottom {
-  background: #fff; //$color-secondary;
-  padding: 14px 0;
+  background: #fff;
+  padding: 0 0 168px;
   font-size: 12px;
   color: #000;
 
@@ -138,8 +154,9 @@ footer {
   }
 
   p {
-    margin: 0;
-    line-height: 1.4;
+    @include bdy-sm;
+    // margin: 0;
+    // line-height: 1.4;
   }
 
   .btn {
@@ -156,10 +173,16 @@ footer {
   }
 }
 .footer-terms {
-  margin-top: 1rem;
-  text-decoration: underline;
+  margin-top: 2rem;
+  // text-decoration: underline;
   transition:0.2s;
-  &:hover {
+  a {
+    @include bdy-sm;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+      color: $blue;
+    }
   }
 }
 .verification {

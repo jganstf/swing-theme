@@ -34,7 +34,8 @@
 		width: 46%;
 	}
 }
-@include respond-below(md) {}
+@include respond-below(md) {
+}
 @media (max-width: 700px) {
 	.grid-four .grid-item,
 	.grid-three .grid-item {

@@ -12,11 +12,25 @@
 - [ ] 404 - header, footer, nav, mobile menu
 - [ ] generic page - development REST
 - [ ] mobile menu
+- [ ] portagevc
 - [ ] 
 - [ ] 
 - [ ] 
 - [ ] 
-- [ ] 
+
+
+
+
+## TODO
+- [ ] social icon update
+- [ ] whitepaper relationship limit
+- [ ] helpful articles limit
+- [ ] learn more arrow - helpful content
+- [ ] hero page details acf remove
+
+
+
+
 
 
 ## CLEAN UP CHECKLIST

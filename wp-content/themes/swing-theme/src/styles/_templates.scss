@@ -1,2 +1,12 @@
-@import 'templates/front-page';
+@import 'templates/for-schools';
 @import 'templates/get-started';
+
+@import 'templates/about';
+@import 'templates/front-page';
+
+//.page-template-partnership
+.partnership {
+   h1 {
+      @include hdl-xl;
+   }
+}

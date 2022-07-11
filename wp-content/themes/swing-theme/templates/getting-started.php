@@ -20,7 +20,8 @@ while(have_posts()): the_post(); ?>
    <div class="main">
       <div class="inner-wrap">
          <?php include(locate_template('template-parts/home/home-hero.php', false, false));?>
-
+         <?php the_content(); ?>
+         <?php //include(locate_template('template-parts/helpful-articles.php', false, false));?>
          <?php include(locate_template('template-parts/call-to-action.php', false, false));?>
 
       </div>

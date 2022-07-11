@@ -1,0 +1,34 @@
+.swing-stats {
+   @include rel;
+   padding: 137px 0 129px; //assume always top overlap
+   &:before {
+      @include cover;
+      background-color: var(--bg-03);
+   }
+}
+.ss-quantity { 
+   // @include hdl-xx;
+   font-family: var(--unnamed-font-family-proxima-nova);
+   font-style: var(--unnamed-font-style-normal);
+   font-weight: 800; // extra bold
+   font-size: var(--unnamed-font-size-88-37999725341797);
+   //line-height: var(--unnamed-line-spacing-27-989999771118164);
+   line-height: 1.1767368183;//calc(104px / 88.38px);
+   letter-spacing: var(--unnamed-character-spacing-0);
+   color: var(--swing-blue-shd);
+}
+.ss-item { 
+   @include bdy-lg; 
+   color: var(--swing-blue-shd);
+   font-weight: 800;
+   margin-bottom: 27px;
+}
+.ss-descr { 
+   @include bdy-md; 
+   max-width: 18em;
+}
+
+.hero.has-space + .swing-stats {
+   margin-top: -166px;//match
+   z-index: 0;
+}

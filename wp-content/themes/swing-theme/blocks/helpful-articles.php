@@ -1,28 +1,36 @@
-<?php $fields = get_fields(); ?>
+<?php 
+   $fields = get_fields(); 
+   $whitepapers = $fields['white_paper_selection'];
+   $posts = $fields['posts'];
+   // if(!$posts) {
+   //    $posts = get_posts([
+   //       'post_status'    => 'publish',
+   //       'post_type'      => 'post',
+   //       'posts_per_page' => 3 //!
+   //    ]);
+   // }
+?>
 
 <div class="helpful-articles">
-   <h2><?php echo $fields['heading']?:'Helpful Articles';?></h2>
-   <div class="grid-three">
-      <?php foreach([1,2,3,4] as $item):?>
-         <div class="h-article grid-item">
-            <div class="decor-img" style="background-image: url()"></div>
-            <div class="h-art-content">
-               <time><?php echo date('F d, Y', strtotime($item->post_date);?>)
+   <?php if($heading = $fields['heading']):?>
+      <h2><?php echo $heading;?></h2>
+   <?php endif;?> 
+   <div class="ha-wrap grid-three">
+      <?php if($posts): 
+         foreach($posts as $item):?>
+         <div class="help-art grid-item">
+            <div class="help-art-img" style="background-image: url('https://picsum.photos/1920/1920')"></div>
+            <div class="help-art-content card">
+               <!-- <time><?php //echo date('F d, Y', strtotime($item->post_date));?>) -->
                <h3><?php echo $item->post_title;?></h3>
-               <p><?php echo $item->post_title;?></p>
-               <a href="<?php echo get_permalink($item);?>"> learn more</a>
+               <!-- <p><?php //echo $item->post_title;?></p> -->
+               <a href="<?php echo get_permalink($item);?>">
+                  <span>learn more</span>
+               </a>
+            </div>
          </div>
-      <?php endforeach;?>
+      <?php endforeach; endif ?>
    </div>
-   <div class="whitepaper-download">
-      <div class="d-flex">
-         <div class="decor-img" style="background-image: url()"></div>
-         <div class="wd-content">
-            <p class="pre-heading">Expert Insight & Guides</p>
-            <h3 class="pre-heading">Whitepaper: whitepaper title</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-         </div>
-         <a class="btn">Download</a>
-      </div>
-   </div>
+
+   <?php include( locate_template('blocks/whitepaper.php', false, false, $args=['whitepapers' => $whitepapers]));?>
 </div>

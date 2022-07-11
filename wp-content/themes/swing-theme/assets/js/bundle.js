@@ -8561,6 +8561,7 @@
 			// 	}
 			// )
 
+			testimonialSlider();
 			// animate()
 		},
 		finalize() {
@@ -8574,6 +8575,25 @@
 			});
 		},
 	};
+
+	/**
+	 * Testimonial Slider Block
+	 */
+	function testimonialSlider() {
+		const $testimonialSlider = $('.testimonial-slider');
+		if(!$testimonialSlider.length) {
+			return
+		}
+
+		$testimonialSlider.slick({
+			//TODO adaptiveHeight: true,
+			arrows: false,
+			dots: true,
+			fade: true,
+			slidesToShow: 1,
+			slidesToScroll: 1,
+		});
+	}
 
 	/*
 	 * anime.js v3.2.1

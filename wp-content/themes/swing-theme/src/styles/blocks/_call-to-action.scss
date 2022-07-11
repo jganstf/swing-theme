@@ -1,13 +1,17 @@
 .call-to-action {
    @include rel;
-   padding: 100px 0;
+   padding: 118px 0;
+   padding: 240px 0 120px; //partnership
    text-align:center;
-   &:before {
-      content:"";
-      @include section-full;
-      // @extend .blue-section;
-   }
    h2  {
-      @include h2;
+      margin-bottom: 3.5rem;
+   }
+   .btns-wrap {
+      display: flex;
+      justify-content: center;
+      margin: 0 -1.3125rem;
+   }
+   .btn {
+      margin: 0 1.3125rem;
    }
 }

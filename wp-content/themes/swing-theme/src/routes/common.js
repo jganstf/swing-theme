@@ -1,5 +1,6 @@
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import PopUp from "gsap/ScrollTrigger"
 // import sidePanel from 'side-panel-menu-thing'
 
 const { $ } = window
@@ -30,6 +31,7 @@ export default {
 		// 	}
 		// )
 
+		testimonialSlider()
 		// animate()
 	},
 	finalize() {
@@ -52,6 +54,33 @@ function animateCTA() {
 	if (!$('.call-to-action').length) {
 		return
 	}
+	const tl = gsap.timeline({
+		defaults:{},
+		scrollTrigger:{trigger:'.call-to-action'}
+	})
 }
 function animateFooter() {
+	const tl = gsap.timeline({
+		defaults:{},
+		scrollTrigger:{trigger:'footer'}
+	})
+}
+
+/**
+ * Testimonial Slider Block
+ */
+function testimonialSlider() {
+	const $testimonialSlider = $('.testimonial-slider')
+	if(!$testimonialSlider.length) {
+		return
+	}
+
+	$testimonialSlider.slick({
+		//TODO adaptiveHeight: true,
+		arrows: false,
+		dots: true,
+		fade: true,
+		slidesToShow: 1,
+		slidesToScroll: 1,
+	})
 }
