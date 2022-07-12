@@ -69,13 +69,13 @@ function animateFooter() {
 /**
  * Testimonial Slider Block
  */
-function testimonialSlider() {
-	const $testimonialSlider = $('.testimonial-slider')
-	if(!$testimonialSlider.length) {
+function testimonialSlider() { //first found on for schools page
+	const testimonialSlider = document.querySelectorAll('.testimonial-slider')
+	if(!testimonialSlider.length) {
 		return
 	}
 
-	$testimonialSlider.slick({
+	testimonialSlider[0].slick({
 		//TODO adaptiveHeight: true,
 		arrows: false,
 		dots: true,

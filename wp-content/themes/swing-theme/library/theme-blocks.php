@@ -49,13 +49,23 @@ function theme_register_blocks() {
    //    'supports' => ['align' => false],
    // ]);
 	acf_register_block([
-		'name'			=> 'swing-page-hero',
-		'title'			=> 'Page Hero',
-		'render_template'	=> 'blocks/page-hero.php',
+		'name'			=> 'swing-hero-full-width',
+		'title'			=> 'Full-Width Hero',
+		'render_template'	=> 'blocks/full-width-hero.php',
 		'category'		=> 'theme-blocks',
 		'icon'			=> 'thumbs-up',
 		'mode'			=> 'edit',
-      'keywords'		=> ['page', 'hero', 'swing', 'education'],
+      'keywords'		=> ['full-width', 'hero', 'swing', 'education'],
+      'supports' => ['align' => false],
+   ]);
+	acf_register_block([
+		'name'			=> 'swing-hero-contained',
+		'title'			=> 'Contained Hero',
+		'render_template'	=> 'blocks/contained-hero.php',
+		'category'		=> 'theme-blocks',
+		'icon'			=> 'thumbs-up',
+		'mode'			=> 'edit',
+      'keywords'		=> ['contained', 'hero', 'swing', 'education'],
       'supports' => ['align' => false],
    ]);
 	acf_register_block([
@@ -96,6 +106,16 @@ function theme_register_blocks() {
 		'icon'			=> 'thumbs-up',
 		'mode'			=> 'edit',
       'keywords'		=> ['stats', 'swing', 'education'],
+      'supports' => ['align' => false],
+   ]);
+	acf_register_block([
+		'name'			=> 'swing-home-cta',
+		'title'			=> 'Home Join CTA',
+		'render_template'	=> 'blocks/home-cta.php',
+		'category'		=> 'theme-blocks',
+		'icon'			=> 'thumbs-up',
+		'mode'			=> 'edit',
+      'keywords'		=> ['cta', 'home', 'join', 'swing', 'education'],
       'supports' => ['align' => false],
    ]);
 }
@@ -155,7 +175,8 @@ function theme_register_blocks_style() {
             'name'         => 'light-blue-bg',
             'label'        => __( 'Light Blue Background', 'textdomain' ),
             'is_default'   => false,
-            'inline_style' => '.wp-block-group.is-style-light-blue',
+            'inline_style' => '.wp-block-group.is-style-light-blue { color: red; }',
+            // 'style_handle' => 'testing',
          )
       );
       register_block_style(

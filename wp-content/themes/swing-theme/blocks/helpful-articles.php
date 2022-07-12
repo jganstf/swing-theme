@@ -19,7 +19,7 @@
       <?php if($posts): 
          foreach($posts as $item):?>
          <div class="help-art grid-item">
-            <div class="help-art-img" style="background-image: url('https://picsum.photos/1920/1920')"></div>
+            <div class="help-art-img" style="background-image: url('https://picsum.photos/800/800')"></div>
             <div class="help-art-content card">
                <!-- <time><?php //echo date('F d, Y', strtotime($item->post_date));?>) -->
                <h3><?php echo $item->post_title;?></h3>

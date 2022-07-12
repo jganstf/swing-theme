@@ -1,34 +1,130 @@
+:root {
+  /* Colors: */
+  // BG
+  --bg-01: #ffffff;
+  --bg-02: #e8f1fc;
+  --bg-03: #f6f9fe;
+  --bg-04: #e8e9eb;
+  --bg-06: #f8f3fa;
+  
+  // Darks/Lights
+  --swing-black: #182438;
+  --swing-black-t20: #465060;
+  --swing-black-t40: #747c88;
+  --swing-black-t60: #a3a7af;
+  --swing-black-t70: #d1d3d7;
+  --swing-black-t90: #e8e8eb;
+  
+  // Primary
+  --swing-blue: #186ee5;
+  --swing-blue-shd: #114da0;
+  --swing-blue-t30: #5e9aed;
+  --swing-blue-t50: #8cb7f2;
+  --swing-blue-t70: #bad4f7;
+  
+  --swing-yellow: #ffd100;
+  --swing-yellow-shd: #f2a900;
+  --swing-yellow-t30: #ffdf4d;
+  --swing-yellow-t50: #ffe880;
+  --swing-yellow-t70: #fff1b3;
+  --swing-yellow-t90: #fffae6;
+
+  // Ternary
+  --swing-green: #36b558;
+  --swing-green-t30: #72cb8a;
+  --swing-green-t50: #9bdaac;
+  --swing-green-t70: #c3e9cd;
+  --swing-green-t90: #ebf8ee;
+  
+  --swing-lilac: #bb88c9;
+  --swing-lilac-t30: #cfacd9;
+  --swing-lilac-t50: #ddc4e4;
+  --swing-lilac-t70: #ebdbef;
+  
+  --swing-teal: #0bb4c4;
+  --swing-teal-t30: #54cbd6;
+  --swing-teal-t50: #85dae2;
+  --swing-teal-t70: #b6e9ed;
+  --swing-teal-t90: #e7f8f9;
+
+  /* Font/text values */
+  --unnamed-character-spacing-0: 0px;
+  
+  --unnamed-font-family-proxima-nova: Proxima Nova; //! fallback
+  --unnamed-font-family-gelica: Gelica;
+  
+  --unnamed-font-style-italic: italic;
+  --unnamed-font-style-normal: normal;
+  
+  --unnamed-font-weight-black:        900;
+  --unnamed-font-weight-extra-bold:   800;
+  --unnamed-font-weight-bold:   700;//bold;
+  --unnamed-font-weight-normal: 400;//normal;
+  --unnamed-font-weight-light:  300;
+  --unnamed-font-weight-medium: 500;//medium;
+  
+  --unnamed-font-size-11-819999694824219: 11.819999694824219px;
+  --unnamed-font-size-15-75: 15.75px;
+  --unnamed-font-size-21: 21px;
+  --unnamed-font-size-27-989999771118164: 27.989999771118164px;
+  --unnamed-font-size-37-310001373291016: 37.310001373291016px;
+  --unnamed-font-size-49-7400016784668: 49.7400016784668px;
+  --unnamed-font-size-66-30000305175781: 66.30000305175781px;
+  --unnamed-font-size-88-37999725341797: 88.37999725341797px;
+  
+  --unnamed-line-spacing-15-75: 15.75px;
+  --unnamed-line-spacing-21: 21px;
+  --unnamed-line-spacing-23: 23px;
+  --unnamed-line-spacing-25: 25px;
+  --unnamed-line-spacing-27-989999771118164: 27.989999771118164px;
+  --unnamed-line-spacing-30-989999771118164: 30.989999771118164px;
+  --unnamed-line-spacing-31: 31px;
+  --unnamed-line-spacing-34-97999954223633: 34.97999954223633px;
+  --unnamed-line-spacing-37-310001373291016: 37.310001373291016px;
+  --unnamed-line-spacing-39-310001373291016: 39.310001373291016px;
+  --unnamed-line-spacing-41-310001373291016: 41.310001373291016px;
+  --unnamed-line-spacing-49-7400016784668: 49.7400016784668px;
+  --unnamed-line-spacing-66-30000305175781: 66.30000305175781px;
+  --unnamed-line-spacing-88-37999725341797: 88.37999725341797px;
+}
+
+
+// Background Colors
+$bg1: var(--bg-01);
+$bg2: var(--bg-02);
+$bg3: var(--bg-03);
+$bg4: var(--bg-04);
+$bg6: var(--bg-06);
+
+//darks/light
+$black: var(--swing-black);
+
 // Primary Colors - Tints
 //- Swing Blue
-$blue-dark: #114DA0;
-$blue: #186EE5;
-$blue30: gray;
-$blue50: red;
-// $blue70: ;
-// $blue90: 
-;
-// -Swing Yellow
-$yellow-dark: #F2A900;
-$yellow: #FFD100;
-// $yellow30: ;
-// $yellow50: ;
-// $yellow70: ;
-// $yellow90: ;
+$blue-dark: var(--swing-blue-shd);
+$blue:      var(--swing-blue);
+$blue30:    var(--swing-blue-t30);
+$blue50:    var(--swing-blue-t50);
+$blue70:    var(--swing-blue-t70);
+$blue90:    var(--swing-blue-t90);
+
+//- Swing Yellow
+$yellow-dark: var(--swing-yellow-shd);
+$yellow:      var(--swing-yellow);
+$yellow30:    var(--swing-yellow-t30);
+$yellow50:    var(--swing-yellow-t50);
+$yellow70:    var(--swing-yellow-t70);
+$yellow90:    var(--swing-yellow-t90);
 
 // Ternary Colors 
 
 
 
-// Background Colors
-$bg1: #E8F1FC;
-$bg2: #FFF;
-$bg3: #F6F9FE;
-$bg4: #E8E9EB;
-
-
-$font-color: #000;
-$color-primary: $blue;
-$border-radius: 8px;
-$btn-border-radius: 35px;//! 35px 35px 35px;
-
-//** see xd.scss **//
+// Variables - Miscellaneous
+$border-radius:     8px;
+$box-shadow:        0px 4px 4px #46506033;;
+$btn-border-radius: 35px; //! 35px 35px 35px;
+$color-primary:     $blue;
+$color-secondary:   $blue-dark;
+$color-accent:      $yellow;
+$font-color:        $black; //#000;

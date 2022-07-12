@@ -12,7 +12,6 @@
 - [ ] 404 - header, footer, nav, mobile menu
 - [ ] generic page - development REST
 - [ ] mobile menu
-- [ ] portagevc
 - [ ] 
 - [ ] 
 - [ ] 
@@ -27,8 +26,10 @@
 - [ ] helpful articles limit
 - [ ] learn more arrow - helpful content
 - [ ] hero page details acf remove
-
-
+- [ ] navbar filter: drop-shadow
+- [ ] logo-link height/width adjustment
+- [ ] 
+- [ ] 
 
 
 
@@ -38,7 +39,9 @@
 - [ ] remove unused fonts; font licenses
 - [ ] otf font support; font fallback
 - [ ] cpt
-- [ ] theme enqueue
+- [ ] theme enqueue cleanup
+- [ ] remove dev
+- [ ] //! TODO
+- [ ] reduce font files
 - [ ] 
-
-.
+- [ ] 

@@ -63,15 +63,7 @@ footer {
     display: inline-block;
     @include bdy-md;
     margin-bottom: 1rem;
-    // font-family: $font-heading;
-    // font-weight: 700;
-    // letter-spacing: 0.01125em; //0.18px
-    // color: $blue;
     transition:0.35s;
-
-    &:hover { //TODO
-      // color: $red;
-    }
   }
 }
 
@@ -84,9 +76,6 @@ footer {
 
 .social-icon {
   position: relative;
-  // background-size: contain;
-  // background-position: center 50%;
-  // background-repeat: no-repeat;
   width:  50px;
   height: 50px;
   display: inline-block;
@@ -94,7 +83,6 @@ footer {
   transition: all 0.2s ease-out;
   fill: $color-primary;
   border-radius: 100%;
-  // opacity: 0.85;
   opacity: 1;
 
   &:hover {
@@ -104,13 +92,6 @@ footer {
   svg {
     position: relative;
     transition: 0.2s;
-    &:hover {
-      // filter: brightness(120%);
-      // transform: scale(1.01);
-    }
-  }
-  path {
-    // transition: 0.2s;
   }
 }
 

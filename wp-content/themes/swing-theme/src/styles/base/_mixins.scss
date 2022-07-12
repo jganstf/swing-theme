@@ -178,37 +178,46 @@ $grid-breakpoints: (
 	white-space: nowrap;
 	&:hover {
 		text-decoration: none;
-		background-color: $blue;
-		box-shadow: 0px 4px 4px rgba(0,0,0,0.25);
-		transform: scale(1.04);
-		background-color: $blue50;
+		background-color: $blue-dark;
+		border-color: transparent;
+		color: white;
+		// font-weight: 700;
+		// box-shadow: 0px 4px 4px rgba(0,0,0,0.25);
+		// transform: scale(1.04);
 	}
 	&.white {
 		background: #FFF;
 		color: var(--swing-blue);
 	}
 }
+//.header-links 
 li.btn *, //navbar
 *:not(li).btn {
 	@include btn;
 }
 li.btn * {
-	margin-right: 0;
+	padding: 13px 34px;// 14px;
+	line-height: 1;
 }
-// .btn-outline {
-// 	background-color: transparent;
-// 	border: 2px solid $color-primary;
-// }
-// .secondary-btn {
-// 	background-color: $blue-dark;
-// 	&:hover {
-// 		background-color: $blue30;
-// 	}
-// }
-// .white-btn {
-// 	background: #FFF;
-// 	color: var(--swing-blue);
-// }
+.header-links li.btn.outlined *, //navbar
+*:not(li).btn.outlined {
+	background: transparent;
+	border: 2px solid $blue;
+	color: $blue;
+	font-weight: 600;
+	&:hover {
+		text-shadow: 1px 0 0 #FFF;
+		text-decoration: none; //! dup btn
+		background-color: $blue-dark;
+		border-color: transparent;
+		color: white;
+		// font-weight: 700;
+		// box-shadow: 0px 4px 4px rgba(0,0,0,0.25);
+		transform: scale(1.04);
+	}
+}
+
+
 
 @mixin clamp(
 	$property,
@@ -237,6 +246,7 @@ li.btn * {
 	}
 }
 
+//TODO
 // @mixin prop($pl, $ps, $po: 'font-size', $lg: 1100, $sm: 575) {
 //   @include clamp($ps, ($po, calc( $pl - $ps ) / ($lg - $sm), $pl)); //rfs
 // }
@@ -247,6 +257,7 @@ li.btn * {
 // 	}
 // }
 @mixin card {
+	background-color: #FFF; //.home-about
 	border-radius: $border-radius;//8px 8px 8px 8px;//! 20px;
 	padding: 51px 66px 90px; //106-1rem
 	text-align: center;

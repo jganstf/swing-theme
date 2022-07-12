@@ -5,33 +5,39 @@
    font-family: "Gelica";  
    src: url("../fonts/gelica/gelica-regular.otf") format("opentype"); 
    font-weight: 400;
+   font-display: swap;
 }
 @font-face { 
    font-family: "Gelica";  
    src: url("../fonts/gelica/gelica-medium.otf") format("opentype"); 
    font-weight: 500;
+   font-display: swap;
 }
 @font-face { 
    font-family: "Gelica";  
    src: url("../fonts/gelica/gelica-mediumitalic.otf") format("opentype"); 
    font-weight: 500;
    font-style: italic;
+   font-display: swap;
 }
 @font-face { 
    font-family: "Gelica";  
    src: url("../fonts/gelica/gelica-semibold.otf") format("opentype"); 
    font-weight: 600;
+   font-display: swap;
 }
 @font-face { 
    font-family: "Gelica";  
    src: url("../fonts/gelica/gelica-semibolditalic.otf") format("opentype"); 
    font-weight: 600;
    font-style: italic;
+   font-display: swap;
 }
 @font-face { 
    font-family: "Gelica";  
    src: url("../fonts/gelica/gelica-bold.otf") format("opentype"); 
    font-weight: 700;
+   font-display: swap;
 }
 
 
@@ -41,19 +47,43 @@
    font-family: "Proxima Nova";  
    src: url("../fonts/proxima-nova/proximanova-light.otf") format("opentype"); 
    font-weight: 300;
+   font-display: swap;
+}
+@font-face { 
+   font-family: "Proxima Nova";  
+   src: url("../fonts/proxima-nova/proximanova-lightit.otf") format("opentype"); 
+   font-weight: 300;
+   font-style: italic;
+   font-display: swap;
 }
 @font-face { 
    font-family: "Proxima Nova";  
    src: url("../fonts/proxima-nova/proximanova-regular.otf") format("opentype"); 
    font-weight: 400;
+   font-display: swap;
+}
+@font-face { 
+   font-family: "Proxima Nova";  
+   src: url("../fonts/proxima-nova/proximanova-regularit.otf") format("opentype"); 
+   font-weight: 400;
+   font-style: italic;
+   font-display: swap;
+}
+@font-face { 
+   font-family: "Proxima Nova";  
+   src: url("../fonts/proxima-nova/proximanova-medium.otf") format("opentype"); 
+   font-weight: 500;
+   font-display: swap;
 }
 @font-face { 
    font-family: "Proxima Nova";  
    src: url("../fonts/proxima-nova/proximanova-bold.otf") format("opentype"); 
    font-weight: 700;
+   font-display: swap;
 }
 @font-face { 
    font-family: "Proxima Nova";  
    src: url("../fonts/proxima-nova/proximanova-extrabold.otf") format("opentype"); 
    font-weight: 800;
+   font-display: swap;
 }

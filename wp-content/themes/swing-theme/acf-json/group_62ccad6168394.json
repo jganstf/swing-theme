@@ -3,6 +3,23 @@
     "title": "Cards Block",
     "fields": [
         {
+            "key": "field_62ccaee2dbd61",
+            "label": "Cards",
+            "name": "",
+            "type": "accordion",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "open": 0,
+            "multi_expand": 0,
+            "endpoint": 0
+        },
+        {
             "key": "field_62ccae03fcc59",
             "label": "Settings",
             "name": "settings",
@@ -56,23 +73,6 @@
                     "ui_off_text": ""
                 }
             ]
-        },
-        {
-            "key": "field_62ccaee2dbd61",
-            "label": "Content",
-            "name": "",
-            "type": "accordion",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "open": 0,
-            "multi_expand": 0,
-            "endpoint": 0
         },
         {
             "key": "field_62ccad6ac57ef",
@@ -195,5 +195,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1657581368
+    "modified": 1657637354
 }

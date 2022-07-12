@@ -1,3 +1,5 @@
+//TODO mobile-first declaration
+
 $font-gelica: 'Gelica', san-seif;
 // $font-crimson-pro: san-seif;
 $font-promixa-nova: 'Proxima Nova', san-serif;
@@ -6,15 +8,313 @@ $font-promixa-nova: 'Proxima Nova', san-serif;
 $font-heading: $font-gelica;
 $font-body: $font-promixa-nova;
 
-//mobile-first declaration
+/* Character Styles */
+// TODO @see _variables.scss
+@mixin hdr-common {
+  font-family: var(--unnamed-font-family-proxima-nova);
+  font-family: $font-body;
+  font-style: var(--unnamed-font-style-normal);
+  font-weight: var(--unnamed-font-weight-bold);
+  letter-spacing: var(--unnamed-character-spacing-0);
+}
+
+@mixin hdr-sm {
+  font-family: var(--unnamed-font-family-proxima-nova);
+  font-style: var(--unnamed-font-style-normal);
+  font-weight: var(--unnamed-font-weight-bold);
+  font-size: var(--unnamed-font-size-21);
+  line-height: var(--unnamed-line-spacing-27-989999771118164);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--swing-black);
+}
+.hdr-sm { @include hdr-sm; }
+
+@mixin hdr-md {
+  font-family: var(--unnamed-font-family-proxima-nova);
+  font-style: var(--unnamed-font-style-normal);
+  font-weight: var(--unnamed-font-weight-bold);
+  font-size: var(--unnamed-font-size-27-989999771118164);
+  line-height: var(--unnamed-line-spacing-34-97999954223633);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--swing-black);
+}
+.hdr-md { @include hdr-md; }
+
+@mixin hdr-lg {
+  font-family: var(--unnamed-font-family-proxima-nova);
+  font-style: var(--unnamed-font-style-normal);
+  font-weight: var(--unnamed-font-weight-bold);
+  font-size: var(--unnamed-font-size-37-310001373291016);
+  line-height: var(--unnamed-line-spacing-41-310001373291016);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--swing-black);
+}
+.hdr-lg { @include hdr-lg; }
+
+
+
+@mixin sbh-common {
+}
+
+@mixin sbh-md {
+  font-family: var(--unnamed-font-family-gelica);
+  font-style: var(--unnamed-font-style-normal);
+  font-weight: var(--unnamed-font-weight-normal);
+  font-size: var(--unnamed-font-size-21);
+  line-height: var(--unnamed-line-spacing-25);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--swing-black);
+}
+.sbh-md { @include sbh-md; }
+
+@mixin sbh-lg {
+  font-family: var(--unnamed-font-family-gelica);
+  font-style: var(--unnamed-font-style-normal);
+  font-weight: var(--unnamed-font-weight-normal);
+  font-size: var(--unnamed-font-size-27-989999771118164);
+  line-height: var(--unnamed-line-spacing-30-989999771118164);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--swing-black);
+}
+.sbh-lg { @include sbh-lg; }
+
+
+
+@mixin hdl-common {
+}
+
+@mixin hdl-xs {
+  font-family: var(--unnamed-font-family-gelica);
+  font-style: var(--unnamed-font-style-normal);
+  font-weight: var(--unnamed-font-weight-medium);
+  font-size: var(--unnamed-font-size-21);
+  line-height: var(--unnamed-line-spacing-23);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--swing-black);
+}
+.hdl-xs { @include hdl-xs; }
+
+@mixin hdl-sm {
+  font-family: var(--unnamed-font-family-gelica);
+  font-style: var(--unnamed-font-style-normal);
+  font-weight: var(--unnamed-font-weight-medium);
+  font-size: var(--unnamed-font-size-27-989999771118164);
+  line-height: var(--unnamed-line-spacing-30-989999771118164);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--swing-black);
+}
+.hdl-sm { @include hdl-sm; }
+
+@mixin hdl-md {
+  font-family: var(--unnamed-font-family-gelica);
+  font-style: var(--unnamed-font-style-normal);
+  font-weight: var(--unnamed-font-weight-medium);
+  font-size: var(--unnamed-font-size-37-310001373291016);
+  line-height: var(--unnamed-line-spacing-39-310001373291016);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--swing-black);
+}
+.hdl-md { @include hdl-md; }
+
+@mixin hdl-xl {
+  font-family: var(--unnamed-font-family-gelica);
+  font-style: var(--unnamed-font-style-normal);
+  font-weight: var(--unnamed-font-weight-medium);
+  font-size: var(--unnamed-font-size-66-30000305175781);
+  line-height: var(--unnamed-line-spacing-66-30000305175781);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--swing-black);
+}
+.hdl-xl { @include hdl-xl; }
+
+@mixin hdl-xx {
+  font-family: var(--unnamed-font-family-gelica);
+  font-style: var(--unnamed-font-style-normal);
+  font-weight: var(--unnamed-font-weight-medium);
+  font-size: var(--unnamed-font-size-88-37999725341797);
+  line-height: var(--unnamed-line-spacing-88-37999725341797);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--swing-black);
+}
+.hdl-xx { @include hdl-xx; }
+
+
+
+@mixin bdy-common {
+}
+
+@mixin bdy-xs {
+  font-family: var(--unnamed-font-family-proxima-nova);
+  font-style: var(--unnamed-font-style-normal);
+  font-weight: var(--unnamed-font-weight-normal);
+  font-size: var(--unnamed-font-size-11-819999694824219);
+  line-height: var(--unnamed-line-spacing-15-75);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--swing-black);
+}
+.bdy-xs { @include bdy-xs; }
+
+@mixin bdy-sm {
+  font-family: var(--unnamed-font-family-proxima-nova);
+  font-style: var(--unnamed-font-style-normal);
+  font-weight: var(--unnamed-font-weight-normal);
+  font-size: var(--unnamed-font-size-15-75);
+  line-height: var(--unnamed-line-spacing-21);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--swing-black);
+}
+.bdy-sm { @include bdy-sm; }
+
+@mixin bdy-md {
+  font-family: var(--unnamed-font-family-proxima-nova);
+  font-style: var(--unnamed-font-style-normal);
+  font-weight: var(--unnamed-font-weight-normal);
+  font-size: var(--unnamed-font-size-21);
+  line-height: var(--unnamed-line-spacing-27-989999771118164);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--swing-black);
+}
+.bdy-md { @include bdy-md; }
+
+@mixin bdy-lg {
+  font-family: var(--unnamed-font-family-proxima-nova);
+  font-style: var(--unnamed-font-style-normal);
+  font-weight: var(--unnamed-font-weight-normal);
+  font-size: var(--unnamed-font-size-27-989999771118164);
+  line-height: var(--unnamed-line-spacing-34-97999954223633);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--swing-black);
+}
+.bdy-lg { @include bdy-lg; }
+
+@mixin bdy-xl {
+  font-family: var(--unnamed-font-family-proxima-nova);
+  font-style: var(--unnamed-font-style-normal);
+  font-weight: var(--unnamed-font-weight-normal);
+  font-size: var(--unnamed-font-size-37-310001373291016);
+  line-height: var(--unnamed-line-spacing-41-310001373291016);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--swing-black);
+}
+.bdy-xl { @include bdy-xl; }
+
+
+
+@mixin h3-dark-blue {
+  font-family: var(--unnamed-font-family-gelica);
+  font-style: var(--unnamed-font-style-normal);
+  font-weight: var(--unnamed-font-weight-medium);
+  font-size: var(--unnamed-font-size-37-310001373291016);
+  line-height: var(--unnamed-line-spacing-39-310001373291016);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--swing-blue-shd);
+}
+.h3-dark-blue { @include h3-dark-blue; }
+
+@mixin h2-dark-blue {
+  font-family: var(--unnamed-font-family-gelica);
+  font-style: var(--unnamed-font-style-normal);
+  font-weight: var(--unnamed-font-weight-medium);
+  font-size: var(--unnamed-font-size-49-7400016784668);
+  line-height: var(--unnamed-line-spacing-49-7400016784668);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--swing-blue-shd);
+}
+.h2-dark-blue { @include h2-dark-blue; }
+
+@mixin hero-subhead-black {
+  font-family: var(--unnamed-font-family-gelica);
+  font-style: var(--unnamed-font-style-normal);
+  font-weight: var(--unnamed-font-weight-normal);
+  font-size: var(--unnamed-font-size-27-989999771118164);
+  line-height: var(--unnamed-line-spacing-31);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--swing-black);
+}
+.hero-subhead-black { @include hero-subhead-black; }
+
+@mixin hero-subhead-white {
+  font-family: var(--unnamed-font-family-gelica);
+  font-style: var(--unnamed-font-style-normal);
+  font-weight: var(--unnamed-font-weight-normal);
+  font-size: var(--unnamed-font-size-27-989999771118164);
+  line-height: var(--unnamed-line-spacing-30-989999771118164);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--bg-01);
+}
+.hero-subhead-white { @include hero-subhead-white; }
+
+@mixin quote-smaller {
+  font-family: var(--unnamed-font-family-proxima-nova);
+  font-style: var(--unnamed-font-style-italic);
+  font-weight: var(--unnamed-font-weight-normal);
+  font-size: var(--unnamed-font-size-37-310001373291016);
+  line-height: var(--unnamed-line-spacing-49-7400016784668);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--swing-black);
+}
+.quote-smaller { @include quote-smaller; }
+
+@mixin quote-default {
+  font-family: var(--unnamed-font-family-proxima-nova);
+  font-style: var(--unnamed-font-style-italic);
+  font-weight: var(--unnamed-font-weight-normal);
+  font-size: var(--unnamed-font-size-49-7400016784668);
+  line-height: var(--unnamed-line-spacing-66-30000305175781);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--swing-black);
+}
+.quote-default { @include quote-default; }
+
+.unnamed-character-style-1 {
+  font-family: var(--unnamed-font-family-proxima-nova);
+  font-style: var(--unnamed-font-style-normal);
+  font-weight: var(--unnamed-font-weight-normal);
+  font-size: var(--unnamed-font-size-15-75);
+  line-height: var(--unnamed-line-spacing-21);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--swing-black-t40);
+}
+.unnamed-character-style-2 {
+  font-family: var(--unnamed-font-family-proxima-nova);
+  font-style: var(--unnamed-font-style-normal);
+  font-weight: var(--unnamed-font-weight-bold);
+  font-size: var(--unnamed-font-size-27-989999771118164);
+  line-height: var(--unnamed-line-spacing-34-97999954223633);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--swing-blue);
+}
+.unnamed-character-style-3 {
+  font-family: var(--unnamed-font-family-gelica);
+  font-style: var(--unnamed-font-style-italic);
+  font-weight: var(--unnamed-font-weight-medium);
+  font-size: var(--unnamed-font-size-27-989999771118164);
+  line-height: var(--unnamed-line-spacing-37-310001373291016);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--bg-01);
+}
+.unnamed-character-style-4 {
+  font-family: var(--unnamed-font-family-gelica);
+  font-style: var(--unnamed-font-style-italic);
+  font-weight: var(--unnamed-font-weight-medium);
+  font-size: var(--unnamed-font-size-37-310001373291016);
+  line-height: var(--unnamed-line-spacing-49-7400016784668);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--bg-01);
+}
+.unnamed-character-style-5 {
+  font-family: var(--unnamed-font-family-gelica);
+  font-style: var(--unnamed-font-style-italic);
+  font-weight: var(--unnamed-font-weight-medium);
+  font-size: var(--unnamed-font-size-49-7400016784668);
+  line-height: var(--unnamed-line-spacing-66-30000305175781);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--bg-01);
+}
+
 
 
 // TODO
-// @mixin heading-common {
-//    font-family: $font-heading;
-//    font-weight: 400;
-//    line-height: 1;
-// }
 // @mixin h4 {}
 // @mixin h2 {
 //    @include heading-common;

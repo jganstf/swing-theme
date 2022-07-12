@@ -9,9 +9,7 @@
          <div class="footer-main">
             <div class="d-flex justify-content-between">
                <div class="footer-logo">
-                  <a href="<?php echo get_site_url() ?>" class="logo-link">
-                     <img src="<?php echo imgdir(); ?>/logo-tmp.png" alt="<?php echo get_bloginfo() ?> Logo" width="" height="">
-                  </a>
+                  <?php include( locate_template('template-parts/logo-link.php', false, false, $args=[]));?>
                </div>
                <div class="footer-social">
                   <?php include( locate_template('template-parts/social-links.php',false,false, $args=['social' => $social_links]) ); ?>

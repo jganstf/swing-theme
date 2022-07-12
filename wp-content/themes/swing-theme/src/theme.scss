@@ -52,3 +52,93 @@
 
 
 @import 'styles/media-queries';
+
+
+.toggle-switch {
+   display: flex;
+   align-items: center;
+   border-radius: 2rem;
+   background: $blue-dark;
+   min-width: 375px;
+   padding: 8px;
+ }
+ .label {
+   @include bdy-md;
+   color: #FFF;
+   margin: 0 2.5rem 0 1rem;
+ }
+ 
+ .switch-field {
+   display: flex;
+   flex-grow:1;
+   overflow: hidden;
+   position: relative;
+   z-index: 1;
+ }
+ 
+ .switch-field input {
+    position: absolute !important;
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    width: 1px;
+    border: 0;
+    overflow: hidden;
+ }
+ 
+ .switch-field label {
+   @include bdy-md;
+   color: #fff;
+   // flex-grow: 1;
+   width:50%;
+   font-weight: 600;
+    line-height: 1;
+    text-align: center;
+    padding: 8px 32px;
+    margin-right: -1px;
+    margin-bottom: 0;
+    /*border: 1px solid rgba(0, 0, 0, 0.2);
+    /*box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);*/
+    transition: all 0.1s ease-in-out;
+    white-space: nowrap;
+ }
+ .indicator {
+   position: absolute;
+   left: 0;
+   height: 100%;
+   width: 50%;
+   background: $blue;
+   pointer-events: none;
+   z-index:-1;
+   transition: 0.25s ease-out;
+   border-radius: 1.25rem;
+ }
+ #radio-two:checked ~ .indicator {
+   left: 50%;
+ }
+ 
+ .switch-field label:hover {
+    cursor: pointer;
+ }
+ 
+ .switch-field input:checked + label {
+    /*background-color: red;*/
+    box-shadow: none;
+ }
+ 
+ .switch-field label:first-of-type {
+    border-radius: 4px 0 0 4px;
+ }
+ 
+ .switch-field label:last-of-type {
+    border-radius: 0 4px 4px 0;
+ }
+ 
+ /* This is just for CodePen. */
+ 
+ .toggle-switch {
+   width: fit-content;
+    font-weight: normal;
+    line-height: 1.625;
+    margin: 8px auto;
+    padding: 10px;
+ }

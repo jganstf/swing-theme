@@ -5,9 +5,7 @@
   <div class="main">
     <div class="inner-wrap">
       <nav class="navbar">
-        <a href="<?php echo get_site_url() ?>" class="logo-link">
-          <img src="<?php echo imgdir(); ?>/logo-tmp.png" alt="<?php echo get_bloginfo() ?> Logo" width="470" height="154">
-        </a>
+        <?php include( locate_template('template-parts/logo-link.php', false, false, $args=[]));?>
         <button id="toggle_nav" class="toggle-nav">
           <em class="hamburger">
             <div></div>

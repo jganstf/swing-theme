@@ -1,15 +1,16 @@
 {
   "pages": [
     ["Home", "/front-page.php"], 
-    ["People", "templates/people.php"],
-    ["News"], "templates/portfolio.php", 
-    ["Portfolio"], "templates/portfolio.php"
+    ["News"], "templates/news.php", 
   ],
   "menus": {
     "main-navigation":[
-      ["Contact", "https://careers.portagevc.com/"],
-      ["Careers", "https://blog.portagevc.com/"],
-      ["SPAC", "https://spac.portagevc.com/"]
+      ["About", ""],
+      ["Team", ""],
+      ["News", ""],
+      ["News", ""],
+      ["Contact", ""],
+      ["Careers", ""],
     ]
   }
 }

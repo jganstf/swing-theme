@@ -60,9 +60,9 @@
       margin: 1rem 0.5rem;
       padding: 4% 3%;
       width: calc(33.3333% - 1rem);
-      p {
-         color: #000;
-      }
+      // p {
+      //    color: #000;
+      // }
       strong {
          display: inline-block;
          font-size: 1.2em;
@@ -82,7 +82,7 @@
    position: relative;
    z-index:1;
    &:before {
-      content: inline-svg('');
+      content: '';
       @include fillall;
       z-index: -1;
    }
@@ -92,15 +92,20 @@
    .slick-list {
       overflow: visible;
    }
+   .slick-track {
+      display: flex;
+   }
    .slick-dots {
+      position: absolute;
       display: flex;
       list-style-type: none;
       padding-left: 0;
       bottom: 50px;
       left: 4.4444445vw;//! match .main
    }
-   .testimonial {
+   .home-testimonial {
       display: flex;
+      height: unset;
       .decor-img {
          @include cover;
          @include bg;
@@ -112,15 +117,15 @@
       padding-bottom: 150px;
       background: #fff;
       // width: 50%;
-      clip-path: ellipse(30vw 30vw at 25% 50%);
+      clip-path: ellipse(500px 100% at 25% 50%);
+
+      display: flex;
+      align-items: center;
       p {
-         //! @include h2;
          font-size: 50px;
+         line-height: 1.333;
          max-width:14em;
-         font-family: $font-heading;
          font-style: italic;
-         font-weight: 500;
-         color: $blue;
       }
       cite {
          color:#AAA;
@@ -130,10 +135,9 @@
 
 .toggle-switch-wrap {
    position: absolute;
-   top:   1rem;
-   right: 1rem;
-   z-index:2;
-   color: $yellow;
+   bottom:   1rem;
+   right:    2rem;
+   z-index:  2;
    // mix-blend-mode: difference;
    > p {
       margin-bottom: 0;
@@ -142,7 +146,7 @@
    }
 }
 
-//https://preview.themeforest.net/item/nafie-html-portfolio-template/full_screen_preview/31531920?_ga=2.220731231.653017296.1620693505-933693064.1600738304&irgwc=1&clickid=240wAbTstxyLT96wUx0Mo36YUkBQDXxBMRZvyI0&iradid=275988&irpid=2305834&iradtype=ONLINE_TRACKING_LINK&irmptype=mediapartner&mp_value1=&utm_campaign=af_impact_radius_2305834&utm_medium=affiliate&utm_source=impact_radius
+//TODO https://preview.themeforest.net/item/nafie-html-portfolio-template/full_screen_preview/31531920?_ga=2.220731231.653017296.1620693505-933693064.1600738304&irgwc=1&clickid=240wAbTstxyLT96wUx0Mo36YUkBQDXxBMRZvyI0&iradid=275988&irpid=2305834&iradtype=ONLINE_TRACKING_LINK&irmptype=mediapartner&mp_value1=&utm_campaign=af_impact_radius_2305834&utm_medium=affiliate&utm_source=impact_radius
 .toggle-switch-btn {
    position: relative;
    display: -webkit-box;
@@ -229,44 +233,56 @@
 .home-join {
    position: relative;
    z-index: 1;
-   padding: 100px 0;
+   padding: 136px 0;
    &::before {
       content: "";
       @include cover;
-      background-color: $yellow;
-      opacity: 0.3;
+      background-color: $bg2;
    }
    h2 {
-      //! @include h2;
-      font-size: 52px;
-      font-weight: 500;
-      color: $blue;
+      @include h2-dark-blue;
       max-width: 12em;
-      margin-bottom: 2rem;
+      margin-bottom: 26px;
    }
    .btns-wrap {
-
+      margin-top: 26px;
    }
-   .btn:nth-child(2) {
-      // @extend .secondary-btn;
+   .btn {
+      padding: 13px 35px;
+   }
+   .btn:not(:last-child) {
+      margin-right: 24px;
    }
    .row {
       display: flex;
       align-items: center;
    }
+   $x: 20px;
+   $y: 30px;//60px;
    .partners {
       // height: min-content;
-      margin: -3%;
-      .partner { 
-         max-height: 70px;
-         display: flex;
-         align-items: center;
-         margin: 3%;
-         width: calc(33.3333% - 2 * 3%);
+      // margin: -$y -$x; 
+      margin-left: -$y; 
+      margin-right: -$y; 
+      margin-top: -$x; 
+      margin-bottom: -$x; 
+      @include respond-below(md) {
+         margin: 0!important;
       }
+   }
+   .partner { 
+      max-height: 243px;
+      max-height: 92px;
+      padding: 0.5%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: $y $x;
+      width: calc(33.3333% - 2 * #{$x});
       img {
          max-width:  90%;
          max-height: 90%;
+         margin: 0 auto;
          object-fit: contain;
       }
    }
