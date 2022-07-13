@@ -16,6 +16,7 @@ require_once 'library/theme-rest.php';
 
 //Custom Post Types
 // require_once 'library/cpt/team.php';
+require_once 'library/cpt/stories.php';
 require_once 'library/cpt/testimonials.php';
 require_once 'library/cpt/whitepaper.php';
 

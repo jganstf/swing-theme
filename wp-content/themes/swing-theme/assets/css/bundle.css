@@ -4056,6 +4056,16 @@ footer {
   z-index: 0;
 }
 
+.story-slider {
+  padding: 114px 0 147px;
+}
+
+.get-started-steps {
+  text-align: center;
+  min-height: 600px;
+  padding: 106px 0 111px;
+}
+
 .wp-block-button a {
   align-self: flex-start;
   align-items: center;

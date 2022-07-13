@@ -138,6 +138,26 @@ function theme_register_blocks() {
    //    'keywords'		=> ['for', 'subs', 'media', 'text', 'swing', 'education'],
    //    'supports' => ['align' => false],
    // ]);
+	acf_register_block([
+		'name'			=> 'swing-story-slider',
+		'title'			=> 'Swing Stories Slider',
+		'render_template'	=> 'blocks/story-slider.php',
+		'category'		=> 'theme-blocks',
+		'icon'			=> 'thumbs-up',
+		'mode'			=> 'edit',
+      'keywords'		=> ['story', 'slider', 'stories', 'swing', 'education'],
+      'supports' => ['align' => false],
+   ]);
+	acf_register_block([
+		'name'			=> 'swing-get-started-steps',
+		'title'			=> 'Get Started Steps',
+		'render_template'	=> 'blocks/get-started-steps.php',
+		'category'		=> 'theme-blocks',
+		'icon'			=> 'thumbs-up',
+		'mode'			=> 'edit',
+      'keywords'		=> ['get', 'started', 'step', 'swing', 'education'],
+      'supports' => ['align' => false],
+   ]);
 }
 
 /**

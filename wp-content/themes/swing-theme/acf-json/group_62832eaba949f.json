@@ -3,23 +3,6 @@
     "title": "Full Width Hero Block Details",
     "fields": [
         {
-            "key": "field_62ce0c2b1a0f7",
-            "label": "Full Width Hero",
-            "name": "",
-            "type": "accordion",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "open": 0,
-            "multi_expand": 0,
-            "endpoint": 0
-        },
-        {
             "key": "field_62ce0c4e1a0f8",
             "label": "Common Fields",
             "name": "common_fields",
@@ -114,5 +97,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1657670802
+    "modified": 1657741431
 }

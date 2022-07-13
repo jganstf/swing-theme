@@ -1,10 +1,10 @@
 {
-    "key": "group_62ce097aa7cff",
-    "title": "Contained Hero Block Details",
+    "key": "group_62cf1eb1e1f65",
+    "title": "Get Started Step Block",
     "fields": [
         {
-            "key": "field_62cf20580de60",
-            "label": "Page Hero Banner",
+            "key": "field_62cf1ec3dda59",
+            "label": "Get Started Step",
             "name": "",
             "type": "accordion",
             "instructions": "",
@@ -20,9 +20,9 @@
             "endpoint": 0
         },
         {
-            "key": "field_62ce098b11cff",
+            "key": "field_62cf1ec7dda5a",
             "label": "Heading",
-            "name": "hero_heading",
+            "name": "heading",
             "type": "text",
             "instructions": "",
             "required": 0,
@@ -39,10 +39,10 @@
             "maxlength": ""
         },
         {
-            "key": "field_62ce0b2e4058e",
+            "key": "field_62cf1ed6dda5b",
             "label": "Content",
-            "name": "hero_content",
-            "type": "textarea",
+            "name": "content",
+            "type": "text",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
@@ -53,14 +53,14 @@
             },
             "default_value": "",
             "placeholder": "",
-            "maxlength": "",
-            "rows": "",
-            "new_lines": ""
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
         },
         {
-            "key": "field_62ce0b667605b",
-            "label": "Buttons",
-            "name": "hero_buttons",
+            "key": "field_62cf1edadda5c",
+            "label": "Steps",
+            "name": "steps",
             "type": "repeater",
             "instructions": "",
             "required": 0,
@@ -77,10 +77,10 @@
             "button_label": "",
             "sub_fields": [
                 {
-                    "key": "field_62ce0c1a17060",
-                    "label": "Button\/Link",
-                    "name": "btn_link",
-                    "type": "link",
+                    "key": "field_62cf1edfdda5d",
+                    "label": "Heading",
+                    "name": "heading",
+                    "type": "text",
                     "instructions": "",
                     "required": 0,
                     "conditional_logic": 0,
@@ -89,9 +89,47 @@
                         "class": "",
                         "id": ""
                     },
-                    "return_format": "array"
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": ""
+                },
+                {
+                    "key": "field_62cf20c0c19ee",
+                    "label": "Content",
+                    "name": "content",
+                    "type": "textarea",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "maxlength": "",
+                    "rows": "",
+                    "new_lines": ""
                 }
             ]
+        },
+        {
+            "key": "field_62cf1f0bdda5e",
+            "label": "Apply Link",
+            "name": "apply_link",
+            "type": "link",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array"
         }
     ],
     "location": [
@@ -99,7 +137,7 @@
             {
                 "param": "block",
                 "operator": "==",
-                "value": "acf\/swing-hero-contained"
+                "value": "acf\/swing-get-started-steps"
             }
         ]
     ],
@@ -112,5 +150,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1657741419
+    "modified": 1657741510
 }

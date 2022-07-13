@@ -32,6 +32,10 @@
 - [ ] logo-link height/width adjustment
 - [ ] mobile menu
 - [ ] search - rm deprecate
+- [ ] stories slider limit - getting started
+- [ ] stories cpt? or just repeater - getting started
+- [ ] alphabetize blocks
+- [ ] 
 - [ ] 
 - [ ] 
 
