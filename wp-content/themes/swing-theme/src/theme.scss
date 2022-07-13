@@ -16,6 +16,7 @@
 @import "../node_modules/bootstrap-scss/grid";
 @import "../node_modules/bootstrap-scss/utilities/display";
 @import "../node_modules/bootstrap-scss/utilities/flex";
+@import "../node_modules/bootstrap-scss/utilities/sizing";
 
 @import 'styles/base';
 
@@ -143,4 +144,4 @@
     line-height: 1.625;
     margin: 8px auto;
     padding: 10px;
- }
+}

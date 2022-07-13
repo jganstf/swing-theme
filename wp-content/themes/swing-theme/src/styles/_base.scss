@@ -179,10 +179,14 @@ optgroup {
 .blue-section {//}:not(.has-space) { //hero
   position: relative;
   z-index: 1;
-  &.hero-full-width:before {
-    content:"";
-    @include cover;
-    background: $blue;
+
+  &:not(.hero),
+  &.hero-full-width {
+    &:before {
+      content:"";
+      @include cover;
+      background: $blue;
+    }
   }
   &.hero-contained {
     margin-top: 80px;
@@ -233,4 +237,9 @@ div.light-blue {
   // h2 {
   //   color: $blue-dark;
   // }
+}
+
+.pre-heading-label { 
+  @include bdy-sm; 
+  color: var(--swing-black-t40);
 }

@@ -9776,6 +9776,7 @@
 			);
 
 			testimonialSlider();
+			textCardsBlock();
 			// animate()
 		},
 		finalize() {
@@ -9800,13 +9801,45 @@
 		}
 
 		$testimonialSlider.slick({
-			//TODO adaptiveHeight: true,
+			// adaptiveHeight: true, //TODO flex? - for subs
 			arrows: false,
 			dots: true,
 			fade: true,
 			slidesToShow: 1,
 			slidesToScroll: 1,
 		});
+	}
+
+
+
+	/**
+	 * Text Cards Rotator Block
+	 */
+	function textCardsBlock() { //first found on for subs page under hero
+		const $textCards = $('.text-cards-rotator .cards.slick');
+		if(!$textCards.length) {
+			return
+		}
+
+		$textCards.slick({
+			//TODO adaptiveHeight: true,
+			arrows: false,
+			dots: false,
+			fade: true,
+			slidesToShow: 1,
+			slidesToScroll: 1,
+		});
+		
+		let $dots = $('.slick-dots li');
+		$dots.each((idx, el) => {
+			$(el).click(function() {
+				$dots.removeClass('slick-active');
+				$dots.find('button').attr('aria-selected', false);
+				$textCards.slick('slickGoTo', idx);
+				el.classList.add('slick-active');
+				$(el).find('button').attr('aria-selected', true);
+			});
+		});	
 	}
 
 	function fade(node, { delay = 0, duration = 400, easing = identity } = {}) {

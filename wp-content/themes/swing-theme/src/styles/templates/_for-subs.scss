@@ -1,0 +1,60 @@
+.text-cards-rotator {
+   padding: 117px 0 147px;
+   .slick-dots {
+      bottom: 0;
+      display: flex;
+      position: relative;
+      text-align: left;
+      li {
+         &,
+         button {
+            transition: 0.2s;
+         }
+      }
+      li:first-child {
+         margin-left: 0;
+      }
+      &:before {
+         content: "";
+         position: absolute;
+         top: 50%;
+         transform: translateY(-50%);
+         left: 0;
+         width: 98%;
+         height: 1px;
+         background: $blue70;
+      }
+   }
+   .card {
+      .icon-img { //TODO move out
+         background-color: #ddd;
+         border-radius: 50%;
+         height: 165.3px;
+         width: 165.3px;
+         margin: 0 auto 46.7px;
+      }
+      h3 {
+         margin-bottom: 28px;
+      }
+      padding: 66.59px 66px 102.41px;
+      > *:last-child {
+         margin-bottom: 0;
+      }
+   }
+}
+
+.tcr-content {
+   p {
+      max-width: 30rem;
+   }
+}
+
+.hero + .text-cards-rotator {
+   position: relative;
+   // margin-top: -5%;
+   z-index: 3;
+}
+
+.for-subs {
+   
+}

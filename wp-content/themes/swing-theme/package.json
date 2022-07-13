@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "lh": "lhci autorun",
     "compile:css": "node-sass sass/ -o ./ && stylelint '*.css' --fix || true && stylelint '*.css' --fix",
     "compile:rtl": "rtlcss style.css style-rtl.css",
     "lint:scss": "wp-scripts lint-style 'sass/**/*.scss'",

@@ -4,7 +4,7 @@
     "fields": [
         {
             "key": "field_62cee744a67a7",
-            "label": "Media Text Rotator",
+            "label": "Text & Cards Rotator",
             "name": "",
             "type": "accordion",
             "instructions": "",
@@ -118,5 +118,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1657727218
+    "modified": 1657731073
 }

@@ -2,13 +2,6 @@
    $fields = get_fields(); 
    $whitepapers = $fields['white_paper_selection'];
    $posts = $fields['posts'];
-   // if(!$posts) {
-   //    $posts = get_posts([
-   //       'post_status'    => 'publish',
-   //       'post_type'      => 'post',
-   //       'posts_per_page' => 3 //!
-   //    ]);
-   // }
 ?>
 
 <div class="helpful-articles">
@@ -32,5 +25,8 @@
       <?php endforeach; endif ?>
    </div>
 
-   <?php include( locate_template('blocks/whitepaper.php', false, false, $args=['whitepapers' => $whitepapers]));?>
+   <?php 
+   if($whitepapers) {
+      include( locate_template('blocks/whitepaper.php', false, false, $args=['whitepapers' => $whitepapers]));
+   }?>
 </div>

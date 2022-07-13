@@ -4,7 +4,10 @@ module.exports = {
     collect: {
       /* Add configuration here */
       // startServerCommand: "npm run start",
-      url: ["https://google.com/"],
+      url: [
+        "https://swingeducation.wpengine.com/",
+        "https://swingeducation.wpengine.com/for-subs",
+      ],
       numberOfRuns: 2,
     },
     upload: {

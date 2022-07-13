@@ -19,8 +19,40 @@
       @include cover;
       z-index:-1;
    }
+   .wp-block-media-text {
+      margin: 70px 0;
+      &:first-child {
+         margin-top: 0;
+         padding-top: 118px;
+      }
+   }
+   //blue sections of media texts .. //TODO class
+   > .wp-block-group__inner-container {
+      padding-bottom: 120px;
+      > *:last-child {
+         margin-bottom: 0;
+      }
+      figure,
+      img {
+         border-radius: 225px;
+         margin: 0 auto;
+         max-width: 740px;
+         height: 600px;
+         object-fit: cover;
+      }
+   }
+   .wp-block-media-text {//.has-media-on-the-right .wp-block-media-text__content {
+      padding: 0;
+   }
+   // .wp-block-media-text:not(.has-media-on-the-right) .wp-block-media-text__content {
+   //    padding-right: 0;
+   // }
 }
-.is-style-swing-blue {
+.wp-block-button a { //TODO register styles for variants
+   @include btn;
+   padding: 13px 35px; //global app
+}
+.is-style-swing-blue-bg {
    @include is-style-bg;
    //! @include blue-section;
    &::before {
@@ -28,7 +60,8 @@
    }
 }
 
-.is-style-light-blue {
+.is-style-light-blue-bg {
+   @include is-style-bg;
    &::before {
       background: var(--bg-02);
    }

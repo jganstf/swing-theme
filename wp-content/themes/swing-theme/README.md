@@ -20,6 +20,8 @@
 
 
 
+## Notes
+- call to action has top padding to account for preceeding section overlap (helpful articles) - no case for non-overlap yet
 ## TODO
 - [ ] social icon update
 - [ ] whitepaper relationship limit
@@ -29,7 +31,7 @@
 - [ ] navbar filter: drop-shadow
 - [ ] logo-link height/width adjustment
 - [ ] mobile menu
-- [ ] 
+- [ ] search - rm deprecate
 - [ ] 
 - [ ] 
 

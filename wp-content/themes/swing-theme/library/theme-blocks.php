@@ -128,16 +128,16 @@ function theme_register_blocks() {
       'keywords'		=> ['for', 'subs', 'cards', 'text', 'rotator', 'swing', 'education'],
       'supports' => ['align' => false],
    ]);
-	acf_register_block([
-		'name'			=> 'swing-media-text',
-		'title'			=> 'Swing Media Text',
-		'render_template'	=> 'blocks/media-text-single.php',
-		'category'		=> 'theme-blocks',
-		'icon'			=> 'thumbs-up',
-		'mode'			=> 'edit',
-      'keywords'		=> ['for', 'subs', 'media', 'text', 'swing', 'education'],
-      'supports' => ['align' => false],
-   ]);
+	// acf_register_block([
+	// 	'name'			=> 'swing-media-text',
+	// 	'title'			=> 'Swing Media Text',
+	// 	'render_template'	=> 'blocks/media-text-single.php',
+	// 	'category'		=> 'theme-blocks',
+	// 	'icon'			=> 'thumbs-up',
+	// 	'mode'			=> 'edit',
+   //    'keywords'		=> ['for', 'subs', 'media', 'text', 'swing', 'education'],
+   //    'supports' => ['align' => false],
+   // ]);
 }
 
 /**

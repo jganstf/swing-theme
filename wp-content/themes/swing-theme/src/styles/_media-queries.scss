@@ -35,6 +35,11 @@
 	}
 }
 @include respond-below(md) {
+	.text-cards-rotator {
+		.w-50 {
+			width:100%!important;
+		}
+	}
 }
 @media (max-width: 700px) {
 	.grid-four .grid-item,

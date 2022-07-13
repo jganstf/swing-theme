@@ -131,6 +131,6 @@ $font-color:        $black; //#000;
 
 @for $i from 1 through 6 {
   .bg#{$i} {
-    background-color: var(--bg-0#{$i});
+    background-color: var(--bg-0#{$i})!important;
   }
 }
