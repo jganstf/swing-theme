@@ -1,62 +1,89 @@
 ////////////////////////// HERO //////////////////////////
-.hero {
-  position: relative;
-  display: flex;
-  align-items: center;
-  margin-bottom:100px; //people
-  .inner-wrap {
-    display: flex;
-    justify-content: space-between;
+.hero-content {
+  @include rel;
+  padding: 140px 0;
+  max-width: 730px;
+  h1 {
+    // @include hdl-xl;
+    color: $blue-dark;
+    margin-bottom: 50px; //66 on for subs
+  }
+  p {
+    @include sbh-lg;
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+  .btn {
+    margin-top: 50px;
   }
 }
 @keyframes grow {
   from {
     clip-path: ellipse(0 0 at 100% 0%);
-  } to {
+  }
+  to {
     clip-path: ellipse(60% 110% at 90% 0%);
   }
 }
 .hero-img {
-  @include section-full;
   position: absolute;
   top: 0;
   right: 0;
   // height: 100%;
   position: relative;
   flex: 0 0 60%;
-  
+
   clip-path: ellipse(0 0 at 100% 0%);
   // animation: grow 1s forwards;
-  // animation-delay: 1s; 
-  clip-path: ellipse(25vw 25vw at 100% 0%);
+  // animation-delay: 1s;
+  // clip-path: ellipse(80% 80% at 80% 35%); //TODO
+  clip-path: ellipse(34vw 34vw at 70% 30%);
 
   .decor-img {
     background-image: url(../img/team/placeholder@2x-6fed1fb3.jpg);
     background-position: top center;
     background-repeat: no-repeat;
     background-size: 100% auto;
-    padding-bottom: 110%;
-    width:100%;
-  }
-}
-.hero-content {
-  @include rel;
-  padding: 140px 0;
-  max-width: 730px;
-  font-family: $font-heading;
-  h1 {
-    // color: var(--swing-blue-shd);
-    margin-bottom: 2.9375rem;
-  }
-  p { 
-    @include sbh-lg; 
-  }
-  .btn {
-    margin-top: 3.8125;
+    background-size: cover;
+    width: 100%;
+    // padding-bottom: 110%;
+    height: 115%;
   }
 }
 
+.hero {
+  position: relative;
+  // display: flex;
+  align-items: center;
+  z-index: 2;
+  .inner-wrap {
+    display: flex;
+    justify-content: space-between;
+    // position: relative;
+  }
+}
 
-.has-space {
-  
+.hero-full-width {
+  // margin-bottom: 100px;
+  // &.blue-section { }
+  .hero-img {
+    @include section-full;
+  }
+}
+
+.hero.hide-overflow {
+  //about, whitepaper download
+  .hero-img {
+    // margin-left: unset;
+    // width:100vw;
+    overflow: hidden;
+    // clip-path: ellipse(80% 100% at 83% 45%); //TODO
+  }
+  .decor-img {
+    height: 100%;
+  }
+}
+
+.hero-contained {
 }

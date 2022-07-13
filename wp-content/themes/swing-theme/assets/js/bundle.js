@@ -8531,72 +8531,14 @@
 	};
 	_getGSAP$1() && gsap$2.registerPlugin(ScrollTrigger$1);
 
-	// import sidePanel from 'side-panel-menu-thing'
-
-	const { $ } = window;
-
-	const $body = $(document.body);
-
-	var common = {
-		init() {
-			gsapWithCSS.registerPlugin(ScrollTrigger$1);
-			// const mobileMenu = new sidePanel({
-			// 	target: $body[0],
-			// 	props: {
-			// 		target: $body[0],
-			// 		content: document.getElementById('mobile-menu'),
-			// 		fixed: true,
-			// 		width: 320,
-			// 	},
-			// })
-			// $('#toggle_nav').on('click', mobileMenu.show)
-
-			// $(document).on(
-			// 	'click',
-			// 	'.menu-section .menu-item-has-children > a',
-			// 	function (e) {
-			// 		e.preventDefault()
-			// 		let $el = $(this)
-			// 		$el.parent().toggleClass('show-subnav')
-			// 	}
-			// )
-
-			testimonialSlider();
-			// animate()
-		},
-		finalize() {
-			// JavaScript to be fired on all pages, after page specific JS is fired
-			// class to hide outlines if not using keyboard
-			$body.on('mousedown', function () {
-				$body.addClass('using-mouse');
-			});
-			$body.on('keydown', function () {
-				$body.removeClass('using-mouse');
-			});
-		},
-	};
-
-	/**
-	 * Testimonial Slider Block
-	 */
-	function testimonialSlider() { //first found on for schools page
-		const testimonialSlider = document.querySelectorAll('.testimonial-slider');
-		if(!testimonialSlider.length) {
-			return
-		}
-
-		testimonialSlider[0].slick({
-			//TODO adaptiveHeight: true,
-			arrows: false,
-			dots: true,
-			fade: true,
-			slidesToShow: 1,
-			slidesToScroll: 1,
-		});
-	}
-
 	function noop() { }
 	const identity = x => x;
+	function assign(tar, src) {
+	    // @ts-ignore
+	    for (const k in src)
+	        tar[k] = src[k];
+	    return tar;
+	}
 	function add_location(element, file, line, column, char) {
 	    element.__svelte_meta = {
 	        loc: { file, line, column, char }
@@ -8617,8 +8559,68 @@
 	function safe_not_equal(a, b) {
 	    return a != a ? b == b : a !== b || ((a && typeof a === 'object') || typeof a === 'function');
 	}
+	function not_equal(a, b) {
+	    return a != a ? b == b : a !== b;
+	}
 	function is_empty(obj) {
 	    return Object.keys(obj).length === 0;
+	}
+	function validate_store(store, name) {
+	    if (store != null && typeof store.subscribe !== 'function') {
+	        throw new Error(`'${name}' is not a store with a 'subscribe' method`);
+	    }
+	}
+	function subscribe(store, ...callbacks) {
+	    if (store == null) {
+	        return noop;
+	    }
+	    const unsub = store.subscribe(...callbacks);
+	    return unsub.unsubscribe ? () => unsub.unsubscribe() : unsub;
+	}
+	function component_subscribe(component, store, callback) {
+	    component.$$.on_destroy.push(subscribe(store, callback));
+	}
+	function set_store_value(store, ret, value = ret) {
+	    store.set(value);
+	    return ret;
+	}
+	function action_destroyer(action_result) {
+	    return action_result && is_function(action_result.destroy) ? action_result.destroy : noop;
+	}
+
+	const is_client = typeof window !== 'undefined';
+	let now = is_client
+	    ? () => window.performance.now()
+	    : () => Date.now();
+	let raf = is_client ? cb => requestAnimationFrame(cb) : noop;
+
+	const tasks = new Set();
+	function run_tasks(now) {
+	    tasks.forEach(task => {
+	        if (!task.c(now)) {
+	            tasks.delete(task);
+	            task.f();
+	        }
+	    });
+	    if (tasks.size !== 0)
+	        raf(run_tasks);
+	}
+	/**
+	 * Creates a new task that runs on each raf frame
+	 * until it returns a falsy value or is aborted
+	 */
+	function loop(callback) {
+	    let task;
+	    if (tasks.size === 0)
+	        raf(run_tasks);
+	    return {
+	        promise: new Promise(fulfill => {
+	            tasks.add(task = { c: callback, f: fulfill });
+	        }),
+	        abort() {
+	            tasks.delete(task);
+	        }
+	    };
 	}
 
 	function append(target, node) {
@@ -8660,6 +8662,9 @@
 	}
 	function set_style(node, key, value, important) {
 	    node.style.setProperty(key, value, important ? 'important' : '');
+	}
+	function toggle_class(element, name, toggle) {
+	    element.classList[toggle ? 'add' : 'remove'](name);
 	}
 	function custom_event(type, detail) {
 	    const e = document.createEvent('CustomEvent');
@@ -8787,12 +8792,6 @@
 	        block.i(local);
 	    }
 	}
-
-	const globals = (typeof window !== 'undefined'
-	    ? window
-	    : typeof globalThis !== 'undefined'
-	        ? globalThis
-	        : global);
 	function mount_component(component, target, anchor, customElement) {
 	    const { fragment, on_mount, on_destroy, after_update } = component.$$;
 	    fragment && fragment.m(target, anchor);
@@ -8995,6 +8994,821 @@
 	    $inject_state() { }
 	}
 
+	const subscriber_queue = [];
+	/**
+	 * Create a `Writable` store that allows both updating and reading by subscription.
+	 * @param {*=}value initial value
+	 * @param {StartStopNotifier=}start start and stop notifications for subscriptions
+	 */
+	function writable(value, start = noop) {
+	    let stop;
+	    const subscribers = [];
+	    function set(new_value) {
+	        if (safe_not_equal(value, new_value)) {
+	            value = new_value;
+	            if (stop) { // store is ready
+	                const run_queue = !subscriber_queue.length;
+	                for (let i = 0; i < subscribers.length; i += 1) {
+	                    const s = subscribers[i];
+	                    s[1]();
+	                    subscriber_queue.push(s, value);
+	                }
+	                if (run_queue) {
+	                    for (let i = 0; i < subscriber_queue.length; i += 2) {
+	                        subscriber_queue[i][0](subscriber_queue[i + 1]);
+	                    }
+	                    subscriber_queue.length = 0;
+	                }
+	            }
+	        }
+	    }
+	    function update(fn) {
+	        set(fn(value));
+	    }
+	    function subscribe(run, invalidate = noop) {
+	        const subscriber = [run, invalidate];
+	        subscribers.push(subscriber);
+	        if (subscribers.length === 1) {
+	            stop = start(set) || noop;
+	        }
+	        run(value);
+	        return () => {
+	            const index = subscribers.indexOf(subscriber);
+	            if (index !== -1) {
+	                subscribers.splice(index, 1);
+	            }
+	            if (subscribers.length === 0) {
+	                stop();
+	                stop = null;
+	            }
+	        };
+	    }
+	    return { set, update, subscribe };
+	}
+
+	function cubicOut(t) {
+	    const f = t - 1.0;
+	    return f * f * f + 1.0;
+	}
+
+	function is_date(obj) {
+	    return Object.prototype.toString.call(obj) === '[object Date]';
+	}
+
+	function get_interpolator(a, b) {
+	    if (a === b || a !== a)
+	        return () => a;
+	    const type = typeof a;
+	    if (type !== typeof b || Array.isArray(a) !== Array.isArray(b)) {
+	        throw new Error('Cannot interpolate values of different type');
+	    }
+	    if (Array.isArray(a)) {
+	        const arr = b.map((bi, i) => {
+	            return get_interpolator(a[i], bi);
+	        });
+	        return t => arr.map(fn => fn(t));
+	    }
+	    if (type === 'object') {
+	        if (!a || !b)
+	            throw new Error('Object cannot be null');
+	        if (is_date(a) && is_date(b)) {
+	            a = a.getTime();
+	            b = b.getTime();
+	            const delta = b - a;
+	            return t => new Date(a + t * delta);
+	        }
+	        const keys = Object.keys(b);
+	        const interpolators = {};
+	        keys.forEach(key => {
+	            interpolators[key] = get_interpolator(a[key], b[key]);
+	        });
+	        return t => {
+	            const result = {};
+	            keys.forEach(key => {
+	                result[key] = interpolators[key](t);
+	            });
+	            return result;
+	        };
+	    }
+	    if (type === 'number') {
+	        const delta = b - a;
+	        return t => a + t * delta;
+	    }
+	    throw new Error(`Cannot interpolate ${type} values`);
+	}
+	function tweened(value, defaults = {}) {
+	    const store = writable(value);
+	    let task;
+	    let target_value = value;
+	    function set(new_value, opts) {
+	        if (value == null) {
+	            store.set(value = new_value);
+	            return Promise.resolve();
+	        }
+	        target_value = new_value;
+	        let previous_task = task;
+	        let started = false;
+	        let { delay = 0, duration = 400, easing = identity, interpolate = get_interpolator } = assign(assign({}, defaults), opts);
+	        if (duration === 0) {
+	            if (previous_task) {
+	                previous_task.abort();
+	                previous_task = null;
+	            }
+	            store.set(value = target_value);
+	            return Promise.resolve();
+	        }
+	        const start = now() + delay;
+	        let fn;
+	        task = loop(now => {
+	            if (now < start)
+	                return true;
+	            if (!started) {
+	                fn = interpolate(value, new_value);
+	                if (typeof duration === 'function')
+	                    duration = duration(value, new_value);
+	                started = true;
+	            }
+	            if (previous_task) {
+	                previous_task.abort();
+	                previous_task = null;
+	            }
+	            const elapsed = now - start;
+	            if (elapsed > duration) {
+	                store.set(value = new_value);
+	                return false;
+	            }
+	            // @ts-ignore
+	            store.set(value = fn(easing(elapsed / duration)));
+	            return true;
+	        });
+	        return task.promise;
+	    }
+	    return {
+	        set,
+	        update: (fn, opts) => set(fn(target_value, value), opts),
+	        subscribe: store.subscribe
+	    };
+	}
+
+	let html = document.documentElement;
+	let scrollbarWidth;
+	let defaultOverflowStyle;
+	let hidden;
+
+	let hide = function () {
+		if (hidden) {
+			return
+		}
+		// store existing overflow style
+		defaultOverflowStyle = defaultOverflowStyle || getComputedStyle(html).overflow;
+		// calculate scrollbar width if any
+		scrollbarWidth = window.innerWidth - html.clientWidth;
+		// hide overflow
+		html.style.overflow = 'hidden';
+		// add padding to compensate for scrollbar and prevent shifting
+		scrollbarWidth && (html.style.paddingRight = `${scrollbarWidth}px`);
+		hidden = true;
+	};
+
+	let show = function () {
+		html.style.overflow = defaultOverflowStyle;
+		scrollbarWidth && (html.style.paddingRight = 0);
+		hidden = false;
+	};
+
+	var hideShowScroll = { hide, show };
+
+	/* node_modules/.pnpm/side-panel-menu-thing@1.0.3/node_modules/side-panel-menu-thing/src/side-panel-menu-thing.svelte generated by Svelte v3.33.0 */
+	const file = "node_modules/.pnpm/side-panel-menu-thing@1.0.3/node_modules/side-panel-menu-thing/src/side-panel-menu-thing.svelte";
+
+	function create_fragment(ctx) {
+		let div2;
+		let div0;
+		let t;
+		let div1;
+		let div1_tabindex_value;
+		let onMount_action;
+		let mounted;
+		let dispose;
+
+		const block = {
+			c: function create() {
+				div2 = element("div");
+				div0 = element("div");
+				t = space();
+				div1 = element("div");
+				attr_dev(div0, "class", "spmt-overlay");
+				set_style(div0, "opacity", /*overlayOpacity*/ ctx[7]);
+				add_location(div0, file, 190, 1, 4460);
+				attr_dev(div1, "class", "spmt");
+				set_style(div1, "width", /*width*/ ctx[0] + "px");
+
+				set_style(div1, "transform", "translateX(" + (/*left*/ ctx[2]
+				? /*$menuPos*/ ctx[4] * -1
+				: /*$menuPos*/ ctx[4]) + "%)");
+
+				attr_dev(div1, "tabindex", div1_tabindex_value = /*shown*/ ctx[8] ? "0" : false);
+				toggle_class(div1, "left", /*left*/ ctx[2]);
+				add_location(div1, file, 191, 1, 4540);
+				attr_dev(div2, "class", "spmt-wrap");
+				attr_dev(div2, "data-no-panel", "true");
+				toggle_class(div2, "novis", !/*shown*/ ctx[8]);
+				toggle_class(div2, "fixed", /*fixed*/ ctx[1]);
+				add_location(div2, file, 184, 0, 4354);
+			},
+			l: function claim(nodes) {
+				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+			},
+			m: function mount(target, anchor) {
+				insert_dev(target, div2, anchor);
+				append_dev(div2, div0);
+				append_dev(div2, t);
+				append_dev(div2, div1);
+				/*div1_binding*/ ctx[20](div1);
+				/*div2_binding*/ ctx[22](div2);
+
+				if (!mounted) {
+					dispose = [
+						listen_dev(div0, "click", /*hide*/ ctx[3], false, false, false),
+						action_destroyer(onMount_action = /*onMount*/ ctx[11].call(null, div1, /*shown*/ ctx[8])),
+						listen_dev(div1, "keydown", /*keydown_handler*/ ctx[21], false, false, false)
+					];
+
+					mounted = true;
+				}
+			},
+			p: function update(ctx, [dirty]) {
+				if (dirty & /*overlayOpacity*/ 128) {
+					set_style(div0, "opacity", /*overlayOpacity*/ ctx[7]);
+				}
+
+				if (dirty & /*width*/ 1) {
+					set_style(div1, "width", /*width*/ ctx[0] + "px");
+				}
+
+				if (dirty & /*left, $menuPos*/ 20) {
+					set_style(div1, "transform", "translateX(" + (/*left*/ ctx[2]
+					? /*$menuPos*/ ctx[4] * -1
+					: /*$menuPos*/ ctx[4]) + "%)");
+				}
+
+				if (dirty & /*shown*/ 256 && div1_tabindex_value !== (div1_tabindex_value = /*shown*/ ctx[8] ? "0" : false)) {
+					attr_dev(div1, "tabindex", div1_tabindex_value);
+				}
+
+				if (onMount_action && is_function(onMount_action.update) && dirty & /*shown*/ 256) onMount_action.update.call(null, /*shown*/ ctx[8]);
+
+				if (dirty & /*left*/ 4) {
+					toggle_class(div1, "left", /*left*/ ctx[2]);
+				}
+
+				if (dirty & /*shown*/ 256) {
+					toggle_class(div2, "novis", !/*shown*/ ctx[8]);
+				}
+
+				if (dirty & /*fixed*/ 2) {
+					toggle_class(div2, "fixed", /*fixed*/ ctx[1]);
+				}
+			},
+			i: noop,
+			o: noop,
+			d: function destroy(detaching) {
+				if (detaching) detach_dev(div2);
+				/*div1_binding*/ ctx[20](null);
+				/*div2_binding*/ ctx[22](null);
+				mounted = false;
+				run_all(dispose);
+			}
+		};
+
+		dispatch_dev("SvelteRegisterBlock", {
+			block,
+			id: create_fragment.name,
+			type: "component",
+			source: "",
+			ctx
+		});
+
+		return block;
+	}
+
+	function isIgnoredElement(el) {
+		while (el.parentNode) {
+			if (el.hasAttribute("data-no-panel")) {
+				return true;
+			}
+
+			el = el.parentNode;
+		}
+	}
+
+	function instance($$self, $$props, $$invalidate) {
+		let overlayOpacity;
+		let shown;
+		let $menuPos;
+		let { $$slots: slots = {}, $$scope } = $$props;
+		validate_slots("Side_panel_menu_thing", slots, []);
+		let { target = null } = $$props;
+		let { content = null } = $$props;
+		let { width = 400 } = $$props;
+		let { duration = 450 } = $$props;
+		let { fixed = true } = $$props;
+		let { left = false } = $$props;
+		let { dragOpen = true } = $$props;
+		let { onShow = null } = $$props;
+		let { onHide = null } = $$props;
+		let { preventScroll = true } = $$props;
+		content.parentElement.removeChild(content);
+
+		// starting touch points
+		let startX;
+
+		let startY;
+
+		// stores touch data on touchmove
+		let touchEventData;
+
+		// container dom element
+		let container;
+
+		// menu dom element
+		let menu;
+
+		// dom element to restore focus to on close
+		let focusTrigger;
+
+		// 100 is closed, 0 is open (this is the x transform in percent)
+		const menuPos = tweened(100, { duration, easing: cubicOut });
+
+		validate_store(menuPos, "menuPos");
+		component_subscribe($$self, menuPos, value => $$invalidate(4, $menuPos = value));
+
+		const show = e => {
+			set_store_value(menuPos, $menuPos = 0, $menuPos);
+
+			// if event, store target as focusTrigger
+			focusTrigger = e ? e.target : null;
+		};
+
+		const hide = () => {
+			set_store_value(menuPos, $menuPos = 100, $menuPos);
+		};
+
+		// trap focus listener
+		function trapFocus(e) {
+			let isTabPressed = e.keyCode === 9;
+
+			if (!shown || !isTabPressed) {
+				return;
+			}
+
+			const containerNodes = container.querySelectorAll("*");
+			const tabbable = Array.from(containerNodes).filter(n => n.tabIndex >= 0);
+
+			if (tabbable.length) {
+				e.preventDefault();
+				let index = tabbable.indexOf(document.activeElement);
+				index += tabbable.length + (e.shiftKey ? -1 : 1);
+				index %= tabbable.length;
+				tabbable[index].focus();
+			}
+		}
+
+		function onMount(node) {
+			if (content) {
+				node.appendChild(content);
+			}
+
+			target.addEventListener(
+				"touchstart",
+				e => {
+					let isIgnored = isIgnoredElement(e.target);
+					startX = e.changedTouches[0].pageX;
+					startY = e.changedTouches[0].pageY;
+
+					if (!shown && (isIgnored || !dragOpen)) {
+						touchEventData = null;
+						return;
+					}
+
+					let boundingClientRect = target.getBoundingClientRect();
+					let touchEnabled = shown;
+
+					// allow drag open if touch is initiated within 30px of target edge
+					if (left && startX - boundingClientRect.left < 30 || !left && boundingClientRect.right - startX < 30) {
+						touchEnabled = true;
+					}
+
+					touchEventData = touchEnabled
+					? { start: $menuPos, time: Date.now() }
+					: null;
+				},
+				{ passive: true }
+			);
+
+			target.addEventListener(
+				"touchmove",
+				e => {
+					if (!shown && !touchEventData) {
+						return;
+					}
+
+					let touchobj = e.changedTouches[0];
+					let distX = touchobj.pageX - startX;
+					let distY = touchobj.pageY - startY;
+
+					if (touchEventData.go !== null) {
+						touchEventData.go = Math.abs(distX) > Math.abs(distY) ? true : null;
+					}
+
+					if (touchEventData.go) {
+						const percentDragged = distX / menu.clientWidth;
+						const newMenuPos = touchEventData.start + percentDragged * (left ? -100 : 100);
+
+						if (newMenuPos <= 100 && newMenuPos >= 0) {
+							menuPos.set(newMenuPos, { duration: 1 });
+						}
+					}
+				},
+				{ passive: true }
+			);
+
+			target.addEventListener("touchend", e => {
+				if (shown) {
+					let { start, time } = touchEventData;
+					let swipeDuration = Date.now() - time;
+					let percentMoved = start - $menuPos;
+
+					// todo? set shorter open close duration bc we've alredy moved it a bit
+					if (swipeDuration < 400 && Math.abs(percentMoved) > 5) {
+						// quick swipe
+						percentMoved > 0 ? show() : hide();
+					} else {
+						$menuPos > 70 ? hide() : show();
+					}
+				}
+			});
+
+			return {
+				update: shown => {
+					if (shown) {
+						// stop background scrolling
+						fixed && preventScroll && hideShowScroll.hide();
+
+						// todo: something about this - focus is
+						setTimeout(() => menu.focus(), 99);
+
+						onShow && onShow();
+					} else {
+						// restore focus
+						focusTrigger && focusTrigger.focus({ preventScroll: true });
+
+						// allow background scrolling
+						fixed && preventScroll && hideShowScroll.show();
+
+						onHide && onHide();
+					}
+				}
+			};
+		}
+
+		const writable_props = [
+			"target",
+			"content",
+			"width",
+			"duration",
+			"fixed",
+			"left",
+			"dragOpen",
+			"onShow",
+			"onHide",
+			"preventScroll"
+		];
+
+		Object.keys($$props).forEach(key => {
+			if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<Side_panel_menu_thing> was created with unknown prop '${key}'`);
+		});
+
+		function div1_binding($$value) {
+			binding_callbacks[$$value ? "unshift" : "push"](() => {
+				menu = $$value;
+				$$invalidate(6, menu);
+			});
+		}
+
+		const keydown_handler = e => e.keyCode === 27 ? hide() : trapFocus(e);
+
+		function div2_binding($$value) {
+			binding_callbacks[$$value ? "unshift" : "push"](() => {
+				container = $$value;
+				$$invalidate(5, container);
+			});
+		}
+
+		$$self.$$set = $$props => {
+			if ("target" in $$props) $$invalidate(12, target = $$props.target);
+			if ("content" in $$props) $$invalidate(13, content = $$props.content);
+			if ("width" in $$props) $$invalidate(0, width = $$props.width);
+			if ("duration" in $$props) $$invalidate(14, duration = $$props.duration);
+			if ("fixed" in $$props) $$invalidate(1, fixed = $$props.fixed);
+			if ("left" in $$props) $$invalidate(2, left = $$props.left);
+			if ("dragOpen" in $$props) $$invalidate(15, dragOpen = $$props.dragOpen);
+			if ("onShow" in $$props) $$invalidate(16, onShow = $$props.onShow);
+			if ("onHide" in $$props) $$invalidate(17, onHide = $$props.onHide);
+			if ("preventScroll" in $$props) $$invalidate(18, preventScroll = $$props.preventScroll);
+		};
+
+		$$self.$capture_state = () => ({
+			tweened,
+			cubicOut,
+			hideShowScroll,
+			target,
+			content,
+			width,
+			duration,
+			fixed,
+			left,
+			dragOpen,
+			onShow,
+			onHide,
+			preventScroll,
+			startX,
+			startY,
+			touchEventData,
+			container,
+			menu,
+			focusTrigger,
+			menuPos,
+			show,
+			hide,
+			trapFocus,
+			isIgnoredElement,
+			onMount,
+			overlayOpacity,
+			$menuPos,
+			shown
+		});
+
+		$$self.$inject_state = $$props => {
+			if ("target" in $$props) $$invalidate(12, target = $$props.target);
+			if ("content" in $$props) $$invalidate(13, content = $$props.content);
+			if ("width" in $$props) $$invalidate(0, width = $$props.width);
+			if ("duration" in $$props) $$invalidate(14, duration = $$props.duration);
+			if ("fixed" in $$props) $$invalidate(1, fixed = $$props.fixed);
+			if ("left" in $$props) $$invalidate(2, left = $$props.left);
+			if ("dragOpen" in $$props) $$invalidate(15, dragOpen = $$props.dragOpen);
+			if ("onShow" in $$props) $$invalidate(16, onShow = $$props.onShow);
+			if ("onHide" in $$props) $$invalidate(17, onHide = $$props.onHide);
+			if ("preventScroll" in $$props) $$invalidate(18, preventScroll = $$props.preventScroll);
+			if ("startX" in $$props) startX = $$props.startX;
+			if ("startY" in $$props) startY = $$props.startY;
+			if ("touchEventData" in $$props) touchEventData = $$props.touchEventData;
+			if ("container" in $$props) $$invalidate(5, container = $$props.container);
+			if ("menu" in $$props) $$invalidate(6, menu = $$props.menu);
+			if ("focusTrigger" in $$props) focusTrigger = $$props.focusTrigger;
+			if ("overlayOpacity" in $$props) $$invalidate(7, overlayOpacity = $$props.overlayOpacity);
+			if ("shown" in $$props) $$invalidate(8, shown = $$props.shown);
+		};
+
+		if ($$props && "$$inject" in $$props) {
+			$$self.$inject_state($$props.$$inject);
+		}
+
+		$$self.$$.update = () => {
+			if ($$self.$$.dirty & /*$menuPos*/ 16) {
+				// adjust overlay opacity automatically based on menu position
+				$$invalidate(7, overlayOpacity = (100 - $menuPos) / 100);
+			}
+
+			if ($$self.$$.dirty & /*$menuPos*/ 16) {
+				// whether the menu is open or in process of opening
+				$$invalidate(8, shown = $menuPos < 100);
+			}
+		};
+
+		return [
+			width,
+			fixed,
+			left,
+			hide,
+			$menuPos,
+			container,
+			menu,
+			overlayOpacity,
+			shown,
+			menuPos,
+			trapFocus,
+			onMount,
+			target,
+			content,
+			duration,
+			dragOpen,
+			onShow,
+			onHide,
+			preventScroll,
+			show,
+			div1_binding,
+			keydown_handler,
+			div2_binding
+		];
+	}
+
+	class Side_panel_menu_thing extends SvelteComponentDev {
+		constructor(options) {
+			super(options);
+
+			init(this, options, instance, create_fragment, not_equal, {
+				target: 12,
+				content: 13,
+				width: 0,
+				duration: 14,
+				fixed: 1,
+				left: 2,
+				dragOpen: 15,
+				onShow: 16,
+				onHide: 17,
+				preventScroll: 18,
+				show: 19,
+				hide: 3
+			});
+
+			dispatch_dev("SvelteRegisterComponent", {
+				component: this,
+				tagName: "Side_panel_menu_thing",
+				options,
+				id: create_fragment.name
+			});
+		}
+
+		get target() {
+			return this.$$.ctx[12];
+		}
+
+		set target(target) {
+			this.$set({ target });
+			flush();
+		}
+
+		get content() {
+			return this.$$.ctx[13];
+		}
+
+		set content(content) {
+			this.$set({ content });
+			flush();
+		}
+
+		get width() {
+			return this.$$.ctx[0];
+		}
+
+		set width(width) {
+			this.$set({ width });
+			flush();
+		}
+
+		get duration() {
+			return this.$$.ctx[14];
+		}
+
+		set duration(duration) {
+			this.$set({ duration });
+			flush();
+		}
+
+		get fixed() {
+			return this.$$.ctx[1];
+		}
+
+		set fixed(fixed) {
+			this.$set({ fixed });
+			flush();
+		}
+
+		get left() {
+			return this.$$.ctx[2];
+		}
+
+		set left(left) {
+			this.$set({ left });
+			flush();
+		}
+
+		get dragOpen() {
+			return this.$$.ctx[15];
+		}
+
+		set dragOpen(dragOpen) {
+			this.$set({ dragOpen });
+			flush();
+		}
+
+		get onShow() {
+			return this.$$.ctx[16];
+		}
+
+		set onShow(onShow) {
+			this.$set({ onShow });
+			flush();
+		}
+
+		get onHide() {
+			return this.$$.ctx[17];
+		}
+
+		set onHide(onHide) {
+			this.$set({ onHide });
+			flush();
+		}
+
+		get preventScroll() {
+			return this.$$.ctx[18];
+		}
+
+		set preventScroll(preventScroll) {
+			this.$set({ preventScroll });
+			flush();
+		}
+
+		get show() {
+			return this.$$.ctx[19];
+		}
+
+		set show(value) {
+			throw new Error("<Side_panel_menu_thing>: Cannot set read-only property 'show'");
+		}
+
+		get hide() {
+			return this.$$.ctx[3];
+		}
+
+		set hide(value) {
+			throw new Error("<Side_panel_menu_thing>: Cannot set read-only property 'hide'");
+		}
+	}
+
+	const { $ } = window;
+
+	const $body = $(document.body);
+
+	var common = {
+		init() {
+			gsapWithCSS.registerPlugin(ScrollTrigger$1);
+			const mobileMenu = new Side_panel_menu_thing({
+				target: $body[0],
+				props: {
+					target: $body[0],
+					content: document.getElementById('mobile-menu'),
+					fixed: true,
+					width: 320,
+				},
+			});
+			$('#toggle_nav').on('click', mobileMenu.show);
+
+			$(document).on(
+				'click',
+				'.menu-section .menu-item-has-children > a',
+				function (e) {
+					e.preventDefault();
+					let $el = $(this);
+					$el.parent().toggleClass('show-subnav');
+				}
+			);
+
+			testimonialSlider();
+			// animate()
+		},
+		finalize() {
+			// JavaScript to be fired on all pages, after page specific JS is fired
+			// class to hide outlines if not using keyboard
+			$body.on('mousedown', function () {
+				$body.addClass('using-mouse');
+			});
+			$body.on('keydown', function () {
+				$body.removeClass('using-mouse');
+			});
+		},
+	};
+
+	/**
+	 * Testimonial Slider Block
+	 */
+	function testimonialSlider() { //first found on for schools page
+		const $testimonialSlider = $('.testimonial-slider');
+		if(!$testimonialSlider.length) {
+			return
+		}
+
+		$testimonialSlider.slick({
+			//TODO adaptiveHeight: true,
+			arrows: false,
+			dots: true,
+			fade: true,
+			slidesToShow: 1,
+			slidesToScroll: 1,
+		});
+	}
+
 	function fade(node, { delay = 0, duration = 400, easing = identity } = {}) {
 	    const o = +getComputedStyle(node).opacity;
 	    return {
@@ -9006,9 +9820,7 @@
 	}
 
 	/* src/components/home-testimonials.svelte generated by Svelte v3.33.0 */
-
-	const { console: console_1 } = globals;
-	const file = "src/components/home-testimonials.svelte";
+	const file$1 = "src/components/home-testimonials.svelte";
 
 	function get_each_context(ctx, list, i) {
 		const child_ctx = ctx.slice();
@@ -9017,7 +9829,7 @@
 		return child_ctx;
 	}
 
-	// (51:6) {#each activeTestimonials as t, idx}
+	// (48:6) {#each activeTestimonials as t, idx}
 	function create_each_block(ctx) {
 		let div3;
 		let div0;
@@ -9054,16 +9866,16 @@
 				t6 = space();
 				attr_dev(div0, "class", "decor-img");
 				set_style(div0, "background-image", "url(https://picsum.photos/800/" + (800 + /*idx*/ ctx[8]).toString() + ")");
-				add_location(div0, file, 52, 12, 1765);
+				add_location(div0, file$1, 49, 12, 1677);
 				html_tag = new HtmlTag(t1);
-				add_location(br, file, 61, 21, 2122);
-				add_location(cite, file, 59, 18, 2058);
+				add_location(br, file$1, 58, 21, 2034);
+				add_location(cite, file$1, 56, 18, 1970);
 				attr_dev(div1, "class", "inner-wrap");
-				add_location(div1, file, 57, 15, 1974);
+				add_location(div1, file$1, 54, 15, 1886);
 				attr_dev(div2, "class", "test-content main");
-				add_location(div2, file, 56, 12, 1927);
+				add_location(div2, file$1, 53, 12, 1839);
 				attr_dev(div3, "class", "home-testimonial");
-				add_location(div3, file, 51, 9, 1722);
+				add_location(div3, file$1, 48, 9, 1634);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div3, anchor);
@@ -9095,14 +9907,14 @@
 			block,
 			id: create_each_block.name,
 			type: "each",
-			source: "(51:6) {#each activeTestimonials as t, idx}",
+			source: "(48:6) {#each activeTestimonials as t, idx}",
 			ctx
 		});
 
 		return block;
 	}
 
-	function create_fragment(ctx) {
+	function create_fragment$1(ctx) {
 		let div3;
 		let div1;
 		let form;
@@ -9158,34 +9970,34 @@
 				}
 
 				attr_dev(p, "class", "label");
-				add_location(p, file, 39, 9, 1133);
+				add_location(p, file$1, 36, 9, 1045);
 				attr_dev(input0, "type", "radio");
 				attr_dev(input0, "id", "radio-one");
 				attr_dev(input0, "name", "switch-one");
 				input0.value = "subs";
 				input0.checked = true;
-				add_location(input0, file, 41, 12, 1213);
+				add_location(input0, file$1, 38, 12, 1125);
 				attr_dev(label0, "for", "radio-one");
-				add_location(label0, file, 42, 12, 1343);
+				add_location(label0, file$1, 39, 12, 1255);
 				attr_dev(input1, "type", "radio");
 				attr_dev(input1, "id", "radio-two");
 				attr_dev(input1, "name", "switch-one");
 				input1.value = "schools";
-				add_location(input1, file, 43, 12, 1396);
+				add_location(input1, file$1, 40, 12, 1308);
 				attr_dev(label1, "for", "radio-two");
-				add_location(label1, file, 44, 12, 1524);
+				add_location(label1, file$1, 41, 12, 1436);
 				attr_dev(span, "class", "indicator");
-				add_location(span, file, 45, 12, 1580);
+				add_location(span, file$1, 42, 12, 1492);
 				attr_dev(div0, "class", "switch-field");
-				add_location(div0, file, 40, 9, 1174);
+				add_location(div0, file$1, 37, 9, 1086);
 				attr_dev(form, "class", "toggle-switch");
-				add_location(form, file, 38, 6, 1095);
+				add_location(form, file$1, 35, 6, 1007);
 				attr_dev(div1, "class", "toggle-switch-wrap d-flex justify-content-end align-items-center");
-				add_location(div1, file, 37, 3, 1010);
+				add_location(div1, file$1, 34, 3, 922);
 				attr_dev(div2, "class", "slick");
-				add_location(div2, file, 49, 3, 1650);
+				add_location(div2, file$1, 46, 3, 1562);
 				attr_dev(div3, "class", "home-hear-from section-full");
-				add_location(div3, file, 36, 0, 965);
+				add_location(div3, file$1, 33, 0, 877);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -9259,7 +10071,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment.name,
+			id: create_fragment$1.name,
 			type: "component",
 			source: "",
 			ctx
@@ -9268,7 +10080,7 @@
 		return block;
 	}
 
-	function instance($$self, $$props, $$invalidate) {
+	function instance$1($$self, $$props, $$invalidate) {
 		let activeTestimonials;
 		let { $$slots: slots = {}, $$scope } = $$props;
 		validate_slots("Home_testimonials", slots, []);
@@ -9280,7 +10092,6 @@
 
 		let switchState = "subs";
 
-		//let slick = 
 		beforeUpdate(async () => {
 			if (jq("slick").length) {
 				await gsapWithCSS.to(".slick", { opacity: 0, duration: 1 });
@@ -9311,7 +10122,7 @@
 		const writable_props = [];
 
 		Object.keys($$props).forEach(key => {
-			if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console_1.warn(`<Home_testimonials> was created with unknown prop '${key}'`);
+			if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<Home_testimonials> was created with unknown prop '${key}'`);
 		});
 
 		const change_handler = () => $$invalidate(0, switchState = "subs");
@@ -9344,26 +10155,21 @@
 			if ($$self.$$.dirty & /*switchState*/ 1) {
 				$$invalidate(1, activeTestimonials = testimonials[switchState]);
 			}
-
-			if ($$self.$$.dirty & /*activeTestimonials*/ 2) {
-				console.log(activeTestimonials);
-			}
 		};
 
-		console.log(testimonials);
 		return [switchState, activeTestimonials, change_handler, change_handler_1];
 	}
 
 	class Home_testimonials extends SvelteComponentDev {
 		constructor(options) {
 			super(options);
-			init(this, options, instance, create_fragment, safe_not_equal, {});
+			init(this, options, instance$1, create_fragment$1, safe_not_equal, {});
 
 			dispatch_dev("SvelteRegisterComponent", {
 				component: this,
 				tagName: "Home_testimonials",
 				options,
-				id: create_fragment.name
+				id: create_fragment$1.name
 			});
 		}
 	}
@@ -9377,15 +10183,6 @@
 
 	var home = {
 		init() {
-			// $('.home-hero').slick({
-			// 	dots: true,
-			// 	slidesToShow: 1,
-			// 	autoplay: true,
-			// 	autoplaySpeed: 5000,
-			// 	speed: 1000,
-			// 	fade: true,
-			// 	cssEase: 'linear'
-			// })
 
 			// $('.slick').slick({
 			// 	arrows: false,

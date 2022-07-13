@@ -1,8 +1,8 @@
 <?php 
-   global $post;
    $fields = get_fields(); 
-   $is_bg_blue =  $fields['is_bg_blue'];
+   $has_bg_blue = $fields['hero_settings']['has_blue_bg'];
+   $no_overflow = $fields['hero_settings']['hide_image_overflow'];
 ?>
-<div class="hero hero-full-width <?php if($is_bg_blue) { echo 'blue-section'; } ?>">
-   <?php include( locate_template('template-parts/hero-content.php', false, false, $args=[]));?>
+<div class="hero hero-full-width <?php if($has_bg_blue) { echo 'blue-section'; } ?> <?php if($no_overflow) { echo 'hide-overflow'; } ?>">
+   <?php include( locate_template('template-parts/hero-content.php', false, false));?>
 </div>

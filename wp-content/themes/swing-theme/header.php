@@ -21,5 +21,5 @@
 
 <body <?php body_class(); ?>>
   <a data-role="skip-link" href="#main-content"> <span class="sr-only">skip to main content</span> </a>
-  <?php //include(locate_template('template-parts/mobile-menu.php',false,false));?>
+  <?php include(locate_template('template-parts/mobile-menu.php',false,false));?>
   <?php include(locate_template('template-parts/navbar.php',false,false));?>

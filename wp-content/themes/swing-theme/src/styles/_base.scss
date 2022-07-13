@@ -179,15 +179,27 @@ optgroup {
 .blue-section {//}:not(.has-space) { //hero
   position: relative;
   z-index: 1;
-  &:not(.hero.has-space):before {
+  &.hero-full-width:before {
     content:"";
     @include cover;
     background: $blue;
   }
-  &.hero.has-space {
+  &.hero-contained {
+    margin-top: 80px;
     background: $blue;
     border-radius: $border-radius;
-    padding: 0 3rem; // vertical padding from hero-content
+    .hero-content{
+      // vertical padding from hero-content
+      padding-left: 3rem; 
+      padding-right: 3rem;
+    }
+    .hero-img { //gs
+      clip-path: ellipse(60% 78% at 60% 50%);
+      flex: 0 0 50%;
+      .decor-img {
+        height: 100%;
+      }
+    }
   }
   
   &,
@@ -203,10 +215,10 @@ optgroup {
   .btn {
      background: #fff;
      color: $blue;
-     &:hover {
-        background-color: $yellow;
-        color: $blue-dark;
-     }
+    //  &:hover {
+    //     background-color: $yellow;
+    //     color: $blue-dark;
+    //  }
   }
 }
 

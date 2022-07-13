@@ -61,7 +61,7 @@ function theme_register_blocks() {
 	acf_register_block([
 		'name'			=> 'swing-hero-contained',
 		'title'			=> 'Contained Hero',
-		'render_template'	=> 'blocks/contained-hero.php',
+		'render_template'	=> 'blocks/hero-contained.php',
 		'category'		=> 'theme-blocks',
 		'icon'			=> 'thumbs-up',
 		'mode'			=> 'edit',
@@ -116,6 +116,26 @@ function theme_register_blocks() {
 		'icon'			=> 'thumbs-up',
 		'mode'			=> 'edit',
       'keywords'		=> ['cta', 'home', 'join', 'swing', 'education'],
+      'supports' => ['align' => false],
+   ]);
+	acf_register_block([
+		'name'			=> 'swing-text-cards-rotator',
+		'title'			=> 'Swing Text & Cards Rotator',
+		'render_template'	=> 'blocks/text-cards-rotator.php',
+		'category'		=> 'theme-blocks',
+		'icon'			=> 'thumbs-up',
+		'mode'			=> 'edit',
+      'keywords'		=> ['for', 'subs', 'cards', 'text', 'rotator', 'swing', 'education'],
+      'supports' => ['align' => false],
+   ]);
+	acf_register_block([
+		'name'			=> 'swing-media-text',
+		'title'			=> 'Swing Media Text',
+		'render_template'	=> 'blocks/media-text-single.php',
+		'category'		=> 'theme-blocks',
+		'icon'			=> 'thumbs-up',
+		'mode'			=> 'edit',
+      'keywords'		=> ['for', 'subs', 'media', 'text', 'swing', 'education'],
       'supports' => ['align' => false],
    ]);
 }
@@ -179,24 +199,25 @@ function theme_register_blocks_style() {
             // 'style_handle' => 'testing',
          )
       );
-      register_block_style(
-         'acf/swing-page-hero',
-         array(
-            'name'         => 'hero-about',
-            'label'        => __( 'About Page Hero', 'textdomain' ),
-            'is_default'   => false,
-            'inline_style' => '.hero.ph-about',
-         )
-      );
-      register_block_style(
-         'acf/swing-page-hero',
-         array(
-            'name'         => 'hero-getting-started',
-            'label'        => __( 'Getting Started Hero', 'textdomain' ),
-            'is_default'   => false,
-            'inline_style' => '.hero.ph-getting-started',
-         )
-      );
+      //TODO
+      // register_block_style(
+      //    'acf/swing-page-hero',
+      //    array(
+      //       'name'         => 'hero-about',
+      //       'label'        => __( 'About Page Hero', 'textdomain' ),
+      //       'is_default'   => false,
+      //       'inline_style' => '.hero.ph-about',
+      //    )
+      // );
+      // register_block_style(
+      //    'acf/swing-page-hero',
+      //    array(
+      //       'name'         => 'hero-getting-started',
+      //       'label'        => __( 'Getting Started Hero', 'textdomain' ),
+      //       'is_default'   => false,
+      //       'inline_style' => '.hero.ph-getting-started',
+      //    )
+      // );
   }
 }
 add_action('acf/init', 'theme_register_blocks_style' );

@@ -1,4 +1,7 @@
-<?php $fields = get_fields(); ?>
+<?php 
+$fields = get_fields(); 
+// $fields = $args['fields'];
+?>
 <div class="_main">
    <div class="inner-wrap">
       <div class="hero-content">

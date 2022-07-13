@@ -8,12 +8,9 @@
 
    //export
    let testimonials = homeTestimonials
-   $: console.log(testimonials)
    let switchState = 'subs';
    $: activeTestimonials = testimonials[switchState]
-   $: console.log(activeTestimonials)
 
-   //let slick = 
    beforeUpdate( async () => {
       if(jq('slick').length) {
          await gsap.to('.slick', {opacity: 0, duration: 1})

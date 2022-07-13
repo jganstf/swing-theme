@@ -5,60 +5,8 @@
 @import "blocks/helpful-articles";
 @import "blocks/testimonial-slider";
 @import "blocks/swing-stats";
+@import "blocks/media-text";
 
-.helpful-articles {
-   // padding-bottom: 56px;
-   //! margin-bottom: -70px; 
-   margin-bottom: -120px;
-}
-
-// .whitepaper-block + .call-to-action,
-.helpful-articles + .call-to-action {
-   // padding-top: 188px;
-   // margin-top: -70px;
-   z-index:0;
-}
-.helpful-articles + .whitepaper-block { //TODO
-   // margin-top: -2rem;
-}
-
-.whitepaper-section {
-   margin-top: 2rem;
-}
-.wht-ppr {
-   background: #FFF;
-   border-radius: $border-radius;
-   padding: 50px 74px 68px;
-   &-img {
-      width:321px;
-      // height: 100%;
-      flex-grow: 1;
-      background-color: #ddd;
-      border-radius: $border-radius;
-   }
-   &-content {
-      padding: 40px 89px;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      text-align: left;
-      // h2, h3 {
-      //    margin-bottom: 1rem;
-      // }
-      > *:last-child {
-         margin-bottom: 0;
-      }
-   }
-   h3 {@include hdr-md; color: $blue;}
-   h3,
-   .pre-heading-label {
-      margin-bottom: 22px;
-   }
-   .btn {
-      align-self: center;
-   }
-}
-.pre-heading-label { @include bdy-sm; color: var(--swing-black-t40);}
 
 //***********                         ****************//
 //*********** Registered Block Styles ****************//

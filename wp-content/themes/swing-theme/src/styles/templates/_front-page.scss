@@ -6,24 +6,25 @@
       clip-path: circle(33% at 76% 21%);
    }
 }
-.home-hero {
-   .decor-img {
-      @include bg;
-      @include section-full;
-      position: absolute;
-      right: 0;
-      top: 0;
-      width:  100vw;
-      height:  100vh;
-      background-position: 45vw 0;
-      background-size: auto 50vw;
-      clip-path: circle(0% at 82.5% 5%);
-      animation: fromTopLeft 0.65s forwards;
-      animation-delay: 0.5s;
-      // clip-path: circle(33% at 76% 21%);
-      //clip-path: ellipse(width height at left top )
-   }
-}
+//! TODO
+// .home-hero {
+//    .decor-img {
+//       @include bg;
+//       @include section-full;
+//       position: absolute;
+//       right: 0;
+//       top: 0;
+//       width:  100vw;
+//       height:  100vh;
+//       background-position: 45vw 0;
+//       background-size: auto 50vw;
+//       clip-path: circle(0% at 82.5% 5%);
+//       animation: fromTopLeft 0.65s forwards;
+//       animation-delay: 0.5s;
+//       // clip-path: circle(33% at 76% 21%);
+//       //clip-path: ellipse(width height at left top )
+//    }
+// }
 .home-hero-content {
    padding: 100px 0;
    h1 {

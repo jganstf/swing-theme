@@ -28,6 +28,8 @@
 - [ ] hero page details acf remove
 - [ ] navbar filter: drop-shadow
 - [ ] logo-link height/width adjustment
+- [ ] mobile menu
+- [ ] 
 - [ ] 
 - [ ] 
 

@@ -55,10 +55,9 @@ get_header();
 while(have_posts()): the_post(); ?>
 
 <main id="main-content" class="main-content-wrap">
-   <?php //include(locate_template('template-parts/home/home-hero.php', false, false));?>
    <div class="main page-content-wrap">
       <div class="inner-wrap">
-         <?php //the_content() ?>
+         <?php the_content() ?>
          <div class="home-about light-blue">
             <h2 class="h2-dark-blue"><?php echo $fields['about_heading'];?></h2>
             <p><?php echo $fields['about_content'];?></p>

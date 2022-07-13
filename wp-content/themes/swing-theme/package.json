@@ -28,6 +28,7 @@
     "bootstrap-scss": "^4.6.1",
     "gsap": "^3.10.4",
     "rxjs": "^7.5.5",
+    "side-panel-menu-thing": "^1.0.3",
     "svelte": "3.33.0",
     "wp-cli": "^0.0.5"
   },

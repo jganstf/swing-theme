@@ -1,12 +1,12 @@
 {
     "key": "group_62832eaba949f",
-    "title": "Hero Details",
+    "title": "Full Width Hero Block Details",
     "fields": [
         {
-            "key": "field_62832ebd05947",
-            "label": "Heading",
-            "name": "hero_heading",
-            "type": "text",
+            "key": "field_62ce0c2b1a0f7",
+            "label": "Full Width Hero",
+            "name": "",
+            "type": "accordion",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
@@ -15,17 +15,15 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": "",
-            "maxlength": ""
+            "open": 0,
+            "multi_expand": 0,
+            "endpoint": 0
         },
         {
-            "key": "field_62832f469cfe4",
-            "label": "Content",
-            "name": "hero_content",
-            "type": "textarea",
+            "key": "field_62ce0c4e1a0f8",
+            "label": "Common Fields",
+            "name": "common_fields",
+            "type": "clone",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
@@ -34,17 +32,19 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "",
-            "placeholder": "",
-            "maxlength": "",
-            "rows": "",
-            "new_lines": ""
+            "clone": [
+                "group_62ce097aa7cff"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
         },
         {
-            "key": "field_62832f619cfe5",
-            "label": "Buttons",
-            "name": "hero_buttons",
-            "type": "repeater",
+            "key": "field_62ce025057cdd",
+            "label": "Settings",
+            "name": "hero_settings",
+            "type": "group",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
@@ -53,17 +53,13 @@
                 "class": "",
                 "id": ""
             },
-            "collapsed": "",
-            "min": 0,
-            "max": 0,
             "layout": "table",
-            "button_label": "",
             "sub_fields": [
                 {
-                    "key": "field_62832f6a9cfe6",
-                    "label": "Button Link",
-                    "name": "btn_link",
-                    "type": "link",
+                    "key": "field_62cdf79d5a422",
+                    "label": "Has Blue Background?",
+                    "name": "has_blue_bg",
+                    "type": "true_false",
                     "instructions": "",
                     "required": 0,
                     "conditional_logic": 0,
@@ -72,7 +68,30 @@
                         "class": "",
                         "id": ""
                     },
-                    "return_format": "array"
+                    "message": "",
+                    "default_value": 0,
+                    "ui": 1,
+                    "ui_on_text": "",
+                    "ui_off_text": ""
+                },
+                {
+                    "key": "field_62ce023438b94",
+                    "label": "Hide Image Overflow?",
+                    "name": "hide_image_overflow",
+                    "type": "true_false",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "default_value": 0,
+                    "ui": 1,
+                    "ui_on_text": "",
+                    "ui_off_text": ""
                 }
             ]
         }
@@ -80,14 +99,9 @@
     "location": [
         [
             {
-                "param": "page_template",
+                "param": "block",
                 "operator": "==",
-                "value": "default"
-            },
-            {
-                "param": "page_template",
-                "operator": "!=",
-                "value": "default"
+                "value": "acf\/swing-hero-full-width"
             }
         ]
     ],
@@ -100,5 +114,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1657581558
+    "modified": 1657670802
 }

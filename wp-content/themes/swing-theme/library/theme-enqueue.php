@@ -12,7 +12,7 @@ function swing_scripts() {
 	// Deregister the jquery version bundled with WordPress.
 	wp_dequeue_script( 'jquery' );
 	wp_deregister_script( 'jquery' );
-   if(is_front_page()) {
+   if(true) {//TODO is_front_page() || is_page('partnership')) {
 		
 		wp_enqueue_script( 'jquery', 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js', array(), null, true );
 		wp_enqueue_script('passive', $theme_uri . "/assets/js/passive.js", ['jquery'], $theme->version, true);

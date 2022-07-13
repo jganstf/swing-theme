@@ -8,15 +8,6 @@ const { $ } = window
 
 export default {
 	init() {
-		// $('.home-hero').slick({
-		// 	dots: true,
-		// 	slidesToShow: 1,
-		// 	autoplay: true,
-		// 	autoplaySpeed: 5000,
-		// 	speed: 1000,
-		// 	fade: true,
-		// 	cssEase: 'linear'
-		// })
 
 		// $('.slick').slick({
 		// 	arrows: false,
