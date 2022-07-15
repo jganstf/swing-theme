@@ -2,7 +2,7 @@ import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import sidePanel from 'side-panel-menu-thing'
 
-import Modal from '../components/popup-get-started.svelte'
+import Modal from '../components/popup-newsletter.svelte'
 
 const { $ } = window
 
