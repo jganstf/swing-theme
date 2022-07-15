@@ -12,7 +12,7 @@
    // })
    
    gsap.registerPlugin(ScrollTrigger)
-   function animateShow() {
+   function _animateShow() {
       const tl = gsap.timeline({})
       var textWrapper = document.querySelector('.modal h2')
 	   textWrapper.innerHTML = textWrapper.textContent.replace(/\S+/g, "<span class='word'>$&</span>")
@@ -38,13 +38,13 @@
 
 </script>
 <!-- href="//maps.google.com/maps?q=1600+Amphitheatre+Parkway,+Mountain+View,+CA"  -->
-<a class="btn" 
+<!-- <a class="btn" 
    href="#modal"
    data-lity
    on:click={() => animateShow()}
    >
       Modal
-</a>
+</a> -->
 
 <div id="modal" class="modal-wrap lity-hide">
    <div class="modal">

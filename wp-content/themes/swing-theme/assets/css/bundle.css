@@ -2668,17 +2668,17 @@ li.btn *,
     font-size: 16px;
   }
 }
+li.btn *.white,
+*:not(li).btn.white {
+  background: #FFF;
+  color: var(--swing-blue);
+}
 li.btn *:hover,
 *:not(li).btn:hover {
   text-decoration: none;
   background-color: var(--swing-blue-shd);
   border-color: transparent;
   color: white;
-}
-li.btn *.white,
-*:not(li).btn.white {
-  background: #FFF;
-  color: var(--swing-blue);
 }
 
 li.btn * {
@@ -4396,15 +4396,15 @@ footer {
     font-size: 16px;
   }
 }
+.wp-block-button a.white {
+  background: #FFF;
+  color: var(--swing-blue);
+}
 .wp-block-button a:hover {
   text-decoration: none;
   background-color: var(--swing-blue-shd);
   border-color: transparent;
   color: white;
-}
-.wp-block-button a.white {
-  background: #FFF;
-  color: var(--swing-blue);
 }
 
 .is-style-swing-blue-bg {

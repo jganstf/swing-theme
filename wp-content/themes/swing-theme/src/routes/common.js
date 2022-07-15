@@ -3,6 +3,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger"
 import sidePanel from 'side-panel-menu-thing'
 
 import Modal from '../components/popup-newsletter.svelte'
+import LoginModal from '../components/popup-login.svelte'
 
 const { $ } = window
 
@@ -46,9 +47,43 @@ export default {
 			$body.removeClass('using-mouse')
 		})
 
-		new Modal({
-			target: document.body,
-		})
+		let $login = $('.login a')
+		console.log($login)
+
+		function animateShow() {
+			const tl = gsap.timeline({})
+			var textWrapper = document.querySelector('.modal h2')
+			textWrapper.innerHTML = textWrapper.textContent.replace(/\S+/g, "<span class='word'>$&</span>")
+			gsap.set('.modal h2 .word', { opacity: 0, y: 24, x: 0, rotateZ: 0 })
+			gsap.set('.modal h2 ~ *', { opacity: 0, y: 24 })
+			tl.to('.modal h2 .word', {
+				delay: 0.2,
+				duration: 0.5,
+				ease: "elastic.out(1,0.5)",
+				opacity: 1,
+				rotateZ: 0,
+				stagger: 0.075,
+				x: 0,
+				y: 0,
+			})
+			.to('.modal h2 ~ *', {
+				duration: 0.3,
+				ease: 'power1.out',
+				opacity:1, 
+				y: 0
+			}, '-=0.5')
+		}
+		if($login.length) {
+			$login.attr('data-lity', '')
+			$login.click(() => animateShow())
+			// loginModal.addEventListener('click', function(){
+			// 	on:click={() => animateShow()}
+			// }) = '#modal'
+
+			new LoginModal({
+				target: document.body,//$login[0],
+			})
+		}
 	},
 }
 

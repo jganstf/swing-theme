@@ -184,6 +184,10 @@ $grid-breakpoints: (
 	@media (max-width: 450px) {
 		font-size: 16px;
 	}
+	&.white {
+		background: #FFF;
+		color: var(--swing-blue);
+	}
 	&:hover {
 		text-decoration: none;
 		background-color: $blue-dark;
@@ -192,10 +196,6 @@ $grid-breakpoints: (
 		// font-weight: 700;
 		// box-shadow: 0px 4px 4px rgba(0,0,0,0.25);
 		// transform: scale(1.04);
-	}
-	&.white {
-		background: #FFF;
-		color: var(--swing-blue);
 	}
 }
 //.header-links 
