@@ -1,8 +1,6 @@
 import HomeTestimonials from '../components/home-testimonials.svelte'
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-// import anime from 'animejs/lib/anime.es.js';
-// import { Waypoint } from 'waypoints';
 
 
 const { $ } = window
