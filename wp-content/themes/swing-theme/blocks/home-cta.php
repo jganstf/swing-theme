@@ -1,8 +1,15 @@
 <?php $fields = get_fields(); ?>
 
 <div class="home-join">
-   <div class="row justify-content-between">
-      <div class="col-md-6">
+   <div class="row flex-row-reverse justify-content-between">
+      <div class="partners col-lg-6 grid-three">
+         <?php foreach($fields['partners'] as $partner): ?>
+            <div class="partner grid-item">
+               <img src="<?php echo $partner['sizes']['medium'];?>" alt="" width="<?php echo $partner['sizes']['medium-width'];?>" height="<?php echo $partner['sizes']['medium-height'];?>" />
+            </div>
+         <?php endforeach;?>
+      </div>
+      <div class="col-lg-6">
          <h2><?php echo $fields['heading'];?></h2>
          <p><?php echo $fields['content'];?></p>
          <div class="btns-wrap d-sm-flex">
@@ -13,13 +20,6 @@
                </a>
             <?php endforeach;?>
          </div>
-      </div>
-      <div class="partners col-md-6 grid-three">
-         <?php foreach($fields['partners'] as $partner): ?>
-            <div class="partner grid-item">
-               <img src="<?php echo $partner['sizes']['medium'];?>" alt="" width="<?php echo $partner['image']['sizes']['medium-width'];?>" height="<?php echo $partner['image']['sizes']['medium-height'];?>" />
-            </div>
-         <?php endforeach;?>
       </div>
    </div>
 </div>

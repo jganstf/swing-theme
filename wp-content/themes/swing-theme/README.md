@@ -38,6 +38,9 @@
 - [ ] typography line height rel
 - [ ] remove home page details field group
 - [ ] modal - acf
+- [ ] newsletter modal
+- [ ] 
+- [ ] 
 - [ ] 
 - [ ] 
 - [ ] 

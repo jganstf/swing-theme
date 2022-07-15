@@ -5169,6 +5169,7 @@ footer {
   margin-right: -30px;
   margin-top: -20px;
   margin-bottom: -20px;
+  justify-content: center;
 }
 @media (max-width: 767px) {
   .home-join .partners {
@@ -5186,10 +5187,11 @@ footer {
   width: calc(33.3333% - 2 * 20px);
 }
 .home-join .partner img {
-  max-width: 90%;
-  max-height: 90%;
+  max-width: min(100%, 180px);
+  height: 100%;
   margin: 0 auto;
   object-fit: contain;
+  object-position: center;
 }
 
 .home h1, .home h2 {
@@ -5451,6 +5453,22 @@ footer {
     font-size: 36px;
   }
 }
+@media (max-width: 991px) {
+  .home-join {
+    padding: 80px 0;
+  }
+  .home-join .partners {
+    margin: 0 !important;
+  }
+  .home-join .col-lg-6:not(.partners) {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+  }
+}
 @media (max-width: 900px) {
   .grid-four .grid-item {
     width: 31.33%;
@@ -5533,6 +5551,10 @@ footer {
 .grid-three .grid-item {
     width: 48%;
     margin: 0 1% 1.5rem;
+  }
+  .home-join .partner.grid-item {
+    margin: 1rem 4%;
+    width: 25.33%;
   }
 }
 @media (max-width: 520px) {

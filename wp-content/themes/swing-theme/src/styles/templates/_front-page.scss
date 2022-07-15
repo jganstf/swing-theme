@@ -269,6 +269,7 @@
       margin-right: -$y; 
       margin-top: -$x; 
       margin-bottom: -$x; 
+      justify-content: center;
       @include respond-below(md) {
          margin: 0!important;
       }
@@ -283,10 +284,11 @@
       margin: $y $x;
       width: calc(33.3333% - 2 * #{$x});
       img {
-         max-width:  90%;
-         max-height: 90%;
+         max-width: min(100%, 180px);//100%;
+         height: 100%;
          margin: 0 auto;
          object-fit: contain;
+         object-position: center;
       }
    }
 }

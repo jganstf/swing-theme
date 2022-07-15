@@ -11183,6 +11183,10 @@
 		}
 	}
 
+	// import anime from 'animejs/lib/anime.es.js';
+	// import { Waypoint } from 'waypoints';
+
+
 	const { $: $$1 } = window;
 
 
