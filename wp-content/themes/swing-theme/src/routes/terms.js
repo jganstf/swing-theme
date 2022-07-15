@@ -19,7 +19,7 @@ export default {
          .from('.hero-tos-content h1', {y: -16})
          .from('.hero-tos-content h1 ~ *', {x:16}, '-=0.2')
          .from('aside', {y:16}, '+=0.2')
-         .from('aside a', {y:16, stagger: 0.05}, '+=0.2')
+         .from('aside a:not(:first-child', {y:16, stagger: 0.05})//, '+=0.2') //!
       $('h2').each((_idx, el) => gsap.from(el, { delay: 0.2, opacity: 0, y: -16, scrollTrigger: { trigger: el, start: 'top 96%'}}))
       // $('article p').each((_idx, el) => gsap.from(el, { opacity: 0, x: 16, scrollTrigger: { trigger: el, start: 'top 90%'}}))
 	},

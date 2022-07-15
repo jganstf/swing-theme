@@ -1,52 +1,8 @@
 <script>
-   // import { onMount, afterUpdate, beforeUpdate } from 'svelte';
-   // import { query_selector_all } from "svelte/internal";
-   import { gsap } from 'gsap'
-   import { ScrollTrigger } from 'gsap/ScrollTrigger'
-   // onMount(()=> {
-   //    console.log('mount')
-   //    console.log(document.querySelector('.close-btn'))
-   // })
-   // afterUpdate(()=> {
-   //    console.log('after' + document.querySelector('.close-btn'))
-   // })
-   
-   gsap.registerPlugin(ScrollTrigger)
-   function _animateShow() {
-      const tl = gsap.timeline({})
-      var textWrapper = document.querySelector('.modal h2')
-	   textWrapper.innerHTML = textWrapper.textContent.replace(/\S+/g, "<span class='word'>$&</span>")
-      gsap.set('.modal h2 .word', { opacity: 0, y: 24, x: 0, rotateZ: 0 })
-      gsap.set('.modal h2 ~ *', { opacity: 0, y: 24 })
-      tl.to('.modal h2 .word', {
-			delay: 0.2,
-			duration: 0.5,
-			ease: "elastic.out(1,0.5)",
-			opacity: 1,
-			rotateZ: 0,
-			stagger: 0.075,
-			x: 0,
-			y: 0,
-		})
-      .to('.modal h2 ~ *', {
-         duration: 0.3,
-         ease: 'power1.out',
-         opacity:1, 
-         y: 0
-      }, '-=0.5')
-   }
-
+   export let id
 </script>
-<!-- href="//maps.google.com/maps?q=1600+Amphitheatre+Parkway,+Mountain+View,+CA"  -->
-<!-- <a class="btn" 
-   href="#modal"
-   data-lity
-   on:click={() => animateShow()}
-   >
-      Modal
-</a> -->
 
-<div id="modal" class="modal-wrap lity-hide">
+<div id="{id}" class="modal-wrap lity-hide">
    <div class="modal">
       <div data-lity-close class="close-btn _lity-close" aria-label="Close (Press escape to close)">
          <svg data-lity-close fill="#FFFFFF" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 30 30" width="60px" height="60px">

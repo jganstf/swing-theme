@@ -2,8 +2,9 @@ import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import sidePanel from 'side-panel-menu-thing'
 
-import Modal from '../components/popup-newsletter.svelte'
 import LoginModal from '../components/popup-login.svelte'
+import GetStartedModal from '../components/popup-get-started.svelte'
+import NewsLetterModal from '../components/popup-newsletter.svelte'
 
 const { $ } = window
 
@@ -47,9 +48,7 @@ export default {
 			$body.removeClass('using-mouse')
 		})
 
-		let $login = $('.login a')
-		console.log($login)
-
+		
 		function animateShow() {
 			const tl = gsap.timeline({})
 			var textWrapper = document.querySelector('.modal h2')
@@ -73,17 +72,27 @@ export default {
 				y: 0
 			}, '-=0.5')
 		}
+		let $login = $('.btn-login a')
 		if($login.length) {
 			$login.attr('data-lity', '')
 			$login.click(() => animateShow())
-			// loginModal.addEventListener('click', function(){
-			// 	on:click={() => animateShow()}
-			// }) = '#modal'
-
+			
 			new LoginModal({
-				target: document.body,//$login[0],
+				target: document.body,
 			})
 		}
+		let $getStarted = $('.btn-get-started a')
+		if($getStarted.length) {
+			$getStarted.attr('data-lity', '')
+			$getStarted.click(() => animateShow())
+
+			new GetStartedModal({
+				target: document.body,
+			})
+		}
+		new NewsLetterModal({
+			target: document.body,
+		})
 	},
 }
 

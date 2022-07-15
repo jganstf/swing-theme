@@ -3,7 +3,7 @@
    // export let content
 </script>
 
-<Modal>
+<Modal id={'login'}>
    <!-- {content} -->
    <div class="popup-login-content">
       <h2>Where to?</h2>
