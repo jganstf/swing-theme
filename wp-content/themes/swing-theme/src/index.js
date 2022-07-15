@@ -1,7 +1,9 @@
 import Router from './util/Router'
 import common from './routes/common'
 import home from './routes/home'
+import aboutUs from './routes/about'
 import singlePost from './routes/single-post'
+import pageTemplateTos from './routes/terms'
 
 /**
  * Populate Router instance with DOM routes
@@ -10,7 +12,9 @@ import singlePost from './routes/single-post'
 const routes = new Router({
 	common,
 	home,
-	singlePost
+	aboutUs,
+	pageTemplateTos,
+	singlePost,
 })
 
 /** Load Events */

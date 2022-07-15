@@ -8,6 +8,7 @@
 
    //export
    let testimonials = homeTestimonials
+   $:console.log(testimonials)
    let switchState = 'subs';
    $: activeTestimonials = testimonials[switchState]
 
@@ -19,6 +20,7 @@
    })
    afterUpdate(() => {
       jq('.slick').slick({
+         adaptiveHeight: true,
          arrows: false,
 			dots: true,
 			fade: true,
@@ -53,7 +55,7 @@
             />
             <div class="test-content main">
                <div class="inner-wrap">
-                  {@html t.post_content}
+                  <p>"{t.post_content}"</p>
                   <cite>
                      {t.post_title}
                      <br />

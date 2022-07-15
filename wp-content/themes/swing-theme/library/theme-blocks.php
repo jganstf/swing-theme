@@ -158,6 +158,86 @@ function theme_register_blocks() {
       'keywords'		=> ['get', 'started', 'step', 'swing', 'education'],
       'supports' => ['align' => false],
    ]);
+	acf_register_block([
+		'name'			=> 'swing-about-card-rotator',
+		'title'			=> 'About Card Rotator',
+		'render_template'	=> 'blocks/about-card-rotator.php',
+		'category'		=> 'theme-blocks',
+		'icon'			=> 'thumbs-up',
+		'mode'			=> 'edit',
+      'keywords'		=> ['about', 'rotator', 'card', 'swing', 'education'],
+      'supports' => ['align' => false],
+   ]);
+	acf_register_block([
+		'name'			=> 'swing-about-founders',
+		'title'			=> 'About Founders',
+		'render_template'	=> 'blocks/about-founders.php',
+		'category'		=> 'theme-blocks',
+		'icon'			=> 'thumbs-up',
+		'mode'			=> 'edit',
+      'keywords'		=> ['about', 'founders', 'swing', 'education'],
+      'supports' => ['align' => false],
+   ]);
+	acf_register_block([
+		'name'			=> 'swing-about-board',
+		'title'			=> 'About Board',
+		'render_template'	=> 'blocks/about-board.php',
+		'category'		=> 'theme-blocks',
+		'icon'			=> 'thumbs-up',
+		'mode'			=> 'edit',
+      'keywords'		=> ['about', 'board', 'swing', 'education'],
+      'supports' => ['align' => false],
+   ]);
+	acf_register_block([
+		'name'			=> 'swing-about-partners',
+		'title'			=> 'About Partners',
+		'render_template'	=> 'blocks/about-partners.php',
+		'category'		=> 'theme-blocks',
+		'icon'			=> 'thumbs-up',
+		'mode'			=> 'edit',
+      'keywords'		=> ['about', 'partners', 'swing', 'education'],
+      'supports' => ['align' => false],
+   ]);
+	acf_register_block([
+		'name'			=> 'swing-about-news-press',
+		'title'			=> 'About News & Press',
+		'render_template'	=> 'blocks/about-news-press.php',
+		'category'		=> 'theme-blocks',
+		'icon'			=> 'thumbs-up',
+		'mode'			=> 'edit',
+      'keywords'		=> ['about', 'news', 'press', 'swing', 'education'],
+      'supports' => ['align' => false],
+   ]);
+	acf_register_block([
+		'name'			=> 'home-about',
+		'title'			=> 'Home About',
+		'render_template'	=> 'blocks/home-about.php',
+		'category'		=> 'theme-blocks',
+		'icon'			=> 'thumbs-up',
+		'mode'			=> 'edit',
+      'keywords'		=> ['home', 'about', 'swing', 'education'],
+      'supports' => ['align' => false],
+   ]);
+	acf_register_block([
+		'name'			=> 'home-testimonials',
+		'title'			=> 'Home Testimonials',
+		'render_template'	=> 'blocks/home-testimonials.php',
+		'category'		=> 'theme-blocks',
+		'icon'			=> 'thumbs-up',
+		'mode'			=> 'edit',
+      'keywords'		=> ['home', 'testimonials', 'swing', 'education'],
+      'supports' => ['align' => false],
+   ]);
+	acf_register_block([
+		'name'			=> 'home-cta',
+		'title'			=> 'Home Join Call to Action',
+		'render_template'	=> 'blocks/home-cta.php',
+		'category'		=> 'theme-blocks',
+		'icon'			=> 'thumbs-up',
+		'mode'			=> 'edit',
+      'keywords'		=> ['home', 'join', 'cta', 'swing', 'education'],
+      'supports' => ['align' => false],
+   ]);
 }
 
 /**

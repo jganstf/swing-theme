@@ -121,6 +121,13 @@ optgroup {
 
 ////////////////////////// GENERAL //////////////////////////
 .error404 {
+  @keyframes imgGrow {
+    from {
+      // clip-path: ellipse( 0 0 at 50% 100%);
+    } to {
+      opacity: 1;
+    }
+  }
   .main-content-wrap {
     background-color: var(--swing-blue);
     flex-grow: 1;
@@ -155,22 +162,33 @@ optgroup {
     @include fillall;
     @include bg;
     // background: #fff;
+    background-position: top center;
+    background-size: 62vw auto;
+    opacity: 0;
     clip-path: ellipse(30vw 30vw at 50% 100%);
+
+    animation: imgGrow 1.2s forwards linear;//ease-out;
+    // animation-delay: 1s;
   }
-  @include respond-below(lg) {
-    .decor-img {
-      clip-path: ellipse(40vw 40vw at 50% 100%);
-    }
+  @media (min-width: 1921px) {
     .img-wrap {
-      height: 40vw;
+      max-height: 512px;
+      max-width: 1024px;
+      margin: 0 auto;
+    }
+    .decor-img {
+      background-position: top center;
+      background-size: 100% auto;
+      clip-path: ellipse(50% 100% at 50% 100%);
     }
   }
-  @include respond-below(sm) {
-    .decor-img {
-      clip-path: ellipse(50vw 50vw at 50% 100%);
-    }
+  @include respond-below(md) {
     .img-wrap {
       height: 50vw;
+    }
+    .decor-img {
+      clip-path: ellipse(50vw 50vw at 50% 100%);
+      background-size: 100% auto;
     }
   }
 }

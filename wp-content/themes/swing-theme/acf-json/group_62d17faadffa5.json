@@ -1,42 +1,15 @@
 {
-    "key": "group_627dbfef0765b",
-    "title": "Call To Action",
+    "key": "group_62d17faadffa5",
+    "title": "Popup",
     "fields": [
         {
-            "key": "field_627dc21b5d8fb",
-            "label": "Disable CTA",
-            "name": "disable_cta",
-            "type": "true_false",
+            "key": "field_62d17fb0b20eb",
+            "label": "Button Text",
+            "name": "button_text_",
+            "type": "text",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "message": "",
-            "default_value": 0,
-            "ui": 1,
-            "ui_on_text": "",
-            "ui_off_text": ""
-        },
-        {
-            "key": "field_627dc00e5e7c9",
-            "label": "Heading",
-            "name": "cta_heading",
-            "type": "text",
-            "instructions": "If fields are left empty, page will use information in \"Call to Action\" tab in \"Theme Options\" unless cta is disabled on this page (see below)",
-            "required": 0,
-            "conditional_logic": [
-                [
-                    {
-                        "field": "field_627dc21b5d8fb",
-                        "operator": "!=",
-                        "value": "1"
-                    }
-                ]
-            ],
             "wrapper": {
                 "width": "",
                 "class": "",
@@ -49,21 +22,51 @@
             "maxlength": ""
         },
         {
-            "key": "field_627dc16419810",
-            "label": "Button\/Link",
-            "name": "cta_links",
+            "key": "field_62d17fbfb20ec",
+            "label": "Modal Heading",
+            "name": "modal_heading",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_62d17fc8b20ed",
+            "label": "Modal Content",
+            "name": "modal_content",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "maxlength": "",
+            "rows": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_62d17fcfb20ee",
+            "label": "Modal Buttons",
+            "name": "modal_buttons",
             "type": "repeater",
             "instructions": "",
             "required": 0,
-            "conditional_logic": [
-                [
-                    {
-                        "field": "field_627dc21b5d8fb",
-                        "operator": "!=",
-                        "value": "1"
-                    }
-                ]
-            ],
+            "conditional_logic": 0,
             "wrapper": {
                 "width": "",
                 "class": "",
@@ -76,7 +79,7 @@
             "button_label": "",
             "sub_fields": [
                 {
-                    "key": "field_62c143bc03c45",
+                    "key": "field_62d17fe3b20ef",
                     "label": "Button",
                     "name": "btn_link",
                     "type": "link",
@@ -98,7 +101,7 @@
             {
                 "param": "post_type",
                 "operator": "==",
-                "value": "page"
+                "value": "post"
             }
         ]
     ],
@@ -111,5 +114,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1657749921
+    "modified": 1657896957
 }

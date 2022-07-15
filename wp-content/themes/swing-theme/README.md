@@ -32,9 +32,12 @@
 - [ ] logo-link height/width adjustment
 - [ ] mobile menu
 - [ ] search - rm deprecate
-- [ ] stories slider limit - getting started
+- [ ] stories slider limit - getting started; about news -> pagination
 - [ ] stories cpt? or just repeater - getting started
 - [ ] alphabetize blocks
+- [ ] typography line height rel
+- [ ] remove home page details field group
+- [ ] modal - acf
 - [ ] 
 - [ ] 
 - [ ] 

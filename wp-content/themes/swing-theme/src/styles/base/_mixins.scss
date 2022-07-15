@@ -5,7 +5,7 @@
 // Define the minimum dimensions at which your layout will change,
 // adapting to different screen sizes, for use in media queries.
 $grid-breakpoints: (
-	xs: 375px,
+	xs: 390px,
 	sm: 576px,
 	md: 768px,
 	lg: 992px,
@@ -168,7 +168,9 @@ $grid-breakpoints: (
 	// &:not(:last-child) {
 	// 	margin-right: 1rem;
 	// }
-	padding: 1em 3em;
+	// padding: 1em 3em;
+	// padding: 13px 35px;
+	padding: 0.65em 1.75em;
 	transition: background-color 0.2s ease-in-out;
 	line-height: 1.42857142857;
 	position: relative;
@@ -176,6 +178,12 @@ $grid-breakpoints: (
 	text-transform: capitalize;
 	transition:0.2s;
 	white-space: nowrap;
+	@media (max-width: 900px) {
+		font-size: 18px;
+	}
+	@media (max-width: 450px) {
+		font-size: 16px;
+	}
 	&:hover {
 		text-decoration: none;
 		background-color: $blue-dark;
@@ -196,7 +204,7 @@ li.btn *, //navbar
 	@include btn;
 }
 li.btn * {
-	padding: 13px 34px;// 14px;
+	// padding: 13px 34px;// 14px;
 	line-height: 1;
 }
 .header-links li.btn.outlined *, //navbar
@@ -247,9 +255,23 @@ li.btn * {
 }
 
 //TODO
-// @mixin prop($pl, $ps, $po: 'font-size', $lg: 1100, $sm: 575) {
-//   @include clamp($ps, ($po, calc( $pl - $ps ) / ($lg - $sm), $pl)); //rfs
-// }
+@function calcB($pl, $ps, $lg: 1100, $sm: 390) {
+	@return calc(#{$lg} -  #{$lg} * ((#{$pl} - #{$ps}) / (#{$lg} - #{$sm})));
+}
+@mixin prop($pl, $ps, $po: 'font-size', $lg: 1100, $sm: 390) {
+	@include clamp(
+		'font-size',//$po, 
+		#{$ps}px, 
+		//calc((( #{$pl} - #{$ps} ) * #{$lg} / (#{$lg} - #{$sm})) + calcB($pl, $ps, $lg, $sm)), 
+		calc(
+			100vw * (
+				(#{$pl} - #{$ps}) / (#{$lg} - #{$sm})
+			) 
+		),
+		//+ calcB($pl, $ps)
+		#{$pl}px
+	); //rfs
+}
 
 // .main-content-wrap {
 // 	p {

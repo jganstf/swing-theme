@@ -45,6 +45,9 @@ footer {
   h4 {
     @include hdr-sm;
     margin-bottom: 1rem;
+    @media (max-width: 1300px) {
+      font-size: 18px;
+    }
   }
 
   > div {
@@ -64,6 +67,10 @@ footer {
     @include bdy-md;
     margin-bottom: 1rem;
     transition:0.35s;
+    @media (max-width: 1300px) {
+      @include bdy-sm;
+      margin-bottom: 0.65rem;
+    }
   }
 }
 

@@ -14,8 +14,21 @@
       margin-bottom: 0;
     }
   }
-  .btn {
-    margin-top: 50px;
+  .btns-wrap {
+    margin-top: 34px;//50px;
+    .btn {
+      margin-top: 1rem;
+      &:not(:last-child) {
+        margin-right: 1em;
+      }
+    }
+    @include respond-below(2xl) {
+      .btn { 
+        display: block;
+        width:100%;
+        max-width: 250px;
+      }
+    }
   }
 }
 @keyframes grow {
@@ -29,16 +42,17 @@
 .hero-img {
   position: absolute;
   top: 0;
-  right: 0;
+  // right: 0;
+  margin-left: 750px;
   // height: 100%;
   position: relative;
   flex: 0 0 60%;
 
-  clip-path: ellipse(0 0 at 100% 0%);
-  // animation: grow 1s forwards;
-  // animation-delay: 1s;
-  // clip-path: ellipse(80% 80% at 80% 35%); //TODO
-  clip-path: ellipse(34vw 34vw at 70% 30%);
+  // clip-path: ellipse(0 0 at 100% 0%);
+  // // animation: grow 1s forwards;
+  // // animation-delay: 1s;
+  // // clip-path: ellipse(80% 80% at 80% 35%); //TODO
+  // clip-path: ellipse(34vw 34vw at 70% 30%);
 
   .decor-img {
     background-image: url(../img/team/placeholder@2x-6fed1fb3.jpg);
@@ -67,9 +81,9 @@
 .hero-full-width {
   // margin-bottom: 100px;
   // &.blue-section { }
-  .hero-img {
-    @include section-full;
-  }
+  // .hero-img {
+  //   @include section-full;
+  // }
 }
 
 .hero.hide-overflow {

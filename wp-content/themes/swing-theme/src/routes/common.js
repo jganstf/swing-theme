@@ -1,7 +1,8 @@
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-// import PopUp from "gsap/ScrollTrigger"
 import sidePanel from 'side-panel-menu-thing'
+
+import Modal from '../components/popup-get-started.svelte'
 
 const { $ } = window
 
@@ -33,7 +34,7 @@ export default {
 
 		testimonialSlider()
 		textCardsBlock()
-		// animate()
+		animate()
 	},
 	finalize() {
 		// JavaScript to be fired on all pages, after page specific JS is fired
@@ -44,12 +45,33 @@ export default {
 		$body.on('keydown', function () {
 			$body.removeClass('using-mouse')
 		})
+
+		new Modal({
+			target: document.body,
+		})
 	},
 }
 
 function animate() {
-	animateCTA()
-	animateFooter()
+	animateError404()
+	// animateCTA()
+	// animateFooter()
+}
+function animateError404() {
+	if (!$('.error404').length) {
+		return
+	}
+	const tl = gsap.timeline({
+		defaults:{
+			duration: 0.5,
+			opacity: 0,
+		},
+		// scrollTrigger:{trigger:'.call-to-action'}
+	})
+
+	tl.from('h1', {delay: 0.5, y: -16})
+	tl.from('h1 ~ p', {y: 16}, '-=0.5')
+	tl.from('h1 ~ .btn', {}, '-=0.2')
 }
 function animateCTA() {
 	if (!$('.call-to-action').length) {

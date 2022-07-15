@@ -31,9 +31,9 @@ function swing_scripts() {
 	//lozad - lazy image loading
 	// wp_enqueue_script('lozad', "https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js", null, $theme->version, true);
 	
-	//lity
-	// wp_enqueue_style('lity', "https://cdn.jsdelivr.net/npm/lity@2.4.1/dist/lity.min.css", false, $theme->version);
-	// wp_enqueue_script('lity', "https://cdn.jsdelivr.net/npm/lity@2.4.1/dist/lity.min.js", ['jquery'], $theme->version, true);
+	//lity - modals
+	wp_enqueue_style('lity', "https://cdn.jsdelivr.net/npm/lity@2.4.1/dist/lity.min.css", false, $theme->version);
+	wp_enqueue_script('lity', "https://cdn.jsdelivr.net/npm/lity@2.4.1/dist/lity.min.js", ['jquery'], $theme->version, true);
 	
 
 	//svelte/bundle

@@ -1,0 +1,230 @@
+//TODO disable background scrolling
+.lity {
+   background: var(--swing-black-t20) 0% 0% no-repeat padding-box;
+   background: #465060 0% 0% no-repeat padding-box;
+   overscroll-behavior: contain;
+}
+
+.lity-container {
+   background-color: #FFF;
+   border-radius: $border-radius;
+   margin-left:  31px;
+   margin-right: 31px;
+   
+   display: inline-flex;
+   justify-content: center;
+
+   height:561px;
+   max-width:770px;
+
+   transition:0.2s;
+}
+
+
+.lity-content {
+   display: flex;
+   text-align: center;
+   &:after {
+      box-shadow: unset;
+   }
+   .modal-wrap {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+   }
+}
+
+button.lity-close[type="button"] {
+   display: none;
+}
+.close-btn {
+   position: absolute;
+   top: 0;
+   right: -31px;
+   transform: translateY(-50%);
+   width:  62px;
+   height: 62px;
+   border-radius: 31px;//50%;
+   background: var(--bg-02) 0% 0% no-repeat padding-box;
+   background: #E8F1FC 0% 0% no-repeat padding-box;
+
+   display: flex;
+   align-items: center;
+   // justify-content: center;
+   transition: width 0.35s ease-out;
+   span {
+      // display: none;
+      opacity: 0;
+      padding: 10px;
+      // height: 61px;
+      transition: 0.35s;
+      // width:  61px; // 41 + 10 * 2
+      // position: absolute;
+      line-height: 1;
+      top:   -10px;
+      padding-left: 21px;
+      z-index: -1;
+      border-radius: 50%;
+      display: inline-block;
+      font-size: 1.125rem;
+      color: $blue-dark;
+   }
+   svg {
+      border-radius: 50%;
+      // margin-top: 10px;
+      width:  41px;
+      height: 41px;
+      padding: 8px;
+      background: $blue;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+   }
+   @media (min-width: 576px) {
+      &:hover {
+         width: 124px;
+         span {
+            opacity: 1;
+            // margin-left: 3rem;
+            transition-delay: 0.15s;
+            
+         }
+      }
+   }
+}
+.main-content-wrap {
+   p {
+      @include bdy-md;
+   }
+   .blue-section p {
+      color: #FFF;
+   }
+}
+.error404 .main-content-wrap p {
+   color: #FFF;
+}
+.modal {
+   display: flex;
+   align-items: center;
+   padding: 104px 58px;
+   display: flex;
+   justify-content: center;
+   @include bdy-md;
+
+   h2 {
+      @include h2-dark-blue;
+      margin-bottom: 0.80418em;//40px;
+      ~ * {
+         max-width: 635px;
+         margin-left: auto;
+         margin-right: auto;
+         width: 100%;
+      }
+      .btns-wrap {
+         margin-top:15px;
+      }
+   }
+   .word {
+      transform-origin: 0 100%;
+      display: inline-block;
+   }
+   label {
+      color: $blue-dark;
+      margin: 24px 0 10px;
+      line-height: 1;
+   }
+   input[type="submit"] {
+      margin-top: 46px;
+   }
+   input[type="email"] {
+      background: var(--bg-02) 0% 0% no-repeat padding-box;
+      background: #E8F1FC 0% 0% no-repeat padding-box;
+      border: none;
+      padding: 13.5px;
+      text-align: center;
+      color: var(--swing-black-t20);
+      &::placeholder {
+
+      }
+   }
+   .btns-wrap {
+      margin: -1rem 0;//-10.5px;
+   }
+   .btn {
+      margin: 0.5rem 10.5px;
+      min-width: 10em;
+   }
+}
+
+@media (max-width: 900px) {
+   .lity-container {
+      margin-left: 25px;
+      margin-right: 25px;
+   }
+   .close-btn {
+      width:  44px;
+      height: 44px;
+      right: -22px;
+      svg {
+         width:  36px;
+         height: 36px;
+         top:    4px;
+         right:  4px;
+         padding: 6px;
+      }
+   }
+}
+@media (max-width: 575px) {
+   .lity-container {
+      height: unset;
+   }
+   .modal {
+      font-size: 18px;
+      h2 {
+         font-size: 42px;
+      }
+      // .btns-wrap {
+      //    // margin: -1rem 0;
+      // }
+   }
+}
+@media (max-width: 520px) {
+   .modal {
+      padding: 60px 32px;
+      h2 {
+         font-size: 36px;
+      }
+   }
+   .close-btn {
+      width:  36px;
+      height: 36px;
+      right: -18px;
+      svg {
+         width:  30px;
+         height: 30px;
+         top:    3px;
+         right:  3px;
+         padding: 5px;
+      }
+   }
+}
+@media (max-width: 425px) {
+   .modal h2 {
+      font-size: 32px;
+   }
+}
+@media (max-width: 350px) {
+   .modal-content {
+      width:calc(100vw - 110px);
+      h2 {
+         max-width: 5em;
+         margin: 0 auto 0.8em;
+      }
+   }
+}
+@media (min-width: 901px) {
+   .lity-container {
+      width: 100%;
+   }
+}

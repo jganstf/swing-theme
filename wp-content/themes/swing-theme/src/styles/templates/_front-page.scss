@@ -71,7 +71,7 @@
       }
       .icon-img {
          @include bg;
-         border-radius: 50%; //internal with image
+         // border-radius: 50%; //internal with image
          width: 150px;
          height: 150px;
          margin: 2rem auto 0;
@@ -123,10 +123,12 @@
       display: flex;
       align-items: center;
       p {
-         font-size: 50px;
+         font-size: 37.33px;//TODO50px;
          line-height: 1.333;
-         max-width:14em;
          font-style: italic;
+         max-width: 18em;
+         font-style: italic;
+         transition: 0.2s;
       }
       cite {
          color:#AAA;
@@ -248,9 +250,9 @@
    .btns-wrap {
       margin-top: 26px;
    }
-   .btn {
-      padding: 13px 35px;
-   }
+   // .btn {
+   //    padding: 13px 35px;
+   // }
    .btn:not(:last-child) {
       margin-right: 24px;
    }
@@ -291,4 +293,149 @@
 
 //page-template-home,
 .home {
+   h1, h2 {
+
+      position: relative;
+      // font-weight: 900;
+      // font-size: 3.7em;
+      .text-wrapper {
+         position: relative;
+         display: inline-block;
+         // padding-top: 0.2em;
+         // padding-right: 0.05em;
+         // padding-bottom: 0.1em;
+         overflow: hidden;
+      }
+      .word,
+      .letter {
+         transform-origin: 0 100%;
+         display: inline-block;
+         // line-height: 1em;
+      }
+   }
+   h1 {
+      max-width: 7em;
+   }
+   .hero-content {
+      transition: 0.2s;
+      @media (max-width: 1700px) {
+      padding: 120px 0;   
+      }
+   }
+   .hero-img {
+      position: absolute;
+      flex: unset;
+      height: 100%;
+      width: 1200px;
+      // clip-path: ellipse(50% 88% at 71% 28%);
+      // transition: 0.5s;
+      // .decor-img {
+      //    background-position: 250px center;
+      // }
+
+      clip-path: ellipse(31vw 31vw at 51% 27%);
+      border-radius: 50%;
+      @media (max-width: 1700px) {
+      //    clip-path: ellipse(48% 82% at 74% 32%);
+      }
+      // @media (max-width: 1600px) {
+      //    clip-path: ellipse(40% 72% at 80% 38%);
+      // }
+      // @media (min-width: 2300px) {//TODO print
+      //    right: unset;
+      //    left: 100%;
+      // }
+   }
+}
+
+/**
+ * Toggle Switch
+ */
+.toggle-switch {
+   display: flex;
+   align-items: center;
+   border-radius: 2rem;
+   background: $blue-dark;
+   min-width: 375px;
+   padding: 8px;
+ }
+ .label {
+   @include bdy-md;
+   color: #FFF;
+   margin: 0 2.5rem 0 1rem;
+ }
+ 
+ .switch-field {
+   display: flex;
+   flex-grow:1;
+   overflow: hidden;
+   position: relative;
+   z-index: 1;
+ }
+ 
+ .switch-field input {
+    position: absolute !important;
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    width: 1px;
+    border: 0;
+    overflow: hidden;
+ }
+ 
+ .switch-field label {
+   @include bdy-md;
+   color: #fff;
+   // flex-grow: 1;
+   width:50%;
+   font-weight: 600;
+    line-height: 1;
+    text-align: center;
+    padding: 8px 32px;
+    margin-right: -1px;
+    margin-bottom: 0;
+    /*border: 1px solid rgba(0, 0, 0, 0.2);
+    /*box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);*/
+    transition: all 0.1s ease-in-out;
+    white-space: nowrap;
+ }
+ .indicator {
+   position: absolute;
+   left: 0;
+   height: 100%;
+   width: 50%;
+   background: $blue;
+   pointer-events: none;
+   z-index:-1;
+   transition: 0.25s ease-out;
+   border-radius: 1.25rem;
+ }
+ #radio-two:checked ~ .indicator {
+   left: 50%;
+ }
+ 
+ .switch-field label:hover {
+    cursor: pointer;
+ }
+ 
+ .switch-field input:checked + label {
+    /*background-color: red;*/
+    box-shadow: none;
+ }
+ 
+ .switch-field label:first-of-type {
+    border-radius: 4px 0 0 4px;
+ }
+ 
+ .switch-field label:last-of-type {
+    border-radius: 0 4px 4px 0;
+ }
+ 
+ /* This is just for CodePen. */
+ 
+ .toggle-switch {
+   width: fit-content;
+    font-weight: normal;
+    line-height: 1.625;
+    margin: 8px auto;
+    padding: 10px;
 }

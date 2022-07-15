@@ -23,7 +23,8 @@ $font-body: $font-promixa-nova;
   font-style: var(--unnamed-font-style-normal);
   font-weight: var(--unnamed-font-weight-bold);
   font-size: var(--unnamed-font-size-21);
-  line-height: var(--unnamed-line-spacing-27-989999771118164);
+  // line-height: var(--unnamed-line-spacing-27-989999771118164);
+  line-height: 1.33;
   letter-spacing: var(--unnamed-character-spacing-0);
   color: var(--swing-black);
 }
@@ -72,7 +73,8 @@ $font-body: $font-promixa-nova;
   font-style: var(--unnamed-font-style-normal);
   font-weight: var(--unnamed-font-weight-normal);
   font-size: var(--unnamed-font-size-27-989999771118164);
-  line-height: var(--unnamed-line-spacing-30-989999771118164);
+  // line-height: var(--unnamed-line-spacing-30-989999771118164);
+  line-height: 1.10715;
   letter-spacing: var(--unnamed-character-spacing-0);
   color: var(--swing-black);
 }
@@ -88,7 +90,8 @@ $font-body: $font-promixa-nova;
   font-style: var(--unnamed-font-style-normal);
   font-weight: var(--unnamed-font-weight-medium);
   font-size: var(--unnamed-font-size-21);
-  line-height: var(--unnamed-line-spacing-23);
+  // line-height: var(--unnamed-line-spacing-23);
+  line-height: 1.09524;
   letter-spacing: var(--unnamed-character-spacing-0);
   color: var(--swing-black);
 }
@@ -99,7 +102,8 @@ $font-body: $font-promixa-nova;
   font-style: var(--unnamed-font-style-normal);
   font-weight: var(--unnamed-font-weight-medium);
   font-size: var(--unnamed-font-size-27-989999771118164);
-  line-height: var(--unnamed-line-spacing-30-989999771118164);
+  // line-height: var(--unnamed-line-spacing-30-989999771118164);
+  line-height: 1.1072;
   letter-spacing: var(--unnamed-character-spacing-0);
   color: var(--swing-black);
 }
@@ -111,6 +115,7 @@ $font-body: $font-promixa-nova;
   font-weight: var(--unnamed-font-weight-medium);
   font-size: var(--unnamed-font-size-37-310001373291016);
   line-height: var(--unnamed-line-spacing-39-310001373291016);
+  line-height: 1.0536;
   letter-spacing: var(--unnamed-character-spacing-0);
   color: var(--swing-black);
 }
@@ -121,7 +126,8 @@ $font-body: $font-promixa-nova;
   font-style: var(--unnamed-font-style-normal);
   font-weight: var(--unnamed-font-weight-medium);
   font-size: var(--unnamed-font-size-66-30000305175781);
-  line-height: var(--unnamed-line-spacing-66-30000305175781);
+  // line-height: var(--unnamed-line-spacing-66-30000305175781);
+  line-height: 1;
   letter-spacing: var(--unnamed-character-spacing-0);
   color: var(--swing-black);
 }
@@ -132,7 +138,8 @@ $font-body: $font-promixa-nova;
   font-style: var(--unnamed-font-style-normal);
   font-weight: var(--unnamed-font-weight-medium);
   font-size: var(--unnamed-font-size-88-37999725341797);
-  line-height: var(--unnamed-line-spacing-88-37999725341797);
+  // line-height: var(--unnamed-line-spacing-88-37999725341797);
+  line-height: 1;
   letter-spacing: var(--unnamed-character-spacing-0);
   color: var(--swing-black);
 }
@@ -170,7 +177,8 @@ $font-body: $font-promixa-nova;
   font-style: var(--unnamed-font-style-normal);
   font-weight: var(--unnamed-font-weight-normal);
   font-size: var(--unnamed-font-size-21);
-  line-height: var(--unnamed-line-spacing-27-989999771118164);
+  // line-height: var(--unnamed-line-spacing-27-989999771118164);
+  line-height: 1.33;
   letter-spacing: var(--unnamed-character-spacing-0);
   color: var(--swing-black);
 }
@@ -181,7 +189,8 @@ $font-body: $font-promixa-nova;
   font-style: var(--unnamed-font-style-normal);
   font-weight: var(--unnamed-font-weight-normal);
   font-size: var(--unnamed-font-size-27-989999771118164);
-  line-height: var(--unnamed-line-spacing-34-97999954223633);
+  // line-height: var(--unnamed-line-spacing-34-97999954223633);
+  line-height: calc(34.97999954223633 / 27.989999771118164 );
   letter-spacing: var(--unnamed-character-spacing-0);
   color: var(--swing-black);
 }
@@ -216,7 +225,8 @@ $font-body: $font-promixa-nova;
   font-style: var(--unnamed-font-style-normal);
   font-weight: var(--unnamed-font-weight-medium);
   font-size: var(--unnamed-font-size-49-7400016784668);
-  line-height: var(--unnamed-line-spacing-49-7400016784668);
+  // line-height: var(--unnamed-line-spacing-49-7400016784668);
+  line-height: 1;
   letter-spacing: var(--unnamed-character-spacing-0);
   color: var(--swing-blue-shd);
 }
