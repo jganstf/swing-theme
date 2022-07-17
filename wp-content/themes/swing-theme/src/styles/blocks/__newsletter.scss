@@ -1,0 +1,29 @@
+.swing-newsletter {
+    text-align: center;
+    margin: 50px -4.944%;
+    padding: 80px 4.4%;
+    background: var(--swing-blue);
+
+    .inner-wrap {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    h2 {
+        color: var(--white);
+        max-width: 770px;
+        margin: 0 auto;
+    }
+
+    .btn {
+        background-color: var(--white);
+        font-size: var(--unnamed-font-size-21);
+
+        &:hover {
+            a {
+                color: var(--white);
+            }
+        }
+    }
+}
