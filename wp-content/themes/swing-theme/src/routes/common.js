@@ -36,6 +36,11 @@ export default {
 
 		testimonialSlider()
 		textCardsBlock()
+
+		if(window.innerWidth < 767) {
+			postSlider()
+		}
+		
 		animate()
 	},
 	finalize() {
@@ -150,6 +155,26 @@ function testimonialSlider() { //first found on for schools page
 		slidesToShow: 1,
 		slidesToScroll: 1,
 	})
+}
+
+function postSlider() {
+	const $postSlider = $('.post-cards--grid ul');
+
+	const $slides = $('.post-cards--grid ul li');
+
+	if(!$postSlider.length) {
+		return
+	}
+
+	if($slides.length > 1) {
+		$postSlider.slick({
+			arrows: false,
+			dots: true,
+			fade: true,
+			slidesToShow: 1,
+			slidesToScroll: 1,
+		})
+	}
 }
 
 

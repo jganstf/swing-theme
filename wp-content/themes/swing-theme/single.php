@@ -3,9 +3,19 @@
 $option_fields = get_fields('options');
 $image_cta = $option_fields['image_based_cta'];
 
+$related_posts = get_posts(
+    [
+        'category__in' => wp_get_post_categories($post->ID),
+        'numberposts' => 3,
+        'post__not_in' => array($post->ID)
+    ]
+);
+print_r($related);
+
 ?>
 <main id="main_content" class="main-content-wrap">
     <div class="main">
+        <div class="breadcrumb"><?php get_breadcrumb(); ?></div>
         <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
                 <div class="single-post--banner">
                     <div class="inner-wrap">
@@ -72,7 +82,41 @@ $image_cta = $option_fields['image_based_cta'];
             <?php endwhile;
         else : ?>
             <p><?php esc_html_e('Sorry, no posts matched your criteria.'); ?></p>
-        <?php endif; ?>
+        <?php endif;
+        if (!empty($related_posts)) { ?>
+            <div class="related-posts">
+                <div class="inner-wrap">
+                    <div class="related-posts--title">
+                        <h2>
+                            Related Articles
+                        </h2>
+                    </div>
+                    <div class="post-cards--grid">
+                        <ul class="post-cards--grid-inner">
+                            <?php foreach ($related_posts as $related_post) {
+                                $category = implode(',', wp_get_post_terms($related_post->ID, 'category', ['fields' => 'names'])); ?>
+                                <li class="post-cards--grid-wrap">
+                                    <div class="post-cards--grid-item">
+                                        <figure>
+                                            <?php echo get_the_post_thumbnail($related_post->ID); ?>
+                                        </figure>
+                                        <div class="post-info">
+                                            <small>
+                                                <?php echo date("M d, Y", strtotime($related->post_date)); ?>
+                                            </small>
+                                            <h3><?php echo $related->post_title; ?></h3>
+                                            <small><?php echo $category; ?></small>
+                                            <a href="<?php echo get_the_permalink($related_post->ID); ?>">LEARN MORE</a>
+                                        </div>
+                                    </div>
+
+                                </li>
+                            <?php } ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
     </div>
 </main>
 
