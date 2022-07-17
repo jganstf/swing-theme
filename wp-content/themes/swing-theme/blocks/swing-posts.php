@@ -56,7 +56,7 @@ if (!empty($sticky_posts)) { ?>
                 <div class="inner-banner-content">
                     <span><?php echo date("M d, Y", strtotime($sticky_posts[0]->post_date)); ?></span>
                     <h3><?php echo $sticky_posts[0]->post_title; ?></h3>
-                    <p><?php echo $sticky_posts[0]->post_content; ?></p>
+                    <p><?php echo $sticky_posts[0]->post_excerpt; ?></p>
                     <a href="<?php echo get_the_permalink($sticky_posts[0]->ID); ?>">LEARN MORE</a>
                 </div>
             </div>
@@ -69,13 +69,13 @@ if (!empty($sticky_posts)) { ?>
 <div class="latest-posts">
     <div class="inner-wrap">
         <h2>Latest & Trending</h2>
-        <div class="latest-posts--list">
-            <ul>
+        <div class="post-cards--grid slick">
+            <ul class="post-cards--grid-inner">
                 <?php foreach ($latest_posts as $latest_post) {
                     $category = implode(',', wp_get_post_terms($latest_post->ID, 'category', ['fields' => 'names']));
                 ?>
-                    <li>
-                        <div class="latest-posts--list-item">
+                    <li class="post-cards--grid-wrap"> 
+                        <div class="post-cards--grid-item">
                             <figure>
                                 <?php echo get_the_post_thumbnail($latest_post->ID); ?>
                             </figure>
@@ -88,7 +88,6 @@ if (!empty($sticky_posts)) { ?>
                                 <a href="<?php echo get_the_permalink($latest_post->ID); ?>">LEARN MORE</a>
                             </div>
                         </div>
-
                     </li>
                 <?php } ?>
             </ul>
@@ -113,11 +112,11 @@ if (!empty($sticky_posts)) { ?>
                     <a href="#0">View all</a>
                 </div>
                 <?php if (!empty($posts)) { ?>
-                    <div class="sub-category-posts--list">
+                    <div class="post-cards--single">
                         <ul>
                             <?php foreach ($posts as $post) { ?>
                                 <li>
-                                    <a href="<?php echo get_the_permalink($post->ID); ?>" class="sub-category-posts--list-single">
+                                    <a href="<?php echo get_the_permalink($post->ID); ?>" class="post-cards--single-item">
                                         <div class="post-image">
                                             <figure>
                                                 <?php echo get_the_post_thumbnail($post->ID); ?>
@@ -125,7 +124,7 @@ if (!empty($sticky_posts)) { ?>
                                         </div>
                                         <div class="post-info">
                                             <h3><?php echo $latest_post->post_title; ?></h3>
-                                            <p><?php echo $post->post_content; ?></p>
+                                            <p><?php echo $post->post_excerpt; ?></p>
                                         </div>
                                     </a>
                                 </li>
