@@ -7,6 +7,11 @@ module.exports = {
       url: [
         "https://swingeducation.wpengine.com/",
         "https://swingeducation.wpengine.com/for-subs",
+        "https://swingeducation.wpengine.com/for-schools",
+        "https://swingeducation.wpengine.com/getting-started",
+        "https://swingeducation.wpengine.com/help-support",
+        "https://swingeducation.wpengine.com/terms",
+        "https://swingeducation.wpengine.com/a404",
       ],
       numberOfRuns: 2,
     },
