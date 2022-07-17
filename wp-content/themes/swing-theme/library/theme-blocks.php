@@ -158,6 +158,26 @@ function theme_register_blocks() {
       'keywords'		=> ['get', 'started', 'step', 'swing', 'education'],
       'supports' => ['align' => false],
    ]);
+   acf_register_block([
+		'name'			=> 'swing-posts',
+		'title'			=> 'Posts',
+		'render_template'	=> 'blocks/swing-posts.php',
+		'category'		=> 'theme-blocks',
+		'icon'			=> 'thumbs-up',
+		'mode'			=> 'edit',
+      'keywords'		=> ['posts'],
+      'supports' => ['align' => false],
+   ]);
+   acf_register_block([
+		'name'			=> 'swing-newsletter',
+		'title'			=> 'Newsletter',
+		'render_template'	=> 'blocks/swing-newsletter.php',
+		'category'		=> 'theme-blocks',
+		'icon'			=> 'thumbs-up',
+		'mode'			=> 'edit',
+      'keywords'		=> ['swing', 'newsletter'],
+      'supports' => ['align' => false],
+   ]);
 }
 
 /**
