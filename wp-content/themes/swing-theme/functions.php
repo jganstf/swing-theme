@@ -59,13 +59,9 @@ function social_share($soc_name)
 function get_breadcrumb()
 {
    echo '<a href="' . home_url() . '" rel="nofollow">Home</a>';
-   if (is_category() || is_single()) {
-      echo "&nbsp;&nbsp;>&nbsp;&nbsp;";
-      the_category(' &bull; ');
-      if (is_single()) {
+   if (is_single()) {
          echo " &nbsp;&nbsp;>&nbsp;&nbsp; ";
          the_title();
-      }
    } elseif (is_page()) {
       echo "&nbsp;&nbsp;>&nbsp;&nbsp;";
       echo the_title();
@@ -76,3 +72,8 @@ function get_breadcrumb()
       echo '</em>"';
    }
 }
+
+add_filter('query_vars', static function ($vars) {
+   $vars[] = 'post-cat';
+   return $vars;
+});

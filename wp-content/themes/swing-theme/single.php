@@ -10,7 +10,8 @@ $related_posts = get_posts(
         'post__not_in' => array($post->ID)
     ]
 );
-print_r($related);
+
+$tags = implode(', ', wp_get_post_terms($post->ID, 'post_tag', ['fields' => 'names']));
 
 ?>
 <main id="main_content" class="main-content-wrap">
@@ -25,6 +26,7 @@ print_r($related);
                         <div class="single-post--banner-info">
                             <span><?php echo get_the_date("M d, Y"); ?></span>
                             <h2><?php echo get_the_title(); ?></h2>
+                            <span><?php echo $tags; ?></span>
                             <span><?php echo get_the_author(); ?></span>
                         </div>
                     </div>
@@ -106,10 +108,13 @@ print_r($related);
                                             </small>
                                             <h3><?php echo $related->post_title; ?></h3>
                                             <small><?php echo $category; ?></small>
-                                            <a href="<?php echo get_the_permalink($related_post->ID); ?>">LEARN MORE</a>
+                                            <a href="<?php echo get_the_permalink($related_post->ID); ?>">LEARN MORE
+                                                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                                                    <path d="M4 15a1 1 0 0 0 1 1h19.586l-4.292 4.292a1 1 0 0 0 1.414 1.414l6-6a.99.99 0 0 0 .292-.702V15c0-.13-.026-.26-.078-.382a.99.99 0 0 0-.216-.324l-6-6a1 1 0 0 0-1.414 1.414L24.586 14H5a1 1 0 0 0-1 1z" />
+                                                </svg>
+                                            </a>
                                         </div>
                                     </div>
-
                                 </li>
                             <?php } ?>
                         </ul>

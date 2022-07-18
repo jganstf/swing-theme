@@ -16,6 +16,11 @@
             }
         }
 
+        .slick-dots {
+            position: unset;
+            margin-top: 0;
+        }
+
         &-item {
             border-radius: 10px;
             overflow: hidden;
@@ -70,6 +75,16 @@
                     font-size: 28px;
                     line-height: 1.25;
                     color: var(--swing-black);
+                }
+
+                a {
+                    transition: all 0.5s;
+                    border-bottom: 2px solid transparent;
+                    padding-bottom: 5px;
+    
+                    &:hover {
+                        border-color: var(--swing-blue);
+                    }
                 }
             }
         }
@@ -260,6 +275,9 @@
 
                     .post-cards--single-item {
                         padding-right: 0;
+                        flex-direction: column;
+                        align-items: flex-start;
+                        height: 100%;
 
                         &::before,
                         &::after {

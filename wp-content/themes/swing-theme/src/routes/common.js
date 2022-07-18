@@ -90,9 +90,9 @@ function testimonialSlider() { //first found on for schools page
 }
 
 function postSlider() {
-	const $postSlider = $('.post-cards--grid ul');
+	const $postSlider = $('.post-cards--grid.slick ul');
 
-	const $slides = $('.post-cards--grid ul li');
+	const $slides = $('.post-cards--grid.slick ul li');
 
 	if(!$postSlider.length) {
 		return
