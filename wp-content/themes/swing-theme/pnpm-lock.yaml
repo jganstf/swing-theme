@@ -19,7 +19,7 @@ specifiers:
   rxjs: ^7.5.5
   sass: ^1.26.9
   side-panel-menu-thing: ^1.0.3
-  svelte: 3.33.0
+  svelte: 3.49.0
   svelte-preprocess: ^4.10.7
   wp-cli: ^0.0.5
 
@@ -29,7 +29,7 @@ dependencies:
   gsap: 3.10.4
   rxjs: 7.5.5
   side-panel-menu-thing: 1.0.3
-  svelte: 3.33.0
+  svelte: 3.49.0
   wp-cli: 0.0.5
 
 devDependencies:
@@ -42,11 +42,11 @@ devDependencies:
   rollup-plugin-browsersync: 1.3.3
   rollup-plugin-filesize: 7.0.0
   rollup-plugin-scss: 2.6.1
-  rollup-plugin-svelte: 6.1.1_62vuup5vpziv5rlzuishktvvtu
+  rollup-plugin-svelte: 6.1.1_rgfowlvmu7jesqceikth7mqdpq
   rollup-plugin-terser: 5.3.1_rollup@2.39.1
   rtlcss: 3.5.0
   sass: 1.53.0
-  svelte-preprocess: 4.10.7_pvo5wrd57mudzgsrrncnqvgs6q
+  svelte-preprocess: 4.10.7_i3ch6ogjtf25ubxx4f6h2zv6b4
 
 packages:
 
@@ -3112,7 +3112,7 @@ packages:
       node-sass: 4.14.1
     dev: true
 
-  /rollup-plugin-svelte/6.1.1_62vuup5vpziv5rlzuishktvvtu:
+  /rollup-plugin-svelte/6.1.1_rgfowlvmu7jesqceikth7mqdpq:
     resolution: {integrity: sha512-ijnm0pH1ScrY4uxwaNXBpNVejVzpL2769hIEbAlnqNUWZrffLspu5/k9/l/Wsj3NrEHLQ6wCKGagVJonyfN7ow==}
     peerDependencies:
       rollup: '>=1.19.2'
@@ -3122,7 +3122,7 @@ packages:
       rollup: 2.39.1
       rollup-pluginutils: 2.8.2
       sourcemap-codec: 1.4.8
-      svelte: 3.33.0
+      svelte: 3.49.0
     dev: true
 
   /rollup-plugin-terser/5.3.1_rollup@2.39.1:
@@ -3376,7 +3376,7 @@ packages:
     resolution: {integrity: sha512-GoN7g4M0klISOPGna/L9dBU8n10tbTWrMOvY+LE2v2MDca6mhoZjfNupQEotRMbFpyJNuf/ZMzQjI5yWNzB4LQ==}
     dependencies:
       hide-show-scroll: 1.1.2
-      svelte: 3.33.0
+      svelte: 3.49.0
     dev: false
 
   /signal-exit/3.0.7:
@@ -3734,7 +3734,7 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /svelte-preprocess/4.10.7_pvo5wrd57mudzgsrrncnqvgs6q:
+  /svelte-preprocess/4.10.7_i3ch6ogjtf25ubxx4f6h2zv6b4:
     resolution: {integrity: sha512-sNPBnqYD6FnmdBrUmBCaqS00RyCsCpj2BG58A1JBswNF7b0OKviwxqVrOL/CKyJrLSClrSeqQv5BXNg2RUbPOw==}
     engines: {node: '>= 9.11.2'}
     requiresBuild: true
@@ -3783,11 +3783,11 @@ packages:
       sass: 1.53.0
       sorcery: 0.10.0
       strip-indent: 3.0.0
-      svelte: 3.33.0
+      svelte: 3.49.0
     dev: true
 
-  /svelte/3.33.0:
-    resolution: {integrity: sha512-dUZYZCqTz/A1nxgcMabJXgBh60POJmgTJDCxg8ht+NmT2DqEbmFuFAR5e+xoILbd08oxQGT8J8l9jBn3xB+A3w==}
+  /svelte/3.49.0:
+    resolution: {integrity: sha512-+lmjic1pApJWDfPCpUUTc1m8azDqYCG1JN9YEngrx/hUyIcFJo6VZhj0A1Ai0wqoHcEIuQy+e9tk+4uDgdtsFA==}
     engines: {node: '>= 8'}
 
   /symbol-observable/1.0.1:

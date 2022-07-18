@@ -8609,14 +8609,24 @@
 	    }
 	    return $$scope.dirty;
 	}
-	function update_slot(slot, slot_definition, ctx, $$scope, dirty, get_slot_changes_fn, get_slot_context_fn) {
-	    const slot_changes = get_slot_changes(slot_definition, $$scope, dirty, get_slot_changes_fn);
+	function update_slot_base(slot, slot_definition, ctx, $$scope, slot_changes, get_slot_context_fn) {
 	    if (slot_changes) {
 	        const slot_context = get_slot_context(slot_definition, ctx, $$scope, get_slot_context_fn);
 	        slot.p(slot_context, slot_changes);
 	    }
 	}
-	function set_store_value(store, ret, value = ret) {
+	function get_all_dirty_from_scope($$scope) {
+	    if ($$scope.ctx.length > 32) {
+	        const dirty = [];
+	        const length = $$scope.ctx.length / 32;
+	        for (let i = 0; i < length; i++) {
+	            dirty[i] = -1;
+	        }
+	        return dirty;
+	    }
+	    return -1;
+	}
+	function set_store_value(store, ret, value) {
 	    store.set(value);
 	    return ret;
 	}
@@ -8658,7 +8668,6 @@
 	        }
 	    };
 	}
-
 	function append(target, node) {
 	    target.appendChild(node);
 	}
@@ -8700,14 +8709,19 @@
 	    return Array.from(element.childNodes);
 	}
 	function set_style(node, key, value, important) {
-	    node.style.setProperty(key, value, important ? 'important' : '');
+	    if (value === null) {
+	        node.style.removeProperty(key);
+	    }
+	    else {
+	        node.style.setProperty(key, value, important ? 'important' : '');
+	    }
 	}
 	function toggle_class(element, name, toggle) {
 	    element.classList[toggle ? 'add' : 'remove'](name);
 	}
-	function custom_event(type, detail) {
+	function custom_event(type, detail, { bubbles = false, cancelable = false } = {}) {
 	    const e = document.createEvent('CustomEvent');
-	    e.initCustomEvent(type, false, false, detail);
+	    e.initCustomEvent(type, bubbles, cancelable, detail);
 	    return e;
 	}
 
@@ -8745,22 +8759,40 @@
 	function add_render_callback(fn) {
 	    render_callbacks.push(fn);
 	}
-	let flushing = false;
+	// flush() calls callbacks in this order:
+	// 1. All beforeUpdate callbacks, in order: parents before children
+	// 2. All bind:this callbacks, in reverse order: children before parents.
+	// 3. All afterUpdate callbacks, in order: parents before children. EXCEPT
+	//    for afterUpdates called during the initial onMount, which are called in
+	//    reverse order: children before parents.
+	// Since callbacks might update component values, which could trigger another
+	// call to flush(), the following steps guard against this:
+	// 1. During beforeUpdate, any updated components will be added to the
+	//    dirty_components array and will cause a reentrant call to flush(). Because
+	//    the flush index is kept outside the function, the reentrant call will pick
+	//    up where the earlier call left off and go through all dirty components. The
+	//    current_component value is saved and restored so that the reentrant call will
+	//    not interfere with the "parent" flush() call.
+	// 2. bind:this callbacks cannot trigger new flush() calls.
+	// 3. During afterUpdate, any updated components will NOT have their afterUpdate
+	//    callback called a second time; the seen_callbacks set, outside the flush()
+	//    function, guarantees this behavior.
 	const seen_callbacks = new Set();
+	let flushidx = 0; // Do *not* move this inside the flush() function
 	function flush() {
-	    if (flushing)
-	        return;
-	    flushing = true;
+	    const saved_component = current_component;
 	    do {
 	        // first, call beforeUpdate functions
 	        // and update components
-	        for (let i = 0; i < dirty_components.length; i += 1) {
-	            const component = dirty_components[i];
+	        while (flushidx < dirty_components.length) {
+	            const component = dirty_components[flushidx];
+	            flushidx++;
 	            set_current_component(component);
 	            update(component.$$);
 	        }
 	        set_current_component(null);
 	        dirty_components.length = 0;
+	        flushidx = 0;
 	        while (binding_callbacks.length)
 	            binding_callbacks.pop()();
 	        // then, once components are updated, call
@@ -8780,8 +8812,8 @@
 	        flush_callbacks.pop()();
 	    }
 	    update_scheduled = false;
-	    flushing = false;
 	    seen_callbacks.clear();
+	    set_current_component(saved_component);
 	}
 	function update($$) {
 	    if ($$.fragment !== null) {
@@ -8815,6 +8847,9 @@
 	            }
 	        });
 	        block.o(local);
+	    }
+	    else if (callback) {
+	        callback();
 	    }
 	}
 
@@ -8865,7 +8900,7 @@
 	    }
 	    component.$$.dirty[(i / 31) | 0] |= (1 << (i % 31));
 	}
-	function init(component, options, instance, create_fragment, not_equal, props, dirty = [-1]) {
+	function init(component, options, instance, create_fragment, not_equal, props, append_styles, dirty = [-1]) {
 	    const parent_component = current_component;
 	    set_current_component(component);
 	    const $$ = component.$$ = {
@@ -8882,12 +8917,14 @@
 	        on_disconnect: [],
 	        before_update: [],
 	        after_update: [],
-	        context: new Map(parent_component ? parent_component.$$.context : []),
+	        context: new Map(options.context || (parent_component ? parent_component.$$.context : [])),
 	        // everything else
 	        callbacks: blank_object(),
 	        dirty,
-	        skip_bound: false
+	        skip_bound: false,
+	        root: options.target || parent_component.$$.root
 	    };
+	    append_styles && append_styles($$.root);
 	    let ready = false;
 	    $$.ctx = instance
 	        ? instance(component, options.props || {}, (i, ret, ...rest) => {
@@ -8951,7 +8988,7 @@
 	}
 
 	function dispatch_dev(type, detail) {
-	    document.dispatchEvent(custom_event(type, Object.assign({ version: '3.33.0' }, detail)));
+	    document.dispatchEvent(custom_event(type, Object.assign({ version: '3.49.0' }, detail), { bubbles: true }));
 	}
 	function append_dev(target, node) {
 	    dispatch_dev('SvelteDOMInsert', { target, node });
@@ -9036,16 +9073,15 @@
 	 */
 	function writable(value, start = noop) {
 	    let stop;
-	    const subscribers = [];
+	    const subscribers = new Set();
 	    function set(new_value) {
 	        if (safe_not_equal(value, new_value)) {
 	            value = new_value;
 	            if (stop) { // store is ready
 	                const run_queue = !subscriber_queue.length;
-	                for (let i = 0; i < subscribers.length; i += 1) {
-	                    const s = subscribers[i];
-	                    s[1]();
-	                    subscriber_queue.push(s, value);
+	                for (const subscriber of subscribers) {
+	                    subscriber[1]();
+	                    subscriber_queue.push(subscriber, value);
 	                }
 	                if (run_queue) {
 	                    for (let i = 0; i < subscriber_queue.length; i += 2) {
@@ -9061,17 +9097,14 @@
 	    }
 	    function subscribe(run, invalidate = noop) {
 	        const subscriber = [run, invalidate];
-	        subscribers.push(subscriber);
-	        if (subscribers.length === 1) {
+	        subscribers.add(subscriber);
+	        if (subscribers.size === 1) {
 	            stop = start(set) || noop;
 	        }
 	        run(value);
 	        return () => {
-	            const index = subscribers.indexOf(subscriber);
-	            if (index !== -1) {
-	                subscribers.splice(index, 1);
-	            }
-	            if (subscribers.length === 0) {
+	            subscribers.delete(subscriber);
+	            if (subscribers.size === 0) {
 	                stop();
 	                stop = null;
 	            }
@@ -9212,7 +9245,7 @@
 
 	var hideShowScroll = { hide, show };
 
-	/* node_modules/.pnpm/side-panel-menu-thing@1.0.3/node_modules/side-panel-menu-thing/src/side-panel-menu-thing.svelte generated by Svelte v3.33.0 */
+	/* node_modules/.pnpm/side-panel-menu-thing@1.0.3/node_modules/side-panel-menu-thing/src/side-panel-menu-thing.svelte generated by Svelte v3.49.0 */
 	const file = "node_modules/.pnpm/side-panel-menu-thing@1.0.3/node_modules/side-panel-menu-thing/src/side-panel-menu-thing.svelte";
 
 	function create_fragment(ctx) {
@@ -9232,7 +9265,7 @@
 				t = space();
 				div1 = element("div");
 				attr_dev(div0, "class", "spmt-overlay");
-				set_style(div0, "opacity", /*overlayOpacity*/ ctx[7]);
+				set_style(div0, "opacity", /*overlayOpacity*/ ctx[8]);
 				add_location(div0, file, 190, 1, 4460);
 				attr_dev(div1, "class", "spmt");
 				set_style(div1, "width", /*width*/ ctx[0] + "px");
@@ -9241,12 +9274,12 @@
 				? /*$menuPos*/ ctx[4] * -1
 				: /*$menuPos*/ ctx[4]) + "%)");
 
-				attr_dev(div1, "tabindex", div1_tabindex_value = /*shown*/ ctx[8] ? "0" : false);
+				attr_dev(div1, "tabindex", div1_tabindex_value = /*shown*/ ctx[7] ? '0' : false);
 				toggle_class(div1, "left", /*left*/ ctx[2]);
 				add_location(div1, file, 191, 1, 4540);
 				attr_dev(div2, "class", "spmt-wrap");
 				attr_dev(div2, "data-no-panel", "true");
-				toggle_class(div2, "novis", !/*shown*/ ctx[8]);
+				toggle_class(div2, "novis", !/*shown*/ ctx[7]);
 				toggle_class(div2, "fixed", /*fixed*/ ctx[1]);
 				add_location(div2, file, 184, 0, 4354);
 			},
@@ -9264,7 +9297,7 @@
 				if (!mounted) {
 					dispose = [
 						listen_dev(div0, "click", /*hide*/ ctx[3], false, false, false),
-						action_destroyer(onMount_action = /*onMount*/ ctx[11].call(null, div1, /*shown*/ ctx[8])),
+						action_destroyer(onMount_action = /*onMount*/ ctx[11].call(null, div1, /*shown*/ ctx[7])),
 						listen_dev(div1, "keydown", /*keydown_handler*/ ctx[21], false, false, false)
 					];
 
@@ -9272,8 +9305,8 @@
 				}
 			},
 			p: function update(ctx, [dirty]) {
-				if (dirty & /*overlayOpacity*/ 128) {
-					set_style(div0, "opacity", /*overlayOpacity*/ ctx[7]);
+				if (dirty & /*overlayOpacity*/ 256) {
+					set_style(div0, "opacity", /*overlayOpacity*/ ctx[8]);
 				}
 
 				if (dirty & /*width*/ 1) {
@@ -9286,18 +9319,18 @@
 					: /*$menuPos*/ ctx[4]) + "%)");
 				}
 
-				if (dirty & /*shown*/ 256 && div1_tabindex_value !== (div1_tabindex_value = /*shown*/ ctx[8] ? "0" : false)) {
+				if (dirty & /*shown*/ 128 && div1_tabindex_value !== (div1_tabindex_value = /*shown*/ ctx[7] ? '0' : false)) {
 					attr_dev(div1, "tabindex", div1_tabindex_value);
 				}
 
-				if (onMount_action && is_function(onMount_action.update) && dirty & /*shown*/ 256) onMount_action.update.call(null, /*shown*/ ctx[8]);
+				if (onMount_action && is_function(onMount_action.update) && dirty & /*shown*/ 128) onMount_action.update.call(null, /*shown*/ ctx[7]);
 
 				if (dirty & /*left*/ 4) {
 					toggle_class(div1, "left", /*left*/ ctx[2]);
 				}
 
-				if (dirty & /*shown*/ 256) {
-					toggle_class(div2, "novis", !/*shown*/ ctx[8]);
+				if (dirty & /*shown*/ 128) {
+					toggle_class(div2, "novis", !/*shown*/ ctx[7]);
 				}
 
 				if (dirty & /*fixed*/ 2) {
@@ -9328,7 +9361,7 @@
 
 	function isIgnoredElement(el) {
 		while (el.parentNode) {
-			if (el.hasAttribute("data-no-panel")) {
+			if (el.hasAttribute('data-no-panel')) {
 				return true;
 			}
 
@@ -9341,7 +9374,7 @@
 		let shown;
 		let $menuPos;
 		let { $$slots: slots = {}, $$scope } = $$props;
-		validate_slots("Side_panel_menu_thing", slots, []);
+		validate_slots('Side_panel_menu_thing', slots, []);
 		let { target = null } = $$props;
 		let { content = null } = $$props;
 		let { width = 400 } = $$props;
@@ -9374,7 +9407,7 @@
 		// 100 is closed, 0 is open (this is the x transform in percent)
 		const menuPos = tweened(100, { duration, easing: cubicOut });
 
-		validate_store(menuPos, "menuPos");
+		validate_store(menuPos, 'menuPos');
 		component_subscribe($$self, menuPos, value => $$invalidate(4, $menuPos = value));
 
 		const show = e => {
@@ -9396,7 +9429,7 @@
 				return;
 			}
 
-			const containerNodes = container.querySelectorAll("*");
+			const containerNodes = container.querySelectorAll('*');
 			const tabbable = Array.from(containerNodes).filter(n => n.tabIndex >= 0);
 
 			if (tabbable.length) {
@@ -9414,7 +9447,7 @@
 			}
 
 			target.addEventListener(
-				"touchstart",
+				'touchstart',
 				e => {
 					let isIgnored = isIgnoredElement(e.target);
 					startX = e.changedTouches[0].pageX;
@@ -9441,7 +9474,7 @@
 			);
 
 			target.addEventListener(
-				"touchmove",
+				'touchmove',
 				e => {
 					if (!shown && !touchEventData) {
 						return;
@@ -9467,7 +9500,7 @@
 				{ passive: true }
 			);
 
-			target.addEventListener("touchend", e => {
+			target.addEventListener('touchend', e => {
 				if (shown) {
 					let { start, time } = touchEventData;
 					let swipeDuration = Date.now() - time;
@@ -9507,24 +9540,24 @@
 		}
 
 		const writable_props = [
-			"target",
-			"content",
-			"width",
-			"duration",
-			"fixed",
-			"left",
-			"dragOpen",
-			"onShow",
-			"onHide",
-			"preventScroll"
+			'target',
+			'content',
+			'width',
+			'duration',
+			'fixed',
+			'left',
+			'dragOpen',
+			'onShow',
+			'onHide',
+			'preventScroll'
 		];
 
 		Object.keys($$props).forEach(key => {
-			if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<Side_panel_menu_thing> was created with unknown prop '${key}'`);
+			if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Side_panel_menu_thing> was created with unknown prop '${key}'`);
 		});
 
 		function div1_binding($$value) {
-			binding_callbacks[$$value ? "unshift" : "push"](() => {
+			binding_callbacks[$$value ? 'unshift' : 'push'](() => {
 				menu = $$value;
 				$$invalidate(6, menu);
 			});
@@ -9533,23 +9566,23 @@
 		const keydown_handler = e => e.keyCode === 27 ? hide() : trapFocus(e);
 
 		function div2_binding($$value) {
-			binding_callbacks[$$value ? "unshift" : "push"](() => {
+			binding_callbacks[$$value ? 'unshift' : 'push'](() => {
 				container = $$value;
 				$$invalidate(5, container);
 			});
 		}
 
 		$$self.$$set = $$props => {
-			if ("target" in $$props) $$invalidate(12, target = $$props.target);
-			if ("content" in $$props) $$invalidate(13, content = $$props.content);
-			if ("width" in $$props) $$invalidate(0, width = $$props.width);
-			if ("duration" in $$props) $$invalidate(14, duration = $$props.duration);
-			if ("fixed" in $$props) $$invalidate(1, fixed = $$props.fixed);
-			if ("left" in $$props) $$invalidate(2, left = $$props.left);
-			if ("dragOpen" in $$props) $$invalidate(15, dragOpen = $$props.dragOpen);
-			if ("onShow" in $$props) $$invalidate(16, onShow = $$props.onShow);
-			if ("onHide" in $$props) $$invalidate(17, onHide = $$props.onHide);
-			if ("preventScroll" in $$props) $$invalidate(18, preventScroll = $$props.preventScroll);
+			if ('target' in $$props) $$invalidate(12, target = $$props.target);
+			if ('content' in $$props) $$invalidate(13, content = $$props.content);
+			if ('width' in $$props) $$invalidate(0, width = $$props.width);
+			if ('duration' in $$props) $$invalidate(14, duration = $$props.duration);
+			if ('fixed' in $$props) $$invalidate(1, fixed = $$props.fixed);
+			if ('left' in $$props) $$invalidate(2, left = $$props.left);
+			if ('dragOpen' in $$props) $$invalidate(15, dragOpen = $$props.dragOpen);
+			if ('onShow' in $$props) $$invalidate(16, onShow = $$props.onShow);
+			if ('onHide' in $$props) $$invalidate(17, onHide = $$props.onHide);
+			if ('preventScroll' in $$props) $$invalidate(18, preventScroll = $$props.preventScroll);
 		};
 
 		$$self.$capture_state = () => ({
@@ -9578,30 +9611,30 @@
 			trapFocus,
 			isIgnoredElement,
 			onMount,
+			shown,
 			overlayOpacity,
-			$menuPos,
-			shown
+			$menuPos
 		});
 
 		$$self.$inject_state = $$props => {
-			if ("target" in $$props) $$invalidate(12, target = $$props.target);
-			if ("content" in $$props) $$invalidate(13, content = $$props.content);
-			if ("width" in $$props) $$invalidate(0, width = $$props.width);
-			if ("duration" in $$props) $$invalidate(14, duration = $$props.duration);
-			if ("fixed" in $$props) $$invalidate(1, fixed = $$props.fixed);
-			if ("left" in $$props) $$invalidate(2, left = $$props.left);
-			if ("dragOpen" in $$props) $$invalidate(15, dragOpen = $$props.dragOpen);
-			if ("onShow" in $$props) $$invalidate(16, onShow = $$props.onShow);
-			if ("onHide" in $$props) $$invalidate(17, onHide = $$props.onHide);
-			if ("preventScroll" in $$props) $$invalidate(18, preventScroll = $$props.preventScroll);
-			if ("startX" in $$props) startX = $$props.startX;
-			if ("startY" in $$props) startY = $$props.startY;
-			if ("touchEventData" in $$props) touchEventData = $$props.touchEventData;
-			if ("container" in $$props) $$invalidate(5, container = $$props.container);
-			if ("menu" in $$props) $$invalidate(6, menu = $$props.menu);
-			if ("focusTrigger" in $$props) focusTrigger = $$props.focusTrigger;
-			if ("overlayOpacity" in $$props) $$invalidate(7, overlayOpacity = $$props.overlayOpacity);
-			if ("shown" in $$props) $$invalidate(8, shown = $$props.shown);
+			if ('target' in $$props) $$invalidate(12, target = $$props.target);
+			if ('content' in $$props) $$invalidate(13, content = $$props.content);
+			if ('width' in $$props) $$invalidate(0, width = $$props.width);
+			if ('duration' in $$props) $$invalidate(14, duration = $$props.duration);
+			if ('fixed' in $$props) $$invalidate(1, fixed = $$props.fixed);
+			if ('left' in $$props) $$invalidate(2, left = $$props.left);
+			if ('dragOpen' in $$props) $$invalidate(15, dragOpen = $$props.dragOpen);
+			if ('onShow' in $$props) $$invalidate(16, onShow = $$props.onShow);
+			if ('onHide' in $$props) $$invalidate(17, onHide = $$props.onHide);
+			if ('preventScroll' in $$props) $$invalidate(18, preventScroll = $$props.preventScroll);
+			if ('startX' in $$props) startX = $$props.startX;
+			if ('startY' in $$props) startY = $$props.startY;
+			if ('touchEventData' in $$props) touchEventData = $$props.touchEventData;
+			if ('container' in $$props) $$invalidate(5, container = $$props.container);
+			if ('menu' in $$props) $$invalidate(6, menu = $$props.menu);
+			if ('focusTrigger' in $$props) focusTrigger = $$props.focusTrigger;
+			if ('shown' in $$props) $$invalidate(7, shown = $$props.shown);
+			if ('overlayOpacity' in $$props) $$invalidate(8, overlayOpacity = $$props.overlayOpacity);
 		};
 
 		if ($$props && "$$inject" in $$props) {
@@ -9611,12 +9644,12 @@
 		$$self.$$.update = () => {
 			if ($$self.$$.dirty & /*$menuPos*/ 16) {
 				// adjust overlay opacity automatically based on menu position
-				$$invalidate(7, overlayOpacity = (100 - $menuPos) / 100);
+				$$invalidate(8, overlayOpacity = (100 - $menuPos) / 100);
 			}
 
 			if ($$self.$$.dirty & /*$menuPos*/ 16) {
 				// whether the menu is open or in process of opening
-				$$invalidate(8, shown = $menuPos < 100);
+				$$invalidate(7, shown = $menuPos < 100);
 			}
 		};
 
@@ -9628,8 +9661,8 @@
 			$menuPos,
 			container,
 			menu,
-			overlayOpacity,
 			shown,
+			overlayOpacity,
 			menuPos,
 			trapFocus,
 			onMount,
@@ -9679,7 +9712,7 @@
 		}
 
 		set target(target) {
-			this.$set({ target });
+			this.$$set({ target });
 			flush();
 		}
 
@@ -9688,7 +9721,7 @@
 		}
 
 		set content(content) {
-			this.$set({ content });
+			this.$$set({ content });
 			flush();
 		}
 
@@ -9697,7 +9730,7 @@
 		}
 
 		set width(width) {
-			this.$set({ width });
+			this.$$set({ width });
 			flush();
 		}
 
@@ -9706,7 +9739,7 @@
 		}
 
 		set duration(duration) {
-			this.$set({ duration });
+			this.$$set({ duration });
 			flush();
 		}
 
@@ -9715,7 +9748,7 @@
 		}
 
 		set fixed(fixed) {
-			this.$set({ fixed });
+			this.$$set({ fixed });
 			flush();
 		}
 
@@ -9724,7 +9757,7 @@
 		}
 
 		set left(left) {
-			this.$set({ left });
+			this.$$set({ left });
 			flush();
 		}
 
@@ -9733,7 +9766,7 @@
 		}
 
 		set dragOpen(dragOpen) {
-			this.$set({ dragOpen });
+			this.$$set({ dragOpen });
 			flush();
 		}
 
@@ -9742,7 +9775,7 @@
 		}
 
 		set onShow(onShow) {
-			this.$set({ onShow });
+			this.$$set({ onShow });
 			flush();
 		}
 
@@ -9751,7 +9784,7 @@
 		}
 
 		set onHide(onHide) {
-			this.$set({ onHide });
+			this.$$set({ onHide });
 			flush();
 		}
 
@@ -9760,7 +9793,7 @@
 		}
 
 		set preventScroll(preventScroll) {
-			this.$set({ preventScroll });
+			this.$$set({ preventScroll });
 			flush();
 		}
 
@@ -9781,7 +9814,7 @@
 		}
 	}
 
-	/* src/components/Modal.svelte generated by Svelte v3.33.0 */
+	/* src/components/Modal.svelte generated by Svelte v3.49.0 */
 
 	const file$1 = "src/components/Modal.svelte";
 
@@ -9857,8 +9890,17 @@
 			},
 			p: function update(ctx, [dirty]) {
 				if (default_slot) {
-					if (default_slot.p && dirty & /*$$scope*/ 2) {
-						update_slot(default_slot, default_slot_template, ctx, /*$$scope*/ ctx[1], dirty, null, null);
+					if (default_slot.p && (!current || dirty & /*$$scope*/ 2)) {
+						update_slot_base(
+							default_slot,
+							default_slot_template,
+							ctx,
+							/*$$scope*/ ctx[1],
+							!current
+							? get_all_dirty_from_scope(/*$$scope*/ ctx[1])
+							: get_slot_changes(default_slot_template, /*$$scope*/ ctx[1], dirty, null),
+							null
+						);
 					}
 				}
 
@@ -9894,23 +9936,23 @@
 
 	function instance$1($$self, $$props, $$invalidate) {
 		let { $$slots: slots = {}, $$scope } = $$props;
-		validate_slots("Modal", slots, ['default']);
+		validate_slots('Modal', slots, ['default']);
 		let { id } = $$props;
-		const writable_props = ["id"];
+		const writable_props = ['id'];
 
 		Object.keys($$props).forEach(key => {
-			if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<Modal> was created with unknown prop '${key}'`);
+			if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Modal> was created with unknown prop '${key}'`);
 		});
 
 		$$self.$$set = $$props => {
-			if ("id" in $$props) $$invalidate(0, id = $$props.id);
-			if ("$$scope" in $$props) $$invalidate(1, $$scope = $$props.$$scope);
+			if ('id' in $$props) $$invalidate(0, id = $$props.id);
+			if ('$$scope' in $$props) $$invalidate(1, $$scope = $$props.$$scope);
 		};
 
 		$$self.$capture_state = () => ({ id });
 
 		$$self.$inject_state = $$props => {
-			if ("id" in $$props) $$invalidate(0, id = $$props.id);
+			if ('id' in $$props) $$invalidate(0, id = $$props.id);
 		};
 
 		if ($$props && "$$inject" in $$props) {
@@ -9935,7 +9977,7 @@
 			const { ctx } = this.$$;
 			const props = options.props || {};
 
-			if (/*id*/ ctx[0] === undefined && !("id" in props)) {
+			if (/*id*/ ctx[0] === undefined && !('id' in props)) {
 				console.warn("<Modal> was created without expected prop 'id'");
 			}
 		}
@@ -9949,7 +9991,7 @@
 		}
 	}
 
-	/* src/components/popup-login.svelte generated by Svelte v3.33.0 */
+	/* src/components/popup-login.svelte generated by Svelte v3.49.0 */
 	const file$2 = "src/components/popup-login.svelte";
 
 	// (6:0) <Modal id={'login'}>
@@ -9995,6 +10037,7 @@
 				append_dev(div0, t3);
 				append_dev(div0, a1);
 			},
+			p: noop,
 			d: function destroy(detaching) {
 				if (detaching) detach_dev(div1);
 			}
@@ -10017,7 +10060,7 @@
 
 		modal = new Modal({
 				props: {
-					id: "login",
+					id: 'login',
 					$$slots: { default: [create_default_slot] },
 					$$scope: { ctx }
 				},
@@ -10071,11 +10114,11 @@
 
 	function instance$2($$self, $$props, $$invalidate) {
 		let { $$slots: slots = {}, $$scope } = $$props;
-		validate_slots("Popup_login", slots, []);
+		validate_slots('Popup_login', slots, []);
 		const writable_props = [];
 
 		Object.keys($$props).forEach(key => {
-			if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<Popup_login> was created with unknown prop '${key}'`);
+			if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Popup_login> was created with unknown prop '${key}'`);
 		});
 
 		$$self.$capture_state = () => ({ Modal });
@@ -10096,7 +10139,7 @@
 		}
 	}
 
-	/* src/components/popup-get-started.svelte generated by Svelte v3.33.0 */
+	/* src/components/popup-get-started.svelte generated by Svelte v3.49.0 */
 	const file$3 = "src/components/popup-get-started.svelte";
 
 	// (6:0) <Modal id={'get-started'}>
@@ -10151,6 +10194,7 @@
 				append_dev(div0, t5);
 				append_dev(div0, a1);
 			},
+			p: noop,
 			d: function destroy(detaching) {
 				if (detaching) detach_dev(div1);
 			}
@@ -10173,7 +10217,7 @@
 
 		modal = new Modal({
 				props: {
-					id: "get-started",
+					id: 'get-started',
 					$$slots: { default: [create_default_slot$1] },
 					$$scope: { ctx }
 				},
@@ -10227,11 +10271,11 @@
 
 	function instance$3($$self, $$props, $$invalidate) {
 		let { $$slots: slots = {}, $$scope } = $$props;
-		validate_slots("Popup_get_started", slots, []);
+		validate_slots('Popup_get_started', slots, []);
 		const writable_props = [];
 
 		Object.keys($$props).forEach(key => {
-			if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<Popup_get_started> was created with unknown prop '${key}'`);
+			if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Popup_get_started> was created with unknown prop '${key}'`);
 		});
 
 		$$self.$capture_state = () => ({ Modal });
@@ -10252,7 +10296,7 @@
 		}
 	}
 
-	/* src/components/modal.svelte generated by Svelte v3.33.0 */
+	/* src/components/modal.svelte generated by Svelte v3.49.0 */
 
 	const file$4 = "src/components/modal.svelte";
 
@@ -10328,8 +10372,17 @@
 			},
 			p: function update(ctx, [dirty]) {
 				if (default_slot) {
-					if (default_slot.p && dirty & /*$$scope*/ 2) {
-						update_slot(default_slot, default_slot_template, ctx, /*$$scope*/ ctx[1], dirty, null, null);
+					if (default_slot.p && (!current || dirty & /*$$scope*/ 2)) {
+						update_slot_base(
+							default_slot,
+							default_slot_template,
+							ctx,
+							/*$$scope*/ ctx[1],
+							!current
+							? get_all_dirty_from_scope(/*$$scope*/ ctx[1])
+							: get_slot_changes(default_slot_template, /*$$scope*/ ctx[1], dirty, null),
+							null
+						);
 					}
 				}
 
@@ -10365,23 +10418,23 @@
 
 	function instance$4($$self, $$props, $$invalidate) {
 		let { $$slots: slots = {}, $$scope } = $$props;
-		validate_slots("Modal", slots, ['default']);
+		validate_slots('Modal', slots, ['default']);
 		let { id } = $$props;
-		const writable_props = ["id"];
+		const writable_props = ['id'];
 
 		Object.keys($$props).forEach(key => {
-			if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<Modal> was created with unknown prop '${key}'`);
+			if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Modal> was created with unknown prop '${key}'`);
 		});
 
 		$$self.$$set = $$props => {
-			if ("id" in $$props) $$invalidate(0, id = $$props.id);
-			if ("$$scope" in $$props) $$invalidate(1, $$scope = $$props.$$scope);
+			if ('id' in $$props) $$invalidate(0, id = $$props.id);
+			if ('$$scope' in $$props) $$invalidate(1, $$scope = $$props.$$scope);
 		};
 
 		$$self.$capture_state = () => ({ id });
 
 		$$self.$inject_state = $$props => {
-			if ("id" in $$props) $$invalidate(0, id = $$props.id);
+			if ('id' in $$props) $$invalidate(0, id = $$props.id);
 		};
 
 		if ($$props && "$$inject" in $$props) {
@@ -10406,7 +10459,7 @@
 			const { ctx } = this.$$;
 			const props = options.props || {};
 
-			if (/*id*/ ctx[0] === undefined && !("id" in props)) {
+			if (/*id*/ ctx[0] === undefined && !('id' in props)) {
 				console.warn("<Modal> was created without expected prop 'id'");
 			}
 		}
@@ -10420,7 +10473,7 @@
 		}
 	}
 
-	/* src/components/popup-newsletter.svelte generated by Svelte v3.33.0 */
+	/* src/components/popup-newsletter.svelte generated by Svelte v3.49.0 */
 	const file$5 = "src/components/popup-newsletter.svelte";
 
 	// (37:0) <Modal id={'newsletter'}>
@@ -10488,6 +10541,7 @@
 				append_dev(form, t6);
 				append_dev(form, input1);
 			},
+			p: noop,
 			d: function destroy(detaching) {
 				if (detaching) detach_dev(div1);
 			}
@@ -10514,7 +10568,7 @@
 
 		modal = new Modal$1({
 				props: {
-					id: "newsletter",
+					id: 'newsletter',
 					$$slots: { default: [create_default_slot$2] },
 					$$scope: { ctx }
 				},
@@ -10586,16 +10640,16 @@
 
 	function instance$5($$self, $$props, $$invalidate) {
 		let { $$slots: slots = {}, $$scope } = $$props;
-		validate_slots("Popup_newsletter", slots, []);
+		validate_slots('Popup_newsletter', slots, []);
 
 		function _animateShow() {
 			const tl = gsapWithCSS.timeline({});
-			var textWrapper = document.querySelector(".modal h2");
+			var textWrapper = document.querySelector('.modal h2');
 			textWrapper.innerHTML = textWrapper.textContent.replace(/\S+/g, "<span class='word'>$&</span>");
-			gsapWithCSS.set(".modal h2 .word", { opacity: 0, y: 24, x: 0, rotateZ: 0 });
-			gsapWithCSS.set(".modal h2 ~ *", { opacity: 0, y: 24 });
+			gsapWithCSS.set('.modal h2 .word', { opacity: 0, y: 24, x: 0, rotateZ: 0 });
+			gsapWithCSS.set('.modal h2 ~ *', { opacity: 0, y: 24 });
 
-			tl.to(".modal h2 .word", {
+			tl.to('.modal h2 .word', {
 				delay: 0.2,
 				duration: 0.5,
 				ease: "elastic.out(1,0.5)",
@@ -10605,21 +10659,21 @@
 				x: 0,
 				y: 0
 			}).to(
-				".modal h2 ~ *",
+				'.modal h2 ~ *',
 				{
 					duration: 0.3,
-					ease: "power1.out",
+					ease: 'power1.out',
 					opacity: 1,
 					y: 0
 				},
-				"-=0.5"
+				'-=0.5'
 			);
 		}
 
 		const writable_props = [];
 
 		Object.keys($$props).forEach(key => {
-			if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<Popup_newsletter> was created with unknown prop '${key}'`);
+			if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Popup_newsletter> was created with unknown prop '${key}'`);
 		});
 
 		const click_handler = () => _animateShow();
@@ -10839,7 +10893,7 @@
 	    };
 	}
 
-	/* src/components/home-testimonials.svelte generated by Svelte v3.33.0 */
+	/* src/components/home-testimonials.svelte generated by Svelte v3.49.0 */
 
 	const { console: console_1 } = globals;
 	const file$6 = "src/components/home-testimonials.svelte";
@@ -11115,25 +11169,25 @@
 	function instance$6($$self, $$props, $$invalidate) {
 		let activeTestimonials;
 		let { $$slots: slots = {}, $$scope } = $$props;
-		validate_slots("Home_testimonials", slots, []);
+		validate_slots('Home_testimonials', slots, []);
 		gsapWithCSS.registerPlugin(ScrollTrigger$1);
 		const jq = window.$;
 
 		//export
 		let testimonials = homeTestimonials;
 
-		let switchState = "subs";
+		let switchState = 'subs';
 
 		beforeUpdate(async () => {
-			if (jq("slick").length) {
-				await gsapWithCSS.to(".slick", { opacity: 0, duration: 1 });
+			if (jq('slick').length) {
+				await gsapWithCSS.to('.slick', { opacity: 0, duration: 1 });
 			}
 
-			jq(".slick").slick("unslick");
+			jq('.slick').slick('unslick');
 		});
 
 		afterUpdate(() => {
-			jq(".slick").slick({
+			jq('.slick').slick({
 				adaptiveHeight: true,
 				arrows: false,
 				dots: true,
@@ -11141,13 +11195,13 @@
 				slidesToShow: 1
 			});
 
-			if (jq("slick").length) {
-				gsapWithCSS.set(".slick", { opacity: 0 });
+			if (jq('slick').length) {
+				gsapWithCSS.set('.slick', { opacity: 0 });
 
-				gsapWithCSS.to(".slick", {
+				gsapWithCSS.to('.slick', {
 					opacity: 1,
 					duration: 1,
-					ease: "power1.out"
+					ease: 'power1.out'
 				});
 			}
 		});
@@ -11155,11 +11209,11 @@
 		const writable_props = [];
 
 		Object.keys($$props).forEach(key => {
-			if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console_1.warn(`<Home_testimonials> was created with unknown prop '${key}'`);
+			if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1.warn(`<Home_testimonials> was created with unknown prop '${key}'`);
 		});
 
-		const change_handler = () => $$invalidate(0, switchState = "subs");
-		const change_handler_1 = () => $$invalidate(0, switchState = "schools");
+		const change_handler = () => $$invalidate(0, switchState = 'subs');
+		const change_handler_1 = () => $$invalidate(0, switchState = 'schools');
 
 		$$self.$capture_state = () => ({
 			beforeUpdate,
@@ -11175,9 +11229,9 @@
 		});
 
 		$$self.$inject_state = $$props => {
-			if ("testimonials" in $$props) $$invalidate(5, testimonials = $$props.testimonials);
-			if ("switchState" in $$props) $$invalidate(0, switchState = $$props.switchState);
-			if ("activeTestimonials" in $$props) $$invalidate(1, activeTestimonials = $$props.activeTestimonials);
+			if ('testimonials' in $$props) $$invalidate(5, testimonials = $$props.testimonials);
+			if ('switchState' in $$props) $$invalidate(0, switchState = $$props.switchState);
+			if ('activeTestimonials' in $$props) $$invalidate(1, activeTestimonials = $$props.activeTestimonials);
 		};
 
 		if ($$props && "$$inject" in $$props) {
