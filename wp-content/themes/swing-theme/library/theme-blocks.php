@@ -19,6 +19,56 @@ function theme_register_blocks() {
       return;
    }
 	acf_register_block([
+		'name'			=> 'careers-about',
+		'title'			=> 'Career About',
+		'render_template'	=> 'blocks/careers-about.php',
+		'category'		=> 'theme-blocks',
+		'icon'			=> 'thumbs-up',
+		'mode'			=> 'edit',
+      'keywords'		=> ['careers', 'about', 'swing', 'education'],
+      'supports' => ['align' => false],
+   ]);
+	acf_register_block([
+		'name'			=> 'careers-profiles',
+		'title'			=> 'Career Profiles',
+		'render_template'	=> 'blocks/careers-profiles.php',
+		'category'		=> 'theme-blocks',
+		'icon'			=> 'thumbs-up',
+		'mode'			=> 'edit',
+      'keywords'		=> ['profiles', 'swing', 'education', 'careers'],
+      'supports' => ['align' => false],
+   ]);
+	acf_register_block([
+		'name'			=> 'careers-profiles',
+		'title'			=> 'Career Profiles',
+		'render_template'	=> 'blocks/careers-profiles.php',
+		'category'		=> 'theme-blocks',
+		'icon'			=> 'thumbs-up',
+		'mode'			=> 'edit',
+      'keywords'		=> ['profiles', 'swing', 'education', 'careers'],
+      'supports' => ['align' => false],
+   ]);
+	acf_register_block([
+		'name'			=> 'career-life-grid',
+		'title'			=> 'Careers Life',
+		'render_template'	=> 'blocks/careers-life-grid.php',
+		'category'		=> 'theme-blocks',
+		'icon'			=> 'thumbs-up',
+		'mode'			=> 'edit',
+      'keywords'		=> ['life', 'swing', 'careers'],
+      'supports' => ['align' => false],
+   ]);
+	acf_register_block([
+		'name'			=> 'career-open-positions',
+		'title'			=> 'Careers Open Positions',
+		'render_template'	=> 'blocks/careers-positions.php',
+		'category'		=> 'theme-blocks',
+		'icon'			=> 'thumbs-up',
+		'mode'			=> 'edit',
+      'keywords'		=> ['open', 'positions', 'swing', 'careers'],
+      'supports' => ['align' => false],
+   ]);
+	acf_register_block([
 		'name'			=> 'theme-partners-slider',
 		'title'			=> 'Partners Slider',
 		'render_template'	=> 'blocks/partners-slider.php',

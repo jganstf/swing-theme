@@ -11376,6 +11376,25 @@
 		});
 	}
 
+	const { $: $$3 } = window;
+
+	var careers = {
+		init() {
+	      gsapWithCSS.registerPlugin(ScrollTrigger$1);
+
+	      let $careerProfiles = $$3('.careers-profiles.slick');
+	      if($careerProfiles.length) {
+	         $careerProfiles.slick({
+	            slideToShow: 1, 
+	            dots: true, 
+	         });
+	      }
+		},
+		finalize() {
+			// JavaScript to be fired on the home page, after the init JS
+		},
+	};
+
 	// import { gsap } from "gsap"
 	// import { ScrollTrigger } from "gsap/ScrollTrigger"
 	// const { $ } = window
@@ -11388,7 +11407,7 @@
 		},
 	};
 
-	const { $: $$3 } = window;
+	const { $: $$4 } = window;
 
 	var pageTemplateTos = {
 		init() {
@@ -11408,7 +11427,7 @@
 	         .from('.hero-tos-content h1 ~ *', {x:16}, '-=0.2')
 	         .from('aside', {y:16}, '+=0.2')
 	         .from('aside a:not(:first-child', {y:16, stagger: 0.05});//, '+=0.2') //!
-	      $$3('h2').each((_idx, el) => gsapWithCSS.from(el, { delay: 0.2, opacity: 0, y: -16, scrollTrigger: { trigger: el, start: 'top 96%'}}));
+	      $$4('h2').each((_idx, el) => gsapWithCSS.from(el, { delay: 0.2, opacity: 0, y: -16, scrollTrigger: { trigger: el, start: 'top 96%'}}));
 	      // $('article p').each((_idx, el) => gsap.from(el, { opacity: 0, x: 16, scrollTrigger: { trigger: el, start: 'top 90%'}}))
 		},
 		finalize() {
@@ -11463,11 +11482,11 @@
 	         }
 	      }
 	   };
-	   $$3(inPageNavAnchors).click((e) => {
+	   $$4(inPageNavAnchors).click((e) => {
 	      // console.log(e.target)
 	      // clearInterval(t)
 	      enableScrolling = false;
-	      $$3(inPageNavAnchors).removeClass('active');
+	      $$4(inPageNavAnchors).removeClass('active');
 	      // this.classList.add('active')
 	      e.target.classList.add('active');
 	      setTimeout( () => {
@@ -11485,6 +11504,7 @@
 		common,
 		home,
 		aboutUs,
+		careers,
 		pageTemplateTos,
 		singlePost,
 	});

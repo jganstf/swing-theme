@@ -99,9 +99,9 @@
     "location": [
         [
             {
-                "param": "post_type",
+                "param": "widget",
                 "operator": "==",
-                "value": "post"
+                "value": "search"
             }
         ]
     ],
@@ -114,5 +114,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1657896957
+    "modified": 1658102884
 }

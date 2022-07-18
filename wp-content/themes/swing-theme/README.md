@@ -39,9 +39,11 @@
 - [ ] remove home page details field group
 - [ ] modal - acf
 - [ ] newsletter modal
-- [ ] 
-- [ ] 
-- [ ] 
+- [ ] Popup acf group
+- [ ] Don't see the right job? Join Swing Education's Talent Network - link
+- [ ] line heights - typography.scss
+- [ ] keywords blocks
+- [ ] crop images?
 - [ ] 
 - [ ] 
 

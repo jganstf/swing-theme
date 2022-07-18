@@ -1,9 +1,11 @@
 footer {
-  width: 100%;
-  color: #000;
-  position: relative;
-  font-weight: 400;
+  background: #FFF; //careers
   border-bottom: 9px solid var(--swing-blue-shd); //TODO html
+  color: #000;
+  font-weight: 400;
+  position: relative;
+  width: 100%;
+  z-index: 1;
 }
 
 .footer-main {

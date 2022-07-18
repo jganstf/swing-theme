@@ -76,6 +76,15 @@
     justify-content: space-between;
     // position: relative;
   }
+
+  svg.circle-svg {
+    position: absolute;
+    top:0;
+    right: 0;
+    width:  40vw;
+    height: 40vw;
+    transform: translate(60%, -60%);
+  }
 }
 
 .hero-full-width {
