@@ -1,0 +1,27 @@
+{
+  "name": "pixelstudio/wp-sync-db",
+  "description": "WordPress plugin to sync database between different installs",
+  "keywords": ["wordpress", "plugin", "database", "sync"],
+  "type": "wordpress-plugin",
+  "homepage": "https://github.com/hrsetyono/wp-sync-db/",
+  "authors": [
+    {
+      "name": "Sean Lang",
+      "email": "slang800@gmail.com",
+      "homepage": "https://slang.cx/"
+    },
+    {
+      "name": "Pixel Studio",
+      "email": "info@pixelstudio.id",
+      "homepage": "https://pixelstudio.id"
+    }
+  ],
+  "license": "GPL-2.0",
+  "require": {
+    "php": ">=7.0.0",
+    "composer/installers": "~1.0"
+  },
+  "scripts": {
+    "test": "./test.sh"
+  }
+}
