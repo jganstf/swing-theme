@@ -33,8 +33,40 @@
 			transform: translateY(-18%);
 		}
 	}
+	.cprofile {
+		padding: 100px 100px 132px;
+	}
+	.careers-profiles .slick-dots {
+		padding: 0 100px;
+	}
+	.life-grid .grid-item h3 {
+		font-size: 24px;
+	}
 }
-@media (max-width: 1300px) {}
+@media (max-width: 1300px) {
+	//careers
+	.careers .hero h1 {
+		font-size: 58px;
+	}
+	.cprofile {
+		padding: 90px 90px 110px;
+		h2 {
+			font-size: 36px;
+		}
+		p {
+			font-size: 18px;
+		}
+		.decor-img {
+			width: 52vw;
+			height: 48vw;
+			border-radius: 50%;
+			transform: translate(6rem, -6rem);
+		}
+	}
+	.careers-profiles .slick-dots {
+		padding: 0 90px;
+	}
+}
 @media (max-width: 1200px) {
 	//careers
 	.careers-about {
@@ -86,8 +118,52 @@
 			font-size: 36px;
 		}
 	}
+	
+	//careers
+	.careers .hero-content {
+		padding: 100px 0 60px;
+	}  
+	.cprofile {
+		padding: 100px 60px;
+		// h2 {
+		// 	font-size: 36px;
+		// }
+		// p {
+		// 	font-size: 18px;
+		// }
+		.decor-img {
+			width:  45vw;
+			height: 45vw;
+			border-radius: 50%;
+			transform: translate(6rem, -6rem);
+		}
+	}
+	.careers-profiles .slick-dots {
+		padding: 0 60px;
+	}
+	.life-grid .grid-item h3 {
+		font-size: 20px;
+	}
+	.careers .grid-two {
+		.life-grid.grid-item {
+			// margin: 10.5px;
+			// width: calc(50% - 21px);
+			padding: 32px 24px;
+		}
+	}	
+	.life-grid .icon-img {
+		width:  45px;
+		height: 45px;
+		margin-right: 32px;
+  	}
 }
-@media (max-width: 1000px) {}
+@media (max-width: 1000px) {
+
+	//careers
+	.careers .hero h1 {
+		font-size: 50px;
+	}
+}
 @include respond-below(lg) {
 	.home-join {
 		padding: 80px 0;
@@ -119,6 +195,47 @@
 	//home
 	.home-hear-from .test-content p {
 		font-size: 21pt;//px;
+	}
+
+	//careers
+	.cprofile {
+		// padding: 60px 60px 300px;
+		padding: 6.5vw 6.5vw 44vw;
+		text-align: center;
+		p {
+			max-width: unset;
+		}
+		.decor-img {
+			top: unset;
+			right: unset;
+			bottom: 0;
+			left: 50%;
+			height: 70vw;
+			width: calc(100vw - 8.8889%);
+			transform: translate(-50%, 50%);
+			background-position: center;
+		}
+	}
+	.careers-profiles .slick-dots {
+		position: absolute; //TODO produces bottom padding
+		bottom: 40vw; //todo max-max-height of content
+		padding: 0;
+		left: 0;//calc(6.5vw - 10px);
+		text-align: center;
+	}
+	// .life-grid .grid-item h3 {
+	// 	font-size: 18px;
+	// }
+	.life-grid {
+		margin: 0;
+		.grid-item {
+			width: 100%;
+			margin: 10.5px auto;
+			max-width: 450px;
+			h3 {
+				font-size: 21px;
+			}
+		}
 	}
 }
 @media (max-width: 800px) {
@@ -185,6 +302,17 @@
 			top: 350px;//match
 		}
 	}
+
+	//careers
+	//careers
+	.careers {
+		.hero-content {
+			padding: 80px 0 50px;
+		}  
+		.hero h1 {
+			font-size: 42px;
+		}
+	}
 }
 @include respond-below(md) {
 	.text-cards-rotator {
@@ -207,8 +335,44 @@
 	}
 }
 
-@media (max-width: 600px) {}
-@media (max-width: 575px) {}
+@media (max-width: 600px) {
+	//careers
+	.careers .hero h1 {
+		font-size: 36px;
+	}
+	.cprofile {
+		// padding: 60px 60px 300px;
+		padding: 6.5vw 6.5vw 44vw;
+		text-align: center;
+		p {
+			max-width: unset;
+		}
+		.decor-img {
+			top: unset;
+			right: unset;
+			bottom: 0;
+			left: 50%;
+			height: 70vw;
+			width: calc(100vw - 8.8889%);
+			transform: translate(-50%, 50%);
+			background-position: center;
+		}
+	}
+	.careers-profiles .slick-dots {
+		position: absolute; //TODO produces bottom padding
+		bottom: 40vw; //todo max-max-height of content
+		padding: 0;
+		left: 0;//calc(6.5vw - 10px);
+		text-align: center;
+	}
+}
+@media (max-width: 575px) {
+
+	//careers
+	.life-grid .grid-item {
+		margin: 4.5px auto;
+	}
+}
 @media (max-width: 520px) {
 	.grid-four:not(.projects) .grid-item,
 	.grid-four-narrow .grid-item,
@@ -245,8 +409,19 @@
 			margin-top: 57px;
 		}
 	}
+
+
+	//careers
+	.careers .hero h1 {
+		font-size: 32px;
+	}
 }
 @media (max-width:450px) {
+
+	//careers
+	.careers .hero h1 {
+		font-size: 28px;
+	}
 }
 @media (max-width:400px) {
 	.footer-links {

@@ -19,7 +19,7 @@ specifiers:
   rxjs: ^7.5.5
   sass: ^1.26.9
   side-panel-menu-thing: ^1.0.3
-  svelte: 3.49.0
+  svelte: ^3.49.0
   svelte-preprocess: ^4.10.7
   wp-cli: ^0.0.5
 

@@ -10832,9 +10832,9 @@
 	}
 
 	function postSlider() {
-		const $postSlider = $('.post-cards--grid ul');
+		const $postSlider = $('.post-cards--grid.slick ul');
 
-		const $slides = $('.post-cards--grid ul li');
+		const $slides = $('.post-cards--grid.slick ul li');
 
 		if(!$postSlider.length) {
 			return
@@ -11439,10 +11439,16 @@
 	      let $careerProfiles = $$3('.careers-profiles.slick');
 	      if($careerProfiles.length) {
 	         $careerProfiles.slick({
-	            slideToShow: 1, 
+	            arrows: false,
 	            dots: true, 
+	            fade: true,
+	            slideToShow: 1, 
 	         });
 	      }
+
+	      $$3('.cprofile').click(() => {
+	         console.log('click');
+	      });
 		},
 		finalize() {
 			// JavaScript to be fired on the home page, after the init JS

@@ -9,10 +9,16 @@ export default {
       let $careerProfiles = $('.careers-profiles.slick')
       if($careerProfiles.length) {
          $careerProfiles.slick({
-            slideToShow: 1, 
+            arrows: false,
             dots: true, 
+            fade: true,
+            slideToShow: 1, 
          })
       }
+
+      $('.cprofile').click(() => {
+         console.log('click')
+      })
 	},
 	finalize() {
 		// JavaScript to be fired on the home page, after the init JS

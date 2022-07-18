@@ -6,7 +6,9 @@ $fields = get_fields();
    <div class="inner-wrap">
       <div class="hero-content">
          <h1><?php echo $fields['hero_heading'];?></h1>
-         <p><?php echo $fields['hero_content'];?></p>
+         <?php if($content=$fields['hero_content']): ?>
+            <p><?php echo $content;?></p>
+         <?php endif;?>
          <div class="btns-wrap d-2xl-flex">
             <?php if($btns = $fields['hero_buttons']): ?>
                <?php foreach($btns as $i => $btn):
