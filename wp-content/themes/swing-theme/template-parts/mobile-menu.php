@@ -13,16 +13,16 @@ if(!$option_fields) {
   </div> -->
   <div class="menu-inner">
     <section class="menu-section">
-      <h4>Menu</h4>
       <?php
-        // header menu
         wp_nav_menu( array(
           'menu' => get_term(get_nav_menu_locations()['primary-navigation'], 'nav_menu')->name,
-          'container' => false, // remove nav container
+          'container' => false,
           'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
-          'menu_class' => 'menu-section-list', // adding custom nav class
-          'depth' => 2, // limit the depth of the nav
-          'theme_location' => 'Primary Navigation'
+          'menu_class' => 'menu-section-list',
+          'depth' => 2,
+          'theme_location' => 'Primary Navigation',
+          'walker' => new Theme_Menu_Walker(),
+          // 'show_carets' => true,
         ) );
       ?>
     </section>

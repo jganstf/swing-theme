@@ -44,6 +44,9 @@
 - [ ] line heights - typography.scss
 - [ ] keywords blocks
 - [ ] crop images?
+- [ ] swing logo
+- [ ] menu-color-primary
+- [ ] menu-color-primary menu.scss - remove hover? 1100
 - [ ] 
 - [ ] 
 

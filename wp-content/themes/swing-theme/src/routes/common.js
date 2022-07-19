@@ -1,6 +1,6 @@
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import sidePanel from 'side-panel-menu-thing'
+// import sidePanel from 'side-panel-menu-thing'
 
 import LoginModal from '../components/popup-login.svelte'
 import GetStartedModal from '../components/popup-get-started.svelte'
@@ -13,31 +13,11 @@ const $body = $(document.body)
 export default {
 	init() {
 		gsap.registerPlugin(ScrollTrigger)
-		const mobileMenu = new sidePanel({
-			target: $body[0],
-			props: {
-				target: $body[0],
-				content: document.getElementById('mobile-menu'),
-				fixed: true,
-				width: 320,
-			},
-		})
-		$('#toggle_nav').on('click', mobileMenu.show)
-
-		$(document).on(
-			'click',
-			'.menu-section .menu-item-has-children > a',
-			function (e) {
-				e.preventDefault()
-				let $el = $(this)
-				$el.parent().toggleClass('show-subnav')
-			}
-		)
-
+		mobileMenu()
 		testimonialSlider()
 		textCardsBlock()
 
-		if(window.innerWidth < 767) {
+		if(window.innerWidth < 767) { //TODO move to route
 			postSlider()
 		}
 		
@@ -95,10 +75,94 @@ export default {
 				target: document.body,
 			})
 		}
-		new NewsLetterModal({
-			target: document.body,
-		})
+		// new NewsLetterModal({
+		// 	target: document.body,
+		// })
 	},
+}
+
+function mobileMenu() {
+	// const mobileMenu = new sidePanel({
+	// 	target: $body[0],
+	// 	props: {
+	// 		target: $body[0],
+	// 		content: document.getElementById('mobile-menu'),
+	// 		fixed: true,
+	// 		width: 320,
+	// 	},
+	// })
+	// $('#toggle_nav').on('click', mobileMenu.show)
+			
+	// $(document).on(
+	// 	'click',
+	// 	'.menu-section .menu-item-has-children > a',
+	// 	function (e) {
+	// 		e.preventDefault()
+	// 		let $el = $(this)
+	// 		$el.parent().toggleClass('show-subnav')
+	// 	}
+	// )
+	let $mobileMenu = $('#mobile-menu')
+	console.log($mobileMenu)
+	$mobileMenu.hide()
+	$('#mobile-menu .menu-item-has-children').find('.sub-menu').hide()
+	// $body.addClass('mm-open')
+	let showing = false
+	$('#toggle_nav').on('click', () => {
+		$mobileMenu.slideToggle(350, ()=> console.log('slide complete'))
+		$body.toggleClass('mm-open')
+		// if(!showing) 
+		// else
+		// 	$mobileMenu.hide()
+		// showing = !showing
+	})
+	let current, t, 
+	    duration = 250
+	$('#mobile-menu .menu-item-has-children > *:first-child').click((e) => {
+		e.preventDefault()
+		if(t) { return; }
+
+		e.target.classList.toggle('menu-open')
+		$(e.target).parent().toggleClass('menu-open')
+		
+		//hide previous
+		if(current) { //open menu
+			if(!current.includes(e.target.innerText)) { //different from open
+				$('#mobile-menu .menu-item-has-children > *:first-child').parent().find('.sub-menu').slideUp(duration)
+				$('#mobile-menu .menu-item-has-children > *:first-child').removeClass('menu-open')
+				// $('#mobile-menu .menu-item-has-children > *:first-child').parent().removeClass('menu-open')
+				current = e.target.innerText
+				//show respective
+				setTimeout(() => {
+					$(e.target).parent().find('.sub-menu').slideToggle(duration)
+				}, duration - 100)
+			} else { //closing open menu
+				$(e.target).parent().find('.sub-menu').slideToggle(duration)
+				$(e.target).removeClass('menu-open')
+				// $(e.target).parent().removeClass('menu-open')
+				current = null
+			}
+		} else { //no open menu
+			$(e.target).parent().find('.sub-menu').slideToggle(duration)
+			current = e.target.innerText
+		}
+
+		// space out events
+		t = setTimeout(() => {
+			// console.log('click')
+			t = null
+		}, 100);
+
+	})
+	let x = window.matchMedia('(max-width: 1100px)') 
+	toggleMenu(x)
+	x.addListener(toggleMenu)
+	function toggleMenu(x) {
+		if(x.matches) {
+		} else {
+			$mobileMenu.hide()
+		}
+	}
 }
 
 function animate() {

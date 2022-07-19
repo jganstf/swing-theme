@@ -7,66 +7,66 @@
    <div class="main">
       <div class="inner-wrap">
          <div class="footer-main">
-            <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-between flex-wrap">
                <div class="footer-logo">
                   <?php include( locate_template('template-parts/logo-link.php', false, false, $args=[]));?>
                </div>
                <div class="footer-social">
                   <?php include( locate_template('template-parts/social-links.php',false,false, $args=['social' => $social_links]) ); ?>
                </div>
-            </div>
-            <div class="footer-links">
-               <div class="col">
-                  <h4>Swing For Subs</h4>
-                  <?php
-                     wp_nav_menu( array(
-                        // 'menu' => 'Footer Navigation',
-                        'theme_location' => 'footer-one',
-                        'container' => false, // remove nav container
-                        'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
-                        'menu_class' => 'menu-section-list flex-grow-1 _list-reset', // adding custom nav class
-                        'depth' => 1, // limit the depth of the nav
-                     ) );
-                     ?>
-               </div>
-               <div class="col">
-                  <h4>Swing For Schools</h4>
-                  <?php
-                     wp_nav_menu( array(
-                        // 'menu' => 'Footer Navigation',
-                        'theme_location' => 'footer-two',
-                        'container' => false, // remove nav container
-                        'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
-                        'menu_class' => 'menu-section-list flex-grow-1 _list-reset', // adding custom nav class
-                        'depth' => 1, // limit the depth of the nav
-                     ) );
-                     ?>
-               </div>
-               <div class="col">
-                  <h4>Resources</h4>
-                  <?php
-                     wp_nav_menu( array(
-                        // 'menu' => 'Footer Navigation',
-                        'theme_location' => 'footer-three',
-                        'container' => false, // remove nav container
-                        'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
-                        'menu_class' => 'menu-section-list flex-grow-1 _list-reset', // adding custom nav class
-                        'depth' => 1, // limit the depth of the nav
-                     ) );
-                     ?>
-               </div>
-               <div class="col">
-                  <h4>Company</h4>
-                  <?php
-                     wp_nav_menu( array(
-                        // 'menu' => 'Footer Navigation',
-                        'theme_location' => 'footer-four',
-                        'container' => false, // remove nav container
-                        'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
-                        'menu_class' => 'menu-section-list flex-grow-1 _list-reset', // adding custom nav class
-                        'depth' => 1, // limit the depth of the nav
-                     ) );
-                     ?>
+               <div class="footer-links">
+                  <div class="col">
+                     <h4>Swing For Subs</h4>
+                     <?php
+                        wp_nav_menu( array(
+                           // 'menu' => 'Footer Navigation',
+                           'theme_location' => 'footer-one',
+                           'container' => false, // remove nav container
+                           'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+                           'menu_class' => 'menu-section-list flex-grow-1 _list-reset', // adding custom nav class
+                           'depth' => 1, // limit the depth of the nav
+                        ) );
+                        ?>
+                  </div>
+                  <div class="col">
+                     <h4>Swing For Schools</h4>
+                     <?php
+                        wp_nav_menu( array(
+                           // 'menu' => 'Footer Navigation',
+                           'theme_location' => 'footer-two',
+                           'container' => false, // remove nav container
+                           'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+                           'menu_class' => 'menu-section-list flex-grow-1 _list-reset', // adding custom nav class
+                           'depth' => 1, // limit the depth of the nav
+                        ) );
+                        ?>
+                  </div>
+                  <div class="col">
+                     <h4>Resources</h4>
+                     <?php
+                        wp_nav_menu( array(
+                           // 'menu' => 'Footer Navigation',
+                           'theme_location' => 'footer-three',
+                           'container' => false, // remove nav container
+                           'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+                           'menu_class' => 'menu-section-list flex-grow-1 _list-reset', // adding custom nav class
+                           'depth' => 1, // limit the depth of the nav
+                        ) );
+                        ?>
+                  </div>
+                  <div class="col">
+                     <h4>Company</h4>
+                     <?php
+                        wp_nav_menu( array(
+                           // 'menu' => 'Footer Navigation',
+                           'theme_location' => 'footer-four',
+                           'container' => false, // remove nav container
+                           'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+                           'menu_class' => 'menu-section-list flex-grow-1 _list-reset', // adding custom nav class
+                           'depth' => 1, // limit the depth of the nav
+                        ) );
+                        ?>
+                  </div>
                </div>
             </div>
          </div>

@@ -17,12 +17,14 @@ footer {
   }
 }
 
-.footer-logo .logo-link {
+.footer-logo {
   margin: 1rem 0;
-  width:165px;
-  height: 50px;
-  img {
-    max-width:100%;
+  .logo-link {
+    width:165px;
+    height: 50px;
+    img {
+      max-width:100%;
+    }
   }
 }
 
@@ -31,6 +33,7 @@ footer {
   border-top: 1px solid #555;
   display: flex;
   flex-grow: 1;
+  width:100%;
   font-size: 14px;
   justify-content: flex-start;
   margin: 62.41px 0 0;
@@ -76,6 +79,11 @@ footer {
   }
 }
 
+.footer-social {
+  display: flex;
+  align-items: center;
+}
+
 .social-links {
   align-self: center;
   flex-shrink: 0;
@@ -84,7 +92,7 @@ footer {
 }
 
 .social-icon {
-  position: relative;
+  @include rel;
   width:  50px;
   height: 50px;
   display: inline-block;
@@ -93,6 +101,20 @@ footer {
   fill: $color-primary;
   border-radius: 100%;
   opacity: 1;
+  stroke: #FFF;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  &:before {
+    background: $blue;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width:  120%;
+    height: 120%;
+    transform: translate(-50%, -50%);
+  }
 
   &:hover {
     transform: scale(1.15);
@@ -101,6 +123,8 @@ footer {
   svg {
     position: relative;
     transition: 0.2s;
+    max-width: 100%;;
+    max-height: 100%;
   }
 }
 

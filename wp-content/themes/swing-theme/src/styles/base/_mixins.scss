@@ -108,7 +108,7 @@ $grid-breakpoints: (
 @mixin rel() {
 	position: relative;
 	z-index: 1;
-	&:after,
+	// &:after,
 	&:before {
 		content: '';
 		z-index: -1;

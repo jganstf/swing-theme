@@ -90,3 +90,80 @@
       background-position: left center;
    }
 }
+
+#mobile-menu {
+   position: absolute;
+   top: 100px;
+   height: 100vh;
+   overflow: scroll;
+   overscroll-behavior: contain;
+   // left: 0;
+   // width: 100%;
+   position: absolute;
+   top: 65px;
+   height: 100vh;
+   overflow: scroll;
+   z-index: 1000;
+   overscroll-behavior: contain;
+   width: 100%;
+   height: calc(100vh - 65px);
+   li {//.menu-item-has-children {
+      > span,
+      > a {
+         &:hover {
+            filter: brightness(96%);
+         }
+      }
+   }
+}
+
+.navbar-wrap {
+   box-shadow: unset;
+   filter: drop-shadow(0pt,3pt,37pt, #4650601A);
+}
+
+#home-testimonials-wrap {
+   display: none;
+}
+
+.sub-menu li,
+li.menu-item-has-children {
+   > span,
+   > a {
+      cursor: pointer;
+   }
+}
+
+.btn {
+   svg {
+      display: none; //TODO
+      margin: 0;
+      position: absolute;
+      top: 50%;
+      right: 1rem;
+      width: 1em;
+      height: 1em;
+      transform: translate(0, -50%);
+      opacity: 0;
+
+      &:before {
+         content:"";
+         position: absolute;
+         background: $yellow;
+         border-radius: 50%;
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         width:  120%;
+         height: 120%;
+         transform: translate(-50%, -50%);
+      }
+   }
+   &:hover {
+      svg {
+         transition: 0.2s;
+         transition-delay: 0.1s;
+         opacity: 1;
+      }
+   }
+}

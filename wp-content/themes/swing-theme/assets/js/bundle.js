@@ -8559,26 +8559,8 @@
 	function safe_not_equal(a, b) {
 	    return a != a ? b == b : a !== b || ((a && typeof a === 'object') || typeof a === 'function');
 	}
-	function not_equal(a, b) {
-	    return a != a ? b == b : a !== b;
-	}
 	function is_empty(obj) {
 	    return Object.keys(obj).length === 0;
-	}
-	function validate_store(store, name) {
-	    if (store != null && typeof store.subscribe !== 'function') {
-	        throw new Error(`'${name}' is not a store with a 'subscribe' method`);
-	    }
-	}
-	function subscribe(store, ...callbacks) {
-	    if (store == null) {
-	        return noop;
-	    }
-	    const unsub = store.subscribe(...callbacks);
-	    return unsub.unsubscribe ? () => unsub.unsubscribe() : unsub;
-	}
-	function component_subscribe(component, store, callback) {
-	    component.$$.on_destroy.push(subscribe(store, callback));
 	}
 	function create_slot(definition, ctx, $$scope, fn) {
 	    if (definition) {
@@ -8625,48 +8607,6 @@
 	        return dirty;
 	    }
 	    return -1;
-	}
-	function set_store_value(store, ret, value) {
-	    store.set(value);
-	    return ret;
-	}
-	function action_destroyer(action_result) {
-	    return action_result && is_function(action_result.destroy) ? action_result.destroy : noop;
-	}
-
-	const is_client = typeof window !== 'undefined';
-	let now = is_client
-	    ? () => window.performance.now()
-	    : () => Date.now();
-	let raf = is_client ? cb => requestAnimationFrame(cb) : noop;
-
-	const tasks = new Set();
-	function run_tasks(now) {
-	    tasks.forEach(task => {
-	        if (!task.c(now)) {
-	            tasks.delete(task);
-	            task.f();
-	        }
-	    });
-	    if (tasks.size !== 0)
-	        raf(run_tasks);
-	}
-	/**
-	 * Creates a new task that runs on each raf frame
-	 * until it returns a falsy value or is aborted
-	 */
-	function loop(callback) {
-	    let task;
-	    if (tasks.size === 0)
-	        raf(run_tasks);
-	    return {
-	        promise: new Promise(fulfill => {
-	            tasks.add(task = { c: callback, f: fulfill });
-	        }),
-	        abort() {
-	            tasks.delete(task);
-	        }
-	    };
 	}
 	function append(target, node) {
 	    target.appendChild(node);
@@ -8715,9 +8655,6 @@
 	    else {
 	        node.style.setProperty(key, value, important ? 'important' : '');
 	    }
-	}
-	function toggle_class(element, name, toggle) {
-	    element.classList[toggle ? 'add' : 'remove'](name);
 	}
 	function custom_event(type, detail, { bubbles = false, cancelable = false } = {}) {
 	    const e = document.createEvent('CustomEvent');
@@ -9065,760 +9002,11 @@
 	    $inject_state() { }
 	}
 
-	const subscriber_queue = [];
-	/**
-	 * Create a `Writable` store that allows both updating and reading by subscription.
-	 * @param {*=}value initial value
-	 * @param {StartStopNotifier=}start start and stop notifications for subscriptions
-	 */
-	function writable(value, start = noop) {
-	    let stop;
-	    const subscribers = new Set();
-	    function set(new_value) {
-	        if (safe_not_equal(value, new_value)) {
-	            value = new_value;
-	            if (stop) { // store is ready
-	                const run_queue = !subscriber_queue.length;
-	                for (const subscriber of subscribers) {
-	                    subscriber[1]();
-	                    subscriber_queue.push(subscriber, value);
-	                }
-	                if (run_queue) {
-	                    for (let i = 0; i < subscriber_queue.length; i += 2) {
-	                        subscriber_queue[i][0](subscriber_queue[i + 1]);
-	                    }
-	                    subscriber_queue.length = 0;
-	                }
-	            }
-	        }
-	    }
-	    function update(fn) {
-	        set(fn(value));
-	    }
-	    function subscribe(run, invalidate = noop) {
-	        const subscriber = [run, invalidate];
-	        subscribers.add(subscriber);
-	        if (subscribers.size === 1) {
-	            stop = start(set) || noop;
-	        }
-	        run(value);
-	        return () => {
-	            subscribers.delete(subscriber);
-	            if (subscribers.size === 0) {
-	                stop();
-	                stop = null;
-	            }
-	        };
-	    }
-	    return { set, update, subscribe };
-	}
-
-	function cubicOut(t) {
-	    const f = t - 1.0;
-	    return f * f * f + 1.0;
-	}
-
-	function is_date(obj) {
-	    return Object.prototype.toString.call(obj) === '[object Date]';
-	}
-
-	function get_interpolator(a, b) {
-	    if (a === b || a !== a)
-	        return () => a;
-	    const type = typeof a;
-	    if (type !== typeof b || Array.isArray(a) !== Array.isArray(b)) {
-	        throw new Error('Cannot interpolate values of different type');
-	    }
-	    if (Array.isArray(a)) {
-	        const arr = b.map((bi, i) => {
-	            return get_interpolator(a[i], bi);
-	        });
-	        return t => arr.map(fn => fn(t));
-	    }
-	    if (type === 'object') {
-	        if (!a || !b)
-	            throw new Error('Object cannot be null');
-	        if (is_date(a) && is_date(b)) {
-	            a = a.getTime();
-	            b = b.getTime();
-	            const delta = b - a;
-	            return t => new Date(a + t * delta);
-	        }
-	        const keys = Object.keys(b);
-	        const interpolators = {};
-	        keys.forEach(key => {
-	            interpolators[key] = get_interpolator(a[key], b[key]);
-	        });
-	        return t => {
-	            const result = {};
-	            keys.forEach(key => {
-	                result[key] = interpolators[key](t);
-	            });
-	            return result;
-	        };
-	    }
-	    if (type === 'number') {
-	        const delta = b - a;
-	        return t => a + t * delta;
-	    }
-	    throw new Error(`Cannot interpolate ${type} values`);
-	}
-	function tweened(value, defaults = {}) {
-	    const store = writable(value);
-	    let task;
-	    let target_value = value;
-	    function set(new_value, opts) {
-	        if (value == null) {
-	            store.set(value = new_value);
-	            return Promise.resolve();
-	        }
-	        target_value = new_value;
-	        let previous_task = task;
-	        let started = false;
-	        let { delay = 0, duration = 400, easing = identity, interpolate = get_interpolator } = assign(assign({}, defaults), opts);
-	        if (duration === 0) {
-	            if (previous_task) {
-	                previous_task.abort();
-	                previous_task = null;
-	            }
-	            store.set(value = target_value);
-	            return Promise.resolve();
-	        }
-	        const start = now() + delay;
-	        let fn;
-	        task = loop(now => {
-	            if (now < start)
-	                return true;
-	            if (!started) {
-	                fn = interpolate(value, new_value);
-	                if (typeof duration === 'function')
-	                    duration = duration(value, new_value);
-	                started = true;
-	            }
-	            if (previous_task) {
-	                previous_task.abort();
-	                previous_task = null;
-	            }
-	            const elapsed = now - start;
-	            if (elapsed > duration) {
-	                store.set(value = new_value);
-	                return false;
-	            }
-	            // @ts-ignore
-	            store.set(value = fn(easing(elapsed / duration)));
-	            return true;
-	        });
-	        return task.promise;
-	    }
-	    return {
-	        set,
-	        update: (fn, opts) => set(fn(target_value, value), opts),
-	        subscribe: store.subscribe
-	    };
-	}
-
-	let html = document.documentElement;
-	let scrollbarWidth;
-	let defaultOverflowStyle;
-	let hidden;
-
-	let hide = function () {
-		if (hidden) {
-			return
-		}
-		// store existing overflow style
-		defaultOverflowStyle = defaultOverflowStyle || getComputedStyle(html).overflow;
-		// calculate scrollbar width if any
-		scrollbarWidth = window.innerWidth - html.clientWidth;
-		// hide overflow
-		html.style.overflow = 'hidden';
-		// add padding to compensate for scrollbar and prevent shifting
-		scrollbarWidth && (html.style.paddingRight = `${scrollbarWidth}px`);
-		hidden = true;
-	};
-
-	let show = function () {
-		html.style.overflow = defaultOverflowStyle;
-		scrollbarWidth && (html.style.paddingRight = 0);
-		hidden = false;
-	};
-
-	var hideShowScroll = { hide, show };
-
-	/* node_modules/.pnpm/side-panel-menu-thing@1.0.3/node_modules/side-panel-menu-thing/src/side-panel-menu-thing.svelte generated by Svelte v3.49.0 */
-	const file = "node_modules/.pnpm/side-panel-menu-thing@1.0.3/node_modules/side-panel-menu-thing/src/side-panel-menu-thing.svelte";
-
-	function create_fragment(ctx) {
-		let div2;
-		let div0;
-		let t;
-		let div1;
-		let div1_tabindex_value;
-		let onMount_action;
-		let mounted;
-		let dispose;
-
-		const block = {
-			c: function create() {
-				div2 = element("div");
-				div0 = element("div");
-				t = space();
-				div1 = element("div");
-				attr_dev(div0, "class", "spmt-overlay");
-				set_style(div0, "opacity", /*overlayOpacity*/ ctx[8]);
-				add_location(div0, file, 190, 1, 4460);
-				attr_dev(div1, "class", "spmt");
-				set_style(div1, "width", /*width*/ ctx[0] + "px");
-
-				set_style(div1, "transform", "translateX(" + (/*left*/ ctx[2]
-				? /*$menuPos*/ ctx[4] * -1
-				: /*$menuPos*/ ctx[4]) + "%)");
-
-				attr_dev(div1, "tabindex", div1_tabindex_value = /*shown*/ ctx[7] ? '0' : false);
-				toggle_class(div1, "left", /*left*/ ctx[2]);
-				add_location(div1, file, 191, 1, 4540);
-				attr_dev(div2, "class", "spmt-wrap");
-				attr_dev(div2, "data-no-panel", "true");
-				toggle_class(div2, "novis", !/*shown*/ ctx[7]);
-				toggle_class(div2, "fixed", /*fixed*/ ctx[1]);
-				add_location(div2, file, 184, 0, 4354);
-			},
-			l: function claim(nodes) {
-				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
-			},
-			m: function mount(target, anchor) {
-				insert_dev(target, div2, anchor);
-				append_dev(div2, div0);
-				append_dev(div2, t);
-				append_dev(div2, div1);
-				/*div1_binding*/ ctx[20](div1);
-				/*div2_binding*/ ctx[22](div2);
-
-				if (!mounted) {
-					dispose = [
-						listen_dev(div0, "click", /*hide*/ ctx[3], false, false, false),
-						action_destroyer(onMount_action = /*onMount*/ ctx[11].call(null, div1, /*shown*/ ctx[7])),
-						listen_dev(div1, "keydown", /*keydown_handler*/ ctx[21], false, false, false)
-					];
-
-					mounted = true;
-				}
-			},
-			p: function update(ctx, [dirty]) {
-				if (dirty & /*overlayOpacity*/ 256) {
-					set_style(div0, "opacity", /*overlayOpacity*/ ctx[8]);
-				}
-
-				if (dirty & /*width*/ 1) {
-					set_style(div1, "width", /*width*/ ctx[0] + "px");
-				}
-
-				if (dirty & /*left, $menuPos*/ 20) {
-					set_style(div1, "transform", "translateX(" + (/*left*/ ctx[2]
-					? /*$menuPos*/ ctx[4] * -1
-					: /*$menuPos*/ ctx[4]) + "%)");
-				}
-
-				if (dirty & /*shown*/ 128 && div1_tabindex_value !== (div1_tabindex_value = /*shown*/ ctx[7] ? '0' : false)) {
-					attr_dev(div1, "tabindex", div1_tabindex_value);
-				}
-
-				if (onMount_action && is_function(onMount_action.update) && dirty & /*shown*/ 128) onMount_action.update.call(null, /*shown*/ ctx[7]);
-
-				if (dirty & /*left*/ 4) {
-					toggle_class(div1, "left", /*left*/ ctx[2]);
-				}
-
-				if (dirty & /*shown*/ 128) {
-					toggle_class(div2, "novis", !/*shown*/ ctx[7]);
-				}
-
-				if (dirty & /*fixed*/ 2) {
-					toggle_class(div2, "fixed", /*fixed*/ ctx[1]);
-				}
-			},
-			i: noop,
-			o: noop,
-			d: function destroy(detaching) {
-				if (detaching) detach_dev(div2);
-				/*div1_binding*/ ctx[20](null);
-				/*div2_binding*/ ctx[22](null);
-				mounted = false;
-				run_all(dispose);
-			}
-		};
-
-		dispatch_dev("SvelteRegisterBlock", {
-			block,
-			id: create_fragment.name,
-			type: "component",
-			source: "",
-			ctx
-		});
-
-		return block;
-	}
-
-	function isIgnoredElement(el) {
-		while (el.parentNode) {
-			if (el.hasAttribute('data-no-panel')) {
-				return true;
-			}
-
-			el = el.parentNode;
-		}
-	}
-
-	function instance($$self, $$props, $$invalidate) {
-		let overlayOpacity;
-		let shown;
-		let $menuPos;
-		let { $$slots: slots = {}, $$scope } = $$props;
-		validate_slots('Side_panel_menu_thing', slots, []);
-		let { target = null } = $$props;
-		let { content = null } = $$props;
-		let { width = 400 } = $$props;
-		let { duration = 450 } = $$props;
-		let { fixed = true } = $$props;
-		let { left = false } = $$props;
-		let { dragOpen = true } = $$props;
-		let { onShow = null } = $$props;
-		let { onHide = null } = $$props;
-		let { preventScroll = true } = $$props;
-		content.parentElement.removeChild(content);
-
-		// starting touch points
-		let startX;
-
-		let startY;
-
-		// stores touch data on touchmove
-		let touchEventData;
-
-		// container dom element
-		let container;
-
-		// menu dom element
-		let menu;
-
-		// dom element to restore focus to on close
-		let focusTrigger;
-
-		// 100 is closed, 0 is open (this is the x transform in percent)
-		const menuPos = tweened(100, { duration, easing: cubicOut });
-
-		validate_store(menuPos, 'menuPos');
-		component_subscribe($$self, menuPos, value => $$invalidate(4, $menuPos = value));
-
-		const show = e => {
-			set_store_value(menuPos, $menuPos = 0, $menuPos);
-
-			// if event, store target as focusTrigger
-			focusTrigger = e ? e.target : null;
-		};
-
-		const hide = () => {
-			set_store_value(menuPos, $menuPos = 100, $menuPos);
-		};
-
-		// trap focus listener
-		function trapFocus(e) {
-			let isTabPressed = e.keyCode === 9;
-
-			if (!shown || !isTabPressed) {
-				return;
-			}
-
-			const containerNodes = container.querySelectorAll('*');
-			const tabbable = Array.from(containerNodes).filter(n => n.tabIndex >= 0);
-
-			if (tabbable.length) {
-				e.preventDefault();
-				let index = tabbable.indexOf(document.activeElement);
-				index += tabbable.length + (e.shiftKey ? -1 : 1);
-				index %= tabbable.length;
-				tabbable[index].focus();
-			}
-		}
-
-		function onMount(node) {
-			if (content) {
-				node.appendChild(content);
-			}
-
-			target.addEventListener(
-				'touchstart',
-				e => {
-					let isIgnored = isIgnoredElement(e.target);
-					startX = e.changedTouches[0].pageX;
-					startY = e.changedTouches[0].pageY;
-
-					if (!shown && (isIgnored || !dragOpen)) {
-						touchEventData = null;
-						return;
-					}
-
-					let boundingClientRect = target.getBoundingClientRect();
-					let touchEnabled = shown;
-
-					// allow drag open if touch is initiated within 30px of target edge
-					if (left && startX - boundingClientRect.left < 30 || !left && boundingClientRect.right - startX < 30) {
-						touchEnabled = true;
-					}
-
-					touchEventData = touchEnabled
-					? { start: $menuPos, time: Date.now() }
-					: null;
-				},
-				{ passive: true }
-			);
-
-			target.addEventListener(
-				'touchmove',
-				e => {
-					if (!shown && !touchEventData) {
-						return;
-					}
-
-					let touchobj = e.changedTouches[0];
-					let distX = touchobj.pageX - startX;
-					let distY = touchobj.pageY - startY;
-
-					if (touchEventData.go !== null) {
-						touchEventData.go = Math.abs(distX) > Math.abs(distY) ? true : null;
-					}
-
-					if (touchEventData.go) {
-						const percentDragged = distX / menu.clientWidth;
-						const newMenuPos = touchEventData.start + percentDragged * (left ? -100 : 100);
-
-						if (newMenuPos <= 100 && newMenuPos >= 0) {
-							menuPos.set(newMenuPos, { duration: 1 });
-						}
-					}
-				},
-				{ passive: true }
-			);
-
-			target.addEventListener('touchend', e => {
-				if (shown) {
-					let { start, time } = touchEventData;
-					let swipeDuration = Date.now() - time;
-					let percentMoved = start - $menuPos;
-
-					// todo? set shorter open close duration bc we've alredy moved it a bit
-					if (swipeDuration < 400 && Math.abs(percentMoved) > 5) {
-						// quick swipe
-						percentMoved > 0 ? show() : hide();
-					} else {
-						$menuPos > 70 ? hide() : show();
-					}
-				}
-			});
-
-			return {
-				update: shown => {
-					if (shown) {
-						// stop background scrolling
-						fixed && preventScroll && hideShowScroll.hide();
-
-						// todo: something about this - focus is
-						setTimeout(() => menu.focus(), 99);
-
-						onShow && onShow();
-					} else {
-						// restore focus
-						focusTrigger && focusTrigger.focus({ preventScroll: true });
-
-						// allow background scrolling
-						fixed && preventScroll && hideShowScroll.show();
-
-						onHide && onHide();
-					}
-				}
-			};
-		}
-
-		const writable_props = [
-			'target',
-			'content',
-			'width',
-			'duration',
-			'fixed',
-			'left',
-			'dragOpen',
-			'onShow',
-			'onHide',
-			'preventScroll'
-		];
-
-		Object.keys($$props).forEach(key => {
-			if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Side_panel_menu_thing> was created with unknown prop '${key}'`);
-		});
-
-		function div1_binding($$value) {
-			binding_callbacks[$$value ? 'unshift' : 'push'](() => {
-				menu = $$value;
-				$$invalidate(6, menu);
-			});
-		}
-
-		const keydown_handler = e => e.keyCode === 27 ? hide() : trapFocus(e);
-
-		function div2_binding($$value) {
-			binding_callbacks[$$value ? 'unshift' : 'push'](() => {
-				container = $$value;
-				$$invalidate(5, container);
-			});
-		}
-
-		$$self.$$set = $$props => {
-			if ('target' in $$props) $$invalidate(12, target = $$props.target);
-			if ('content' in $$props) $$invalidate(13, content = $$props.content);
-			if ('width' in $$props) $$invalidate(0, width = $$props.width);
-			if ('duration' in $$props) $$invalidate(14, duration = $$props.duration);
-			if ('fixed' in $$props) $$invalidate(1, fixed = $$props.fixed);
-			if ('left' in $$props) $$invalidate(2, left = $$props.left);
-			if ('dragOpen' in $$props) $$invalidate(15, dragOpen = $$props.dragOpen);
-			if ('onShow' in $$props) $$invalidate(16, onShow = $$props.onShow);
-			if ('onHide' in $$props) $$invalidate(17, onHide = $$props.onHide);
-			if ('preventScroll' in $$props) $$invalidate(18, preventScroll = $$props.preventScroll);
-		};
-
-		$$self.$capture_state = () => ({
-			tweened,
-			cubicOut,
-			hideShowScroll,
-			target,
-			content,
-			width,
-			duration,
-			fixed,
-			left,
-			dragOpen,
-			onShow,
-			onHide,
-			preventScroll,
-			startX,
-			startY,
-			touchEventData,
-			container,
-			menu,
-			focusTrigger,
-			menuPos,
-			show,
-			hide,
-			trapFocus,
-			isIgnoredElement,
-			onMount,
-			shown,
-			overlayOpacity,
-			$menuPos
-		});
-
-		$$self.$inject_state = $$props => {
-			if ('target' in $$props) $$invalidate(12, target = $$props.target);
-			if ('content' in $$props) $$invalidate(13, content = $$props.content);
-			if ('width' in $$props) $$invalidate(0, width = $$props.width);
-			if ('duration' in $$props) $$invalidate(14, duration = $$props.duration);
-			if ('fixed' in $$props) $$invalidate(1, fixed = $$props.fixed);
-			if ('left' in $$props) $$invalidate(2, left = $$props.left);
-			if ('dragOpen' in $$props) $$invalidate(15, dragOpen = $$props.dragOpen);
-			if ('onShow' in $$props) $$invalidate(16, onShow = $$props.onShow);
-			if ('onHide' in $$props) $$invalidate(17, onHide = $$props.onHide);
-			if ('preventScroll' in $$props) $$invalidate(18, preventScroll = $$props.preventScroll);
-			if ('startX' in $$props) startX = $$props.startX;
-			if ('startY' in $$props) startY = $$props.startY;
-			if ('touchEventData' in $$props) touchEventData = $$props.touchEventData;
-			if ('container' in $$props) $$invalidate(5, container = $$props.container);
-			if ('menu' in $$props) $$invalidate(6, menu = $$props.menu);
-			if ('focusTrigger' in $$props) focusTrigger = $$props.focusTrigger;
-			if ('shown' in $$props) $$invalidate(7, shown = $$props.shown);
-			if ('overlayOpacity' in $$props) $$invalidate(8, overlayOpacity = $$props.overlayOpacity);
-		};
-
-		if ($$props && "$$inject" in $$props) {
-			$$self.$inject_state($$props.$$inject);
-		}
-
-		$$self.$$.update = () => {
-			if ($$self.$$.dirty & /*$menuPos*/ 16) {
-				// adjust overlay opacity automatically based on menu position
-				$$invalidate(8, overlayOpacity = (100 - $menuPos) / 100);
-			}
-
-			if ($$self.$$.dirty & /*$menuPos*/ 16) {
-				// whether the menu is open or in process of opening
-				$$invalidate(7, shown = $menuPos < 100);
-			}
-		};
-
-		return [
-			width,
-			fixed,
-			left,
-			hide,
-			$menuPos,
-			container,
-			menu,
-			shown,
-			overlayOpacity,
-			menuPos,
-			trapFocus,
-			onMount,
-			target,
-			content,
-			duration,
-			dragOpen,
-			onShow,
-			onHide,
-			preventScroll,
-			show,
-			div1_binding,
-			keydown_handler,
-			div2_binding
-		];
-	}
-
-	class Side_panel_menu_thing extends SvelteComponentDev {
-		constructor(options) {
-			super(options);
-
-			init(this, options, instance, create_fragment, not_equal, {
-				target: 12,
-				content: 13,
-				width: 0,
-				duration: 14,
-				fixed: 1,
-				left: 2,
-				dragOpen: 15,
-				onShow: 16,
-				onHide: 17,
-				preventScroll: 18,
-				show: 19,
-				hide: 3
-			});
-
-			dispatch_dev("SvelteRegisterComponent", {
-				component: this,
-				tagName: "Side_panel_menu_thing",
-				options,
-				id: create_fragment.name
-			});
-		}
-
-		get target() {
-			return this.$$.ctx[12];
-		}
-
-		set target(target) {
-			this.$$set({ target });
-			flush();
-		}
-
-		get content() {
-			return this.$$.ctx[13];
-		}
-
-		set content(content) {
-			this.$$set({ content });
-			flush();
-		}
-
-		get width() {
-			return this.$$.ctx[0];
-		}
-
-		set width(width) {
-			this.$$set({ width });
-			flush();
-		}
-
-		get duration() {
-			return this.$$.ctx[14];
-		}
-
-		set duration(duration) {
-			this.$$set({ duration });
-			flush();
-		}
-
-		get fixed() {
-			return this.$$.ctx[1];
-		}
-
-		set fixed(fixed) {
-			this.$$set({ fixed });
-			flush();
-		}
-
-		get left() {
-			return this.$$.ctx[2];
-		}
-
-		set left(left) {
-			this.$$set({ left });
-			flush();
-		}
-
-		get dragOpen() {
-			return this.$$.ctx[15];
-		}
-
-		set dragOpen(dragOpen) {
-			this.$$set({ dragOpen });
-			flush();
-		}
-
-		get onShow() {
-			return this.$$.ctx[16];
-		}
-
-		set onShow(onShow) {
-			this.$$set({ onShow });
-			flush();
-		}
-
-		get onHide() {
-			return this.$$.ctx[17];
-		}
-
-		set onHide(onHide) {
-			this.$$set({ onHide });
-			flush();
-		}
-
-		get preventScroll() {
-			return this.$$.ctx[18];
-		}
-
-		set preventScroll(preventScroll) {
-			this.$$set({ preventScroll });
-			flush();
-		}
-
-		get show() {
-			return this.$$.ctx[19];
-		}
-
-		set show(value) {
-			throw new Error("<Side_panel_menu_thing>: Cannot set read-only property 'show'");
-		}
-
-		get hide() {
-			return this.$$.ctx[3];
-		}
-
-		set hide(value) {
-			throw new Error("<Side_panel_menu_thing>: Cannot set read-only property 'hide'");
-		}
-	}
-
 	/* src/components/Modal.svelte generated by Svelte v3.49.0 */
 
-	const file$1 = "src/components/Modal.svelte";
+	const file = "src/components/Modal.svelte";
 
-	function create_fragment$1(ctx) {
+	function create_fragment(ctx) {
 		let div3;
 		let div2;
 		let div0;
@@ -9847,26 +9035,26 @@
 				if (default_slot) default_slot.c();
 				attr_dev(path, "data-lity-close", "");
 				attr_dev(path, "d", "M 7 4 C 6.744125 4 6.4879687 4.0974687 6.2929688 4.2929688 L 4.2929688 6.2929688 C 3.9019687 6.6839688 3.9019687 7.3170313 4.2929688 7.7070312 L 11.585938 15 L 4.2929688 22.292969 C 3.9019687 22.683969 3.9019687 23.317031 4.2929688 23.707031 L 6.2929688 25.707031 C 6.6839688 26.098031 7.3170313 26.098031 7.7070312 25.707031 L 15 18.414062 L 22.292969 25.707031 C 22.682969 26.098031 23.317031 26.098031 23.707031 25.707031 L 25.707031 23.707031 C 26.098031 23.316031 26.098031 22.682969 25.707031 22.292969 L 18.414062 15 L 25.707031 7.7070312 C 26.098031 7.3170312 26.098031 6.6829688 25.707031 6.2929688 L 23.707031 4.2929688 C 23.316031 3.9019687 22.682969 3.9019687 22.292969 4.2929688 L 15 11.585938 L 7.7070312 4.2929688 C 7.5115312 4.0974687 7.255875 4 7 4 z");
-				add_location(path, file$1, 8, 12, 347);
+				add_location(path, file, 8, 12, 347);
 				attr_dev(svg, "data-lity-close", "");
 				attr_dev(svg, "fill", "#FFFFFF");
 				attr_dev(svg, "xmlns", "http://www.w3.org/2000/svg");
 				attr_dev(svg, "viewBox", "0 0 30 30");
 				attr_dev(svg, "width", "60px");
 				attr_dev(svg, "height", "60px");
-				add_location(svg, file$1, 7, 9, 215);
-				add_location(span, file$1, 10, 9, 1168);
+				add_location(svg, file, 7, 9, 215);
+				add_location(span, file, 10, 9, 1168);
 				attr_dev(div0, "data-lity-close", "");
 				attr_dev(div0, "class", "close-btn _lity-close");
 				attr_dev(div0, "aria-label", "Close (Press escape to close)");
-				add_location(div0, file$1, 6, 6, 111);
+				add_location(div0, file, 6, 6, 111);
 				attr_dev(div1, "class", "modal-content");
-				add_location(div1, file$1, 12, 6, 1206);
+				add_location(div1, file, 12, 6, 1206);
 				attr_dev(div2, "class", "modal");
-				add_location(div2, file$1, 5, 3, 85);
+				add_location(div2, file, 5, 3, 85);
 				attr_dev(div3, "id", /*id*/ ctx[0]);
 				attr_dev(div3, "class", "modal-wrap lity-hide");
-				add_location(div3, file$1, 4, 0, 37);
+				add_location(div3, file, 4, 0, 37);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -9925,7 +9113,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$1.name,
+			id: create_fragment.name,
 			type: "component",
 			source: "",
 			ctx
@@ -9934,7 +9122,7 @@
 		return block;
 	}
 
-	function instance$1($$self, $$props, $$invalidate) {
+	function instance($$self, $$props, $$invalidate) {
 		let { $$slots: slots = {}, $$scope } = $$props;
 		validate_slots('Modal', slots, ['default']);
 		let { id } = $$props;
@@ -9965,13 +9153,13 @@
 	class Modal extends SvelteComponentDev {
 		constructor(options) {
 			super(options);
-			init(this, options, instance$1, create_fragment$1, safe_not_equal, { id: 0 });
+			init(this, options, instance, create_fragment, safe_not_equal, { id: 0 });
 
 			dispatch_dev("SvelteRegisterComponent", {
 				component: this,
 				tagName: "Modal",
 				options,
-				id: create_fragment$1.name
+				id: create_fragment.name
 			});
 
 			const { ctx } = this.$$;
@@ -9992,7 +9180,7 @@
 	}
 
 	/* src/components/popup-login.svelte generated by Svelte v3.49.0 */
-	const file$2 = "src/components/popup-login.svelte";
+	const file$1 = "src/components/popup-login.svelte";
 
 	// (6:0) <Modal id={'login'}>
 	function create_default_slot(ctx) {
@@ -10016,17 +9204,17 @@
 				t3 = space();
 				a1 = element("a");
 				a1.textContent = "School Portal";
-				add_location(h2, file$2, 8, 6, 169);
+				add_location(h2, file$1, 8, 6, 169);
 				attr_dev(a0, "href", "#");
 				attr_dev(a0, "class", "btn");
-				add_location(a0, file$2, 10, 9, 237);
+				add_location(a0, file$1, 10, 9, 237);
 				attr_dev(a1, "href", "#");
 				attr_dev(a1, "class", "btn light");
-				add_location(a1, file$2, 11, 9, 287);
+				add_location(a1, file$1, 11, 9, 287);
 				attr_dev(div0, "class", "btns-wrap d-sm-flex");
-				add_location(div0, file$2, 9, 6, 194);
+				add_location(div0, file$1, 9, 6, 194);
 				attr_dev(div1, "class", "popup-login-content");
-				add_location(div1, file$2, 7, 3, 129);
+				add_location(div1, file$1, 7, 3, 129);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div1, anchor);
@@ -10054,7 +9242,7 @@
 		return block;
 	}
 
-	function create_fragment$2(ctx) {
+	function create_fragment$1(ctx) {
 		let modal;
 		let current;
 
@@ -10062,6 +9250,163 @@
 				props: {
 					id: 'login',
 					$$slots: { default: [create_default_slot] },
+					$$scope: { ctx }
+				},
+				$$inline: true
+			});
+
+		const block = {
+			c: function create() {
+				create_component(modal.$$.fragment);
+			},
+			l: function claim(nodes) {
+				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+			},
+			m: function mount(target, anchor) {
+				mount_component(modal, target, anchor);
+				current = true;
+			},
+			p: function update(ctx, [dirty]) {
+				const modal_changes = {};
+
+				if (dirty & /*$$scope*/ 1) {
+					modal_changes.$$scope = { dirty, ctx };
+				}
+
+				modal.$set(modal_changes);
+			},
+			i: function intro(local) {
+				if (current) return;
+				transition_in(modal.$$.fragment, local);
+				current = true;
+			},
+			o: function outro(local) {
+				transition_out(modal.$$.fragment, local);
+				current = false;
+			},
+			d: function destroy(detaching) {
+				destroy_component(modal, detaching);
+			}
+		};
+
+		dispatch_dev("SvelteRegisterBlock", {
+			block,
+			id: create_fragment$1.name,
+			type: "component",
+			source: "",
+			ctx
+		});
+
+		return block;
+	}
+
+	function instance$1($$self, $$props, $$invalidate) {
+		let { $$slots: slots = {}, $$scope } = $$props;
+		validate_slots('Popup_login', slots, []);
+		const writable_props = [];
+
+		Object.keys($$props).forEach(key => {
+			if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Popup_login> was created with unknown prop '${key}'`);
+		});
+
+		$$self.$capture_state = () => ({ Modal });
+		return [];
+	}
+
+	class Popup_login extends SvelteComponentDev {
+		constructor(options) {
+			super(options);
+			init(this, options, instance$1, create_fragment$1, safe_not_equal, {});
+
+			dispatch_dev("SvelteRegisterComponent", {
+				component: this,
+				tagName: "Popup_login",
+				options,
+				id: create_fragment$1.name
+			});
+		}
+	}
+
+	/* src/components/popup-get-started.svelte generated by Svelte v3.49.0 */
+	const file$2 = "src/components/popup-get-started.svelte";
+
+	// (6:0) <Modal id={'get-started'}>
+	function create_default_slot$1(ctx) {
+		let div1;
+		let h2;
+		let t1;
+		let p;
+		let t3;
+		let div0;
+		let a0;
+		let t5;
+		let a1;
+
+		const block = {
+			c: function create() {
+				div1 = element("div");
+				h2 = element("h2");
+				h2.textContent = "Ready to Get Started?";
+				t1 = space();
+				p = element("p");
+				p.textContent = "Let's make sure you get to the right place! Please tell us a bit more about yourself.";
+				t3 = space();
+				div0 = element("div");
+				a0 = element("a");
+				a0.textContent = "Become a Sub";
+				t5 = space();
+				a1 = element("a");
+				a1.textContent = "Request a Sub";
+				add_location(h2, file$2, 8, 6, 181);
+				add_location(p, file$2, 9, 6, 218);
+				attr_dev(a0, "href", "#");
+				attr_dev(a0, "class", "btn");
+				add_location(a0, file$2, 11, 9, 409);
+				attr_dev(a1, "href", "#");
+				attr_dev(a1, "class", "btn");
+				add_location(a1, file$2, 12, 9, 461);
+				attr_dev(div0, "class", "btns-wrap d-sm-flex justify-content-center");
+				set_style(div0, "margin-top", "1rem");
+				add_location(div0, file$2, 10, 6, 317);
+				attr_dev(div1, "class", "popup-get-started-content");
+				add_location(div1, file$2, 7, 3, 135);
+			},
+			m: function mount(target, anchor) {
+				insert_dev(target, div1, anchor);
+				append_dev(div1, h2);
+				append_dev(div1, t1);
+				append_dev(div1, p);
+				append_dev(div1, t3);
+				append_dev(div1, div0);
+				append_dev(div0, a0);
+				append_dev(div0, t5);
+				append_dev(div0, a1);
+			},
+			p: noop,
+			d: function destroy(detaching) {
+				if (detaching) detach_dev(div1);
+			}
+		};
+
+		dispatch_dev("SvelteRegisterBlock", {
+			block,
+			id: create_default_slot$1.name,
+			type: "slot",
+			source: "(6:0) <Modal id={'get-started'}>",
+			ctx
+		});
+
+		return block;
+	}
+
+	function create_fragment$2(ctx) {
+		let modal;
+		let current;
+
+		modal = new Modal({
+				props: {
+					id: 'get-started',
+					$$slots: { default: [create_default_slot$1] },
 					$$scope: { ctx }
 				},
 				$$inline: true
@@ -10114,163 +9459,6 @@
 
 	function instance$2($$self, $$props, $$invalidate) {
 		let { $$slots: slots = {}, $$scope } = $$props;
-		validate_slots('Popup_login', slots, []);
-		const writable_props = [];
-
-		Object.keys($$props).forEach(key => {
-			if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Popup_login> was created with unknown prop '${key}'`);
-		});
-
-		$$self.$capture_state = () => ({ Modal });
-		return [];
-	}
-
-	class Popup_login extends SvelteComponentDev {
-		constructor(options) {
-			super(options);
-			init(this, options, instance$2, create_fragment$2, safe_not_equal, {});
-
-			dispatch_dev("SvelteRegisterComponent", {
-				component: this,
-				tagName: "Popup_login",
-				options,
-				id: create_fragment$2.name
-			});
-		}
-	}
-
-	/* src/components/popup-get-started.svelte generated by Svelte v3.49.0 */
-	const file$3 = "src/components/popup-get-started.svelte";
-
-	// (6:0) <Modal id={'get-started'}>
-	function create_default_slot$1(ctx) {
-		let div1;
-		let h2;
-		let t1;
-		let p;
-		let t3;
-		let div0;
-		let a0;
-		let t5;
-		let a1;
-
-		const block = {
-			c: function create() {
-				div1 = element("div");
-				h2 = element("h2");
-				h2.textContent = "Ready to Get Started?";
-				t1 = space();
-				p = element("p");
-				p.textContent = "Let's make sure you get to the right place! Please tell us a bit more about yourself.";
-				t3 = space();
-				div0 = element("div");
-				a0 = element("a");
-				a0.textContent = "Become a Sub";
-				t5 = space();
-				a1 = element("a");
-				a1.textContent = "Request a Sub";
-				add_location(h2, file$3, 8, 6, 181);
-				add_location(p, file$3, 9, 6, 218);
-				attr_dev(a0, "href", "#");
-				attr_dev(a0, "class", "btn");
-				add_location(a0, file$3, 11, 9, 409);
-				attr_dev(a1, "href", "#");
-				attr_dev(a1, "class", "btn");
-				add_location(a1, file$3, 12, 9, 461);
-				attr_dev(div0, "class", "btns-wrap d-sm-flex justify-content-center");
-				set_style(div0, "margin-top", "1rem");
-				add_location(div0, file$3, 10, 6, 317);
-				attr_dev(div1, "class", "popup-get-started-content");
-				add_location(div1, file$3, 7, 3, 135);
-			},
-			m: function mount(target, anchor) {
-				insert_dev(target, div1, anchor);
-				append_dev(div1, h2);
-				append_dev(div1, t1);
-				append_dev(div1, p);
-				append_dev(div1, t3);
-				append_dev(div1, div0);
-				append_dev(div0, a0);
-				append_dev(div0, t5);
-				append_dev(div0, a1);
-			},
-			p: noop,
-			d: function destroy(detaching) {
-				if (detaching) detach_dev(div1);
-			}
-		};
-
-		dispatch_dev("SvelteRegisterBlock", {
-			block,
-			id: create_default_slot$1.name,
-			type: "slot",
-			source: "(6:0) <Modal id={'get-started'}>",
-			ctx
-		});
-
-		return block;
-	}
-
-	function create_fragment$3(ctx) {
-		let modal;
-		let current;
-
-		modal = new Modal({
-				props: {
-					id: 'get-started',
-					$$slots: { default: [create_default_slot$1] },
-					$$scope: { ctx }
-				},
-				$$inline: true
-			});
-
-		const block = {
-			c: function create() {
-				create_component(modal.$$.fragment);
-			},
-			l: function claim(nodes) {
-				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
-			},
-			m: function mount(target, anchor) {
-				mount_component(modal, target, anchor);
-				current = true;
-			},
-			p: function update(ctx, [dirty]) {
-				const modal_changes = {};
-
-				if (dirty & /*$$scope*/ 1) {
-					modal_changes.$$scope = { dirty, ctx };
-				}
-
-				modal.$set(modal_changes);
-			},
-			i: function intro(local) {
-				if (current) return;
-				transition_in(modal.$$.fragment, local);
-				current = true;
-			},
-			o: function outro(local) {
-				transition_out(modal.$$.fragment, local);
-				current = false;
-			},
-			d: function destroy(detaching) {
-				destroy_component(modal, detaching);
-			}
-		};
-
-		dispatch_dev("SvelteRegisterBlock", {
-			block,
-			id: create_fragment$3.name,
-			type: "component",
-			source: "",
-			ctx
-		});
-
-		return block;
-	}
-
-	function instance$3($$self, $$props, $$invalidate) {
-		let { $$slots: slots = {}, $$scope } = $$props;
 		validate_slots('Popup_get_started', slots, []);
 		const writable_props = [];
 
@@ -10285,412 +9473,13 @@
 	class Popup_get_started extends SvelteComponentDev {
 		constructor(options) {
 			super(options);
-			init(this, options, instance$3, create_fragment$3, safe_not_equal, {});
+			init(this, options, instance$2, create_fragment$2, safe_not_equal, {});
 
 			dispatch_dev("SvelteRegisterComponent", {
 				component: this,
 				tagName: "Popup_get_started",
 				options,
-				id: create_fragment$3.name
-			});
-		}
-	}
-
-	/* src/components/modal.svelte generated by Svelte v3.49.0 */
-
-	const file$4 = "src/components/modal.svelte";
-
-	function create_fragment$4(ctx) {
-		let div3;
-		let div2;
-		let div0;
-		let svg;
-		let path;
-		let t0;
-		let span;
-		let t2;
-		let div1;
-		let current;
-		const default_slot_template = /*#slots*/ ctx[2].default;
-		const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[1], null);
-
-		const block = {
-			c: function create() {
-				div3 = element("div");
-				div2 = element("div");
-				div0 = element("div");
-				svg = svg_element("svg");
-				path = svg_element("path");
-				t0 = space();
-				span = element("span");
-				span.textContent = "Close";
-				t2 = space();
-				div1 = element("div");
-				if (default_slot) default_slot.c();
-				attr_dev(path, "data-lity-close", "");
-				attr_dev(path, "d", "M 7 4 C 6.744125 4 6.4879687 4.0974687 6.2929688 4.2929688 L 4.2929688 6.2929688 C 3.9019687 6.6839688 3.9019687 7.3170313 4.2929688 7.7070312 L 11.585938 15 L 4.2929688 22.292969 C 3.9019687 22.683969 3.9019687 23.317031 4.2929688 23.707031 L 6.2929688 25.707031 C 6.6839688 26.098031 7.3170313 26.098031 7.7070312 25.707031 L 15 18.414062 L 22.292969 25.707031 C 22.682969 26.098031 23.317031 26.098031 23.707031 25.707031 L 25.707031 23.707031 C 26.098031 23.316031 26.098031 22.682969 25.707031 22.292969 L 18.414062 15 L 25.707031 7.7070312 C 26.098031 7.3170312 26.098031 6.6829688 25.707031 6.2929688 L 23.707031 4.2929688 C 23.316031 3.9019687 22.682969 3.9019687 22.292969 4.2929688 L 15 11.585938 L 7.7070312 4.2929688 C 7.5115312 4.0974687 7.255875 4 7 4 z");
-				add_location(path, file$4, 8, 12, 347);
-				attr_dev(svg, "data-lity-close", "");
-				attr_dev(svg, "fill", "#FFFFFF");
-				attr_dev(svg, "xmlns", "http://www.w3.org/2000/svg");
-				attr_dev(svg, "viewBox", "0 0 30 30");
-				attr_dev(svg, "width", "60px");
-				attr_dev(svg, "height", "60px");
-				add_location(svg, file$4, 7, 9, 215);
-				add_location(span, file$4, 10, 9, 1168);
-				attr_dev(div0, "data-lity-close", "");
-				attr_dev(div0, "class", "close-btn _lity-close");
-				attr_dev(div0, "aria-label", "Close (Press escape to close)");
-				add_location(div0, file$4, 6, 6, 111);
-				attr_dev(div1, "class", "modal-content");
-				add_location(div1, file$4, 12, 6, 1206);
-				attr_dev(div2, "class", "modal");
-				add_location(div2, file$4, 5, 3, 85);
-				attr_dev(div3, "id", /*id*/ ctx[0]);
-				attr_dev(div3, "class", "modal-wrap lity-hide");
-				add_location(div3, file$4, 4, 0, 37);
-			},
-			l: function claim(nodes) {
-				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
-			},
-			m: function mount(target, anchor) {
-				insert_dev(target, div3, anchor);
-				append_dev(div3, div2);
-				append_dev(div2, div0);
-				append_dev(div0, svg);
-				append_dev(svg, path);
-				append_dev(div0, t0);
-				append_dev(div0, span);
-				append_dev(div2, t2);
-				append_dev(div2, div1);
-
-				if (default_slot) {
-					default_slot.m(div1, null);
-				}
-
-				current = true;
-			},
-			p: function update(ctx, [dirty]) {
-				if (default_slot) {
-					if (default_slot.p && (!current || dirty & /*$$scope*/ 2)) {
-						update_slot_base(
-							default_slot,
-							default_slot_template,
-							ctx,
-							/*$$scope*/ ctx[1],
-							!current
-							? get_all_dirty_from_scope(/*$$scope*/ ctx[1])
-							: get_slot_changes(default_slot_template, /*$$scope*/ ctx[1], dirty, null),
-							null
-						);
-					}
-				}
-
-				if (!current || dirty & /*id*/ 1) {
-					attr_dev(div3, "id", /*id*/ ctx[0]);
-				}
-			},
-			i: function intro(local) {
-				if (current) return;
-				transition_in(default_slot, local);
-				current = true;
-			},
-			o: function outro(local) {
-				transition_out(default_slot, local);
-				current = false;
-			},
-			d: function destroy(detaching) {
-				if (detaching) detach_dev(div3);
-				if (default_slot) default_slot.d(detaching);
-			}
-		};
-
-		dispatch_dev("SvelteRegisterBlock", {
-			block,
-			id: create_fragment$4.name,
-			type: "component",
-			source: "",
-			ctx
-		});
-
-		return block;
-	}
-
-	function instance$4($$self, $$props, $$invalidate) {
-		let { $$slots: slots = {}, $$scope } = $$props;
-		validate_slots('Modal', slots, ['default']);
-		let { id } = $$props;
-		const writable_props = ['id'];
-
-		Object.keys($$props).forEach(key => {
-			if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Modal> was created with unknown prop '${key}'`);
-		});
-
-		$$self.$$set = $$props => {
-			if ('id' in $$props) $$invalidate(0, id = $$props.id);
-			if ('$$scope' in $$props) $$invalidate(1, $$scope = $$props.$$scope);
-		};
-
-		$$self.$capture_state = () => ({ id });
-
-		$$self.$inject_state = $$props => {
-			if ('id' in $$props) $$invalidate(0, id = $$props.id);
-		};
-
-		if ($$props && "$$inject" in $$props) {
-			$$self.$inject_state($$props.$$inject);
-		}
-
-		return [id, $$scope, slots];
-	}
-
-	class Modal$1 extends SvelteComponentDev {
-		constructor(options) {
-			super(options);
-			init(this, options, instance$4, create_fragment$4, safe_not_equal, { id: 0 });
-
-			dispatch_dev("SvelteRegisterComponent", {
-				component: this,
-				tagName: "Modal",
-				options,
-				id: create_fragment$4.name
-			});
-
-			const { ctx } = this.$$;
-			const props = options.props || {};
-
-			if (/*id*/ ctx[0] === undefined && !('id' in props)) {
-				console.warn("<Modal> was created without expected prop 'id'");
-			}
-		}
-
-		get id() {
-			throw new Error("<Modal>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-		}
-
-		set id(value) {
-			throw new Error("<Modal>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-		}
-	}
-
-	/* src/components/popup-newsletter.svelte generated by Svelte v3.49.0 */
-	const file$5 = "src/components/popup-newsletter.svelte";
-
-	// (37:0) <Modal id={'newsletter'}>
-	function create_default_slot$2(ctx) {
-		let div1;
-		let h2;
-		let t1;
-		let p;
-		let t3;
-		let form;
-		let div0;
-		let label;
-		let t5;
-		let input0;
-		let t6;
-		let input1;
-
-		const block = {
-			c: function create() {
-				div1 = element("div");
-				h2 = element("h2");
-				h2.textContent = "Subscribe to Our Newsletter";
-				t1 = space();
-				p = element("p");
-				p.textContent = "Let's make sure you get to the right place! Please tell us a bit more about yourself.";
-				t3 = space();
-				form = element("form");
-				div0 = element("div");
-				label = element("label");
-				label.textContent = "Email*";
-				t5 = space();
-				input0 = element("input");
-				t6 = space();
-				input1 = element("input");
-				add_location(h2, file$5, 39, 6, 1063);
-				add_location(p, file$5, 40, 6, 1106);
-				attr_dev(label, "for", "email");
-				add_location(label, file$5, 43, 12, 1266);
-				attr_dev(input0, "name", "email");
-				attr_dev(input0, "id", "email");
-				attr_dev(input0, "type", "email");
-				attr_dev(input0, "placeholder", "Enter email...");
-				add_location(input0, file$5, 44, 12, 1312);
-				attr_dev(div0, "class", "d-flex flex-column");
-				add_location(div0, file$5, 42, 9, 1221);
-				attr_dev(input1, "type", "submit");
-				input1.value = "Subscribe";
-				attr_dev(input1, "class", "btn");
-				add_location(input1, file$5, 46, 9, 1413);
-				add_location(form, file$5, 41, 6, 1205);
-				attr_dev(div1, "class", "popup-newsletter-content _d-flex _flex-column");
-				add_location(div1, file$5, 37, 3, 972);
-			},
-			m: function mount(target, anchor) {
-				insert_dev(target, div1, anchor);
-				append_dev(div1, h2);
-				append_dev(div1, t1);
-				append_dev(div1, p);
-				append_dev(div1, t3);
-				append_dev(div1, form);
-				append_dev(form, div0);
-				append_dev(div0, label);
-				append_dev(div0, t5);
-				append_dev(div0, input0);
-				append_dev(form, t6);
-				append_dev(form, input1);
-			},
-			p: noop,
-			d: function destroy(detaching) {
-				if (detaching) detach_dev(div1);
-			}
-		};
-
-		dispatch_dev("SvelteRegisterBlock", {
-			block,
-			id: create_default_slot$2.name,
-			type: "slot",
-			source: "(37:0) <Modal id={'newsletter'}>",
-			ctx
-		});
-
-		return block;
-	}
-
-	function create_fragment$5(ctx) {
-		let a;
-		let t1;
-		let modal;
-		let current;
-		let mounted;
-		let dispose;
-
-		modal = new Modal$1({
-				props: {
-					id: 'newsletter',
-					$$slots: { default: [create_default_slot$2] },
-					$$scope: { ctx }
-				},
-				$$inline: true
-			});
-
-		const block = {
-			c: function create() {
-				a = element("a");
-				a.textContent = "Newsletter";
-				t1 = space();
-				create_component(modal.$$.fragment);
-				attr_dev(a, "class", "btn");
-				attr_dev(a, "href", "#newsletter");
-				attr_dev(a, "data-lity", "");
-				add_location(a, file$5, 29, 0, 830);
-			},
-			l: function claim(nodes) {
-				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
-			},
-			m: function mount(target, anchor) {
-				insert_dev(target, a, anchor);
-				insert_dev(target, t1, anchor);
-				mount_component(modal, target, anchor);
-				current = true;
-
-				if (!mounted) {
-					dispose = listen_dev(a, "click", /*click_handler*/ ctx[1], false, false, false);
-					mounted = true;
-				}
-			},
-			p: function update(ctx, [dirty]) {
-				const modal_changes = {};
-
-				if (dirty & /*$$scope*/ 4) {
-					modal_changes.$$scope = { dirty, ctx };
-				}
-
-				modal.$set(modal_changes);
-			},
-			i: function intro(local) {
-				if (current) return;
-				transition_in(modal.$$.fragment, local);
-				current = true;
-			},
-			o: function outro(local) {
-				transition_out(modal.$$.fragment, local);
-				current = false;
-			},
-			d: function destroy(detaching) {
-				if (detaching) detach_dev(a);
-				if (detaching) detach_dev(t1);
-				destroy_component(modal, detaching);
-				mounted = false;
-				dispose();
-			}
-		};
-
-		dispatch_dev("SvelteRegisterBlock", {
-			block,
-			id: create_fragment$5.name,
-			type: "component",
-			source: "",
-			ctx
-		});
-
-		return block;
-	}
-
-	function instance$5($$self, $$props, $$invalidate) {
-		let { $$slots: slots = {}, $$scope } = $$props;
-		validate_slots('Popup_newsletter', slots, []);
-
-		function _animateShow() {
-			const tl = gsapWithCSS.timeline({});
-			var textWrapper = document.querySelector('.modal h2');
-			textWrapper.innerHTML = textWrapper.textContent.replace(/\S+/g, "<span class='word'>$&</span>");
-			gsapWithCSS.set('.modal h2 .word', { opacity: 0, y: 24, x: 0, rotateZ: 0 });
-			gsapWithCSS.set('.modal h2 ~ *', { opacity: 0, y: 24 });
-
-			tl.to('.modal h2 .word', {
-				delay: 0.2,
-				duration: 0.5,
-				ease: "elastic.out(1,0.5)",
-				opacity: 1,
-				rotateZ: 0,
-				stagger: 0.075,
-				x: 0,
-				y: 0
-			}).to(
-				'.modal h2 ~ *',
-				{
-					duration: 0.3,
-					ease: 'power1.out',
-					opacity: 1,
-					y: 0
-				},
-				'-=0.5'
-			);
-		}
-
-		const writable_props = [];
-
-		Object.keys($$props).forEach(key => {
-			if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Popup_newsletter> was created with unknown prop '${key}'`);
-		});
-
-		const click_handler = () => _animateShow();
-		$$self.$capture_state = () => ({ gsap: gsapWithCSS, ScrollTrigger: ScrollTrigger$1, Modal: Modal$1, _animateShow });
-		return [_animateShow, click_handler];
-	}
-
-	class Popup_newsletter extends SvelteComponentDev {
-		constructor(options) {
-			super(options);
-			init(this, options, instance$5, create_fragment$5, safe_not_equal, {});
-
-			dispatch_dev("SvelteRegisterComponent", {
-				component: this,
-				tagName: "Popup_newsletter",
-				options,
-				id: create_fragment$5.name
+				id: create_fragment$2.name
 			});
 		}
 	}
@@ -10702,31 +9491,11 @@
 	var common = {
 		init() {
 			gsapWithCSS.registerPlugin(ScrollTrigger$1);
-			const mobileMenu = new Side_panel_menu_thing({
-				target: $body[0],
-				props: {
-					target: $body[0],
-					content: document.getElementById('mobile-menu'),
-					fixed: true,
-					width: 320,
-				},
-			});
-			$('#toggle_nav').on('click', mobileMenu.show);
-
-			$(document).on(
-				'click',
-				'.menu-section .menu-item-has-children > a',
-				function (e) {
-					e.preventDefault();
-					let $el = $(this);
-					$el.parent().toggleClass('show-subnav');
-				}
-			);
-
+			mobileMenu();
 			testimonialSlider();
 			textCardsBlock();
 
-			if(window.innerWidth < 767) {
+			if(window.innerWidth < 767) { //TODO move to route
 				postSlider();
 			}
 			
@@ -10784,11 +9553,92 @@
 					target: document.body,
 				});
 			}
-			new Popup_newsletter({
-				target: document.body,
-			});
+			// new NewsLetterModal({
+			// 	target: document.body,
+			// })
 		},
 	};
+
+	function mobileMenu() {
+		// const mobileMenu = new sidePanel({
+		// 	target: $body[0],
+		// 	props: {
+		// 		target: $body[0],
+		// 		content: document.getElementById('mobile-menu'),
+		// 		fixed: true,
+		// 		width: 320,
+		// 	},
+		// })
+		// $('#toggle_nav').on('click', mobileMenu.show)
+				
+		// $(document).on(
+		// 	'click',
+		// 	'.menu-section .menu-item-has-children > a',
+		// 	function (e) {
+		// 		e.preventDefault()
+		// 		let $el = $(this)
+		// 		$el.parent().toggleClass('show-subnav')
+		// 	}
+		// )
+		let $mobileMenu = $('#mobile-menu');
+		console.log($mobileMenu);
+		$mobileMenu.hide();
+		$('#mobile-menu .menu-item-has-children').find('.sub-menu').hide();
+		$('#toggle_nav').on('click', () => {
+			$mobileMenu.slideToggle(350, ()=> console.log('slide complete'));
+			$body.toggleClass('mm-open');
+			// if(!showing) 
+			// else
+			// 	$mobileMenu.hide()
+			// showing = !showing
+		});
+		let current, t, 
+		    duration = 250;
+		$('#mobile-menu .menu-item-has-children > *:first-child').click((e) => {
+			e.preventDefault();
+			if(t) { return; }
+
+			e.target.classList.toggle('menu-open');
+			$(e.target).parent().toggleClass('menu-open');
+			
+			//hide previous
+			if(current) { //open menu
+				if(!current.includes(e.target.innerText)) { //different from open
+					$('#mobile-menu .menu-item-has-children > *:first-child').parent().find('.sub-menu').slideUp(duration);
+					$('#mobile-menu .menu-item-has-children > *:first-child').removeClass('menu-open');
+					// $('#mobile-menu .menu-item-has-children > *:first-child').parent().removeClass('menu-open')
+					current = e.target.innerText;
+					//show respective
+					setTimeout(() => {
+						$(e.target).parent().find('.sub-menu').slideToggle(duration);
+					}, duration - 100);
+				} else { //closing open menu
+					$(e.target).parent().find('.sub-menu').slideToggle(duration);
+					$(e.target).removeClass('menu-open');
+					// $(e.target).parent().removeClass('menu-open')
+					current = null;
+				}
+			} else { //no open menu
+				$(e.target).parent().find('.sub-menu').slideToggle(duration);
+				current = e.target.innerText;
+			}
+
+			// space out events
+			t = setTimeout(() => {
+				// console.log('click')
+				t = null;
+			}, 100);
+
+		});
+		let x = window.matchMedia('(max-width: 1100px)'); 
+		toggleMenu(x);
+		x.addListener(toggleMenu);
+		function toggleMenu(x) {
+			if(x.matches) ; else {
+				$mobileMenu.hide();
+			}
+		}
+	}
 
 	function animate() {
 		animateError404();
@@ -10896,7 +9746,7 @@
 	/* src/components/home-testimonials.svelte generated by Svelte v3.49.0 */
 
 	const { console: console_1 } = globals;
-	const file$6 = "src/components/home-testimonials.svelte";
+	const file$3 = "src/components/home-testimonials.svelte";
 
 	function get_each_context(ctx, list, i) {
 		const child_ctx = ctx.slice();
@@ -10949,16 +9799,16 @@
 				t9 = space();
 				attr_dev(div0, "class", "decor-img");
 				set_style(div0, "background-image", "url(https://picsum.photos/800/" + (800 + /*idx*/ ctx[8]).toString() + ")");
-				add_location(div0, file$6, 51, 12, 1739);
-				add_location(p, file$6, 57, 18, 1991);
-				add_location(br, file$6, 60, 21, 2099);
-				add_location(cite, file$6, 58, 18, 2035);
+				add_location(div0, file$3, 51, 12, 1739);
+				add_location(p, file$3, 57, 18, 1991);
+				add_location(br, file$3, 60, 21, 2099);
+				add_location(cite, file$3, 58, 18, 2035);
 				attr_dev(div1, "class", "inner-wrap");
-				add_location(div1, file$6, 56, 15, 1948);
+				add_location(div1, file$3, 56, 15, 1948);
 				attr_dev(div2, "class", "test-content main");
-				add_location(div2, file$6, 55, 12, 1901);
+				add_location(div2, file$3, 55, 12, 1901);
 				attr_dev(div3, "class", "home-testimonial");
-				add_location(div3, file$6, 50, 9, 1696);
+				add_location(div3, file$3, 50, 9, 1696);
 			},
 			m: function mount(target, anchor) {
 				insert_dev(target, div3, anchor);
@@ -11000,7 +9850,7 @@
 		return block;
 	}
 
-	function create_fragment$6(ctx) {
+	function create_fragment$3(ctx) {
 		let div3;
 		let div1;
 		let form;
@@ -11056,34 +9906,34 @@
 				}
 
 				attr_dev(p, "class", "label");
-				add_location(p, file$6, 38, 9, 1107);
+				add_location(p, file$3, 38, 9, 1107);
 				attr_dev(input0, "type", "radio");
 				attr_dev(input0, "id", "radio-one");
 				attr_dev(input0, "name", "switch-one");
 				input0.value = "subs";
 				input0.checked = true;
-				add_location(input0, file$6, 40, 12, 1187);
+				add_location(input0, file$3, 40, 12, 1187);
 				attr_dev(label0, "for", "radio-one");
-				add_location(label0, file$6, 41, 12, 1317);
+				add_location(label0, file$3, 41, 12, 1317);
 				attr_dev(input1, "type", "radio");
 				attr_dev(input1, "id", "radio-two");
 				attr_dev(input1, "name", "switch-one");
 				input1.value = "schools";
-				add_location(input1, file$6, 42, 12, 1370);
+				add_location(input1, file$3, 42, 12, 1370);
 				attr_dev(label1, "for", "radio-two");
-				add_location(label1, file$6, 43, 12, 1498);
+				add_location(label1, file$3, 43, 12, 1498);
 				attr_dev(span, "class", "indicator");
-				add_location(span, file$6, 44, 12, 1554);
+				add_location(span, file$3, 44, 12, 1554);
 				attr_dev(div0, "class", "switch-field");
-				add_location(div0, file$6, 39, 9, 1148);
+				add_location(div0, file$3, 39, 9, 1148);
 				attr_dev(form, "class", "toggle-switch");
-				add_location(form, file$6, 37, 6, 1069);
+				add_location(form, file$3, 37, 6, 1069);
 				attr_dev(div1, "class", "toggle-switch-wrap d-flex justify-content-end align-items-center");
-				add_location(div1, file$6, 36, 3, 984);
+				add_location(div1, file$3, 36, 3, 984);
 				attr_dev(div2, "class", "slick");
-				add_location(div2, file$6, 48, 3, 1624);
+				add_location(div2, file$3, 48, 3, 1624);
 				attr_dev(div3, "class", "home-hear-from section-full");
-				add_location(div3, file$6, 35, 0, 939);
+				add_location(div3, file$3, 35, 0, 939);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -11157,7 +10007,7 @@
 
 		dispatch_dev("SvelteRegisterBlock", {
 			block,
-			id: create_fragment$6.name,
+			id: create_fragment$3.name,
 			type: "component",
 			source: "",
 			ctx
@@ -11166,7 +10016,7 @@
 		return block;
 	}
 
-	function instance$6($$self, $$props, $$invalidate) {
+	function instance$3($$self, $$props, $$invalidate) {
 		let activeTestimonials;
 		let { $$slots: slots = {}, $$scope } = $$props;
 		validate_slots('Home_testimonials', slots, []);
@@ -11251,13 +10101,13 @@
 	class Home_testimonials extends SvelteComponentDev {
 		constructor(options) {
 			super(options);
-			init(this, options, instance$6, create_fragment$6, safe_not_equal, {});
+			init(this, options, instance$3, create_fragment$3, safe_not_equal, {});
 
 			dispatch_dev("SvelteRegisterComponent", {
 				component: this,
 				tagName: "Home_testimonials",
 				options,
-				id: create_fragment$6.name
+				id: create_fragment$3.name
 			});
 		}
 	}
