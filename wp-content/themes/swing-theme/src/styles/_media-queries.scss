@@ -8,9 +8,9 @@
 	ul.header-links > li.btn-login {
 		margin-left: 50px;
 	}
-	.hero .hero-img { 
-		clip-path: ellipse(33vw 33vw at 50% 26%);
-  	}
+	// .hero .hero-img { 
+	// 	clip-path: ellipse(33vw 33vw at 50% 26%);
+  	// }
 	.link-title, 
 	.link-descr {
 		font-size: 16px;
@@ -23,9 +23,9 @@
 @media (max-width: 1700px) {
 }
 @media (max-width: 1600px) {
-	.hero .hero-img {
-		clip-path: ellipse(37vw 36vw at 50% 26%);
-  	}
+	// .hero .hero-img {
+	// 	clip-path: ellipse(37vw 36vw at 50% 26%);
+  	// }
 }
 @media (max-width: 1500px) {
 	ul.header-links > li.btn-login {
@@ -40,6 +40,18 @@
 	//home
 	.home-hear-from .test-content p {
 		font-size: 42px;
+	}
+	.home-about {
+		.card p {
+			font-size: 18px;
+			strong {
+				line-height: 1.1;
+			}
+		}
+		.grid-item .icon-img {
+			height: 125px;
+			width: 125px;
+		}
 	}
 
 	//careers
@@ -71,6 +83,21 @@
 	.social-icon {
 		width: 42px;
 		height: 42px;
+	}
+	.main-content-wrap {
+		p {
+			font-size: 20px;
+		}
+	}
+
+	//home
+	.home h2 {
+		font-size: 44px;
+	}
+	.home-about {
+		h3 {
+			font-size: 32px;
+		}
 	}
 
 	//careers
@@ -124,6 +151,11 @@
 		margin-right: 10px;
 	}
 
+	//home
+	.home h2 {
+		font-size: 40px;
+	}
+
 	//careers
 	.careers-about {
 		h2 ~ p {
@@ -163,11 +195,25 @@
    #main-content {
       padding-top: 64px;
    }
-	.home h1 {
-		// @include clamp('font-size', 37.33333333333333px, , 88.38px); //28pt
-		@include prop(88.38, 37.333, 'font-size');//, $lg: 1100, $sm: 575)
-		// @include clamp('line-height', var(--unnamed-line-spacing-37-310001373291016), 10vw, var(--unnamed-line-spacing-88-37999725341797));
-		margin-bottom: 0.565738854945em;
+	.main-content-wrap {
+		p {
+			font-size: 18px;
+		}
+	}
+	li.btn *, *:not(li).btn {
+		font-size: 16px;
+	}
+
+	.home {
+		h1 {
+			// @include clamp('font-size', 37.33333333333333px, , 88.38px); //28pt
+			@include prop(88.38, 37.333, 'font-size');//, $lg: 1100, $sm: 575)
+			// @include clamp('line-height', var(--unnamed-line-spacing-37-310001373291016), 10vw, var(--unnamed-line-spacing-88-37999725341797));
+			margin-bottom: 0.565738854945em;
+		}
+		h2 {
+			font-size: 36px;
+		}
 	}
 	.hero-content {
 		padding: 100px 0;
@@ -175,15 +221,31 @@
 			@include prop(28, 24, 'font-size');//, $lg: 1100, $sm: 575)
 		}
 	}
-	.help .hero-img {
-		clip-path: ellipse(62% 450px at 80% 42%);
-	}
-	.home-hear-from .test-content {
-		clip-path: ellipse(38% 100% at 25% 50%);
-		p {
-			font-size: 36px;
+	// .help .hero-img {
+	// 	clip-path: ellipse(62% 450px at 80% 42%);
+	// }
+
+	.home-about {
+		h3 {
+			font-size: 24px;
+		}
+		.card p {
+			font-size: 16px;
+			strong {
+				line-height: 1.1;
+			}
+		}
+		.grid-item .icon-img {
+			height: 90px;
+			width:  90px;
 		}
 	}
+	// .home-hear-from .test-content {
+	// 	clip-path: ellipse(38% 100% at 25% 50%);
+	// 	p {
+	// 		font-size: 36px;
+	// 	}
+	// }
 	
 	//careers
 	.careers .hero-content {
@@ -231,19 +293,44 @@
 	}
 }
 @include respond-below(lg) {
-	.home-join {
-		padding: 80px 0;
-		.partners {
-			margin: 0 !important;
+	.home {
+		&-join {
+			padding: 80px 0;
+			.col-lg-6:not(.partners) {
+				text-align: center;
+				display: flex;
+				justify-content: center;
+				flex-direction: column;
+				align-items: center;
+				margin-top: 2rem;
+			}
 		}
-		.col-lg-6:not(.partners) {
-			text-align: center;
-			display: flex;
+	}
+	.home-hear-from .test-content {
+		width: 100%;
+		clip-path: unset;
+	}
+	.home-hear-from .test-content ._inner-wrap > *{
+		max-width: unset;
+	}
+	.home-hear-from .home-testimonial .decor-img {
+		height: 50vw;
+		margin-left: calc(-50vw + 50%);
+		width: 100vw;
+		background-position: center;
+		clip-path: ellipse(70% 100% at 50% 0%);
+	}
+	.toggle-main {
+		bottom: unset;
+		top: 425px;
+		transform: translateY(-50%);
+		z-index: 2;
+		.inner-wrap {
 			justify-content: center;
-			flex-direction: column;
-			align-items: center;
-			margin-top: 2rem;
 		}
+	}
+	.home-hear-from .toggle-switch-wrap {
+		transform: unset!important;
 	}
 }
 @media (max-width: 900px) {
@@ -261,6 +348,19 @@
 	//home
 	.home-hear-from .test-content p {
 		font-size: 21pt;//px;
+	}
+	.home-join {
+		h2 {
+			font-size: 32px;
+		}
+		.btns-wrap {
+			flex-direction: column;
+		}
+		.btn {
+			width:100%;
+			max-width: 225px;
+			margin: 0.35rem 0;
+		}
 	}
 
 	//careers
@@ -363,10 +463,30 @@
 		}
 	}
 	.home {
+		&-about {
+			h2 {
+				// font-size: 44px;
+				margin-bottom: 1rem;
+			}
+		}
 		.toggle-switch-wrap {
 			bottom: unset;
 			top: 350px;//match
 		}
+	}
+	.home-about {
+		h2 {
+			max-width: 15em;
+			margin-bottom: 1rem;
+		}
+	}
+	.home-about .grid-item {
+		h3 {
+			font-size: 36px;
+		}
+		margin: 0.5rem 0;
+		padding: 3rem;
+		width: 100%;
 	}
 
 	//careers
@@ -381,10 +501,46 @@
 	}
 }
 @include respond-below(md) {
+	.main-content-wrap {
+		p {
+			font-size: 16px;
+		}
+	}
 	.text-cards-rotator {
 		.w-50 {
 			width:100%!important;
 		}
+	}
+	.home-about,
+	.home-join {
+		text-align: center;
+	}
+	.home-join {
+		padding: 52px 0 134px;
+		h2 {
+			max-width: unset;
+			margin: 0 auto 1rem;
+		}
+		.btns-wrap {
+			flex-direction: row;
+			margin-top: -0.5rem;
+			justify-content: center;
+			flex-wrap: nowrap;
+		}
+		.btn {
+			margin: 1rem 0;
+			flex: 0 0 50%;
+		}
+		.partners {
+			margin: 0 0 2rem;
+		}
+		.partner {
+			max-height: 80px;
+			margin: 3% 1rem;
+		}
+	}
+	.home-join .btn:not(:last-child) {
+		margin-right: 3%;
 	}
 }
 @media (max-width: 700px) {
@@ -392,6 +548,15 @@
 	.grid-three .grid-item {
 		width: 48%;
 		margin: 0 1% 1.5rem;
+	}
+
+
+	.home-about .grid-item {
+		width: 100%;
+		margin: 0.5rem 0;
+		h3 {
+			font-size: 32px;
+		}
 	}
 	.home-join {
 		.partner.grid-item {
@@ -449,6 +614,13 @@
 	}
 }
 @media (max-width: 575px) {
+
+	//home
+	.home-about .grid-item {
+		h3 {
+			font-size: 27px;
+		}
+	}
 
 	//careers
 	.life-grid .grid-item {
@@ -527,15 +699,15 @@
 }
 
 @media (min-width: 1950px) {
-	.home .hero-img {
-		clip-path: ellipse(590px 590px at 50% 27%);
-	}  
+	// .home .hero-img {
+	// 	clip-path: ellipse(590px 590px at 50% 27%);
+	// }  
 }
 @media (min-width: 2300px) {
-	.help .hero-img {
-		position: absolute;
-		height: 100%;
-		width: 48vw;
-		clip-path: ellipse(70% 650px at 70% 42%);
-	}
+	// .help .hero-img {
+	// 	position: absolute;
+	// 	height: 100%;
+	// 	width: 48vw;
+	// 	clip-path: ellipse(70% 650px at 70% 42%);
+	// }
 }

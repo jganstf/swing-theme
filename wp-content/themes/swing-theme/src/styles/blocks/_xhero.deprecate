@@ -1,0 +1,113 @@
+////////////////////////// HERO //////////////////////////
+.hero-content {
+  @include rel;
+  padding: 140px 0;
+  max-width: 730px;
+  h1 {
+    // @include hdl-xl;
+    color: $blue-dark;
+    margin-bottom: 50px; //66 on for subs
+  }
+  p {
+    @include sbh-lg;
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+  .btns-wrap {
+    margin-top: 34px;//50px;
+    .btn {
+      margin-top: 1rem;
+      &:not(:last-child) {
+        margin-right: 1em;
+      }
+    }
+    @include respond-below(2xl) {
+      .btn { 
+        display: block;
+        width:100%;
+        max-width: 250px;
+      }
+    }
+  }
+}
+@keyframes grow {
+  from {
+    clip-path: ellipse(0 0 at 100% 0%);
+  }
+  to {
+    clip-path: ellipse(60% 110% at 90% 0%);
+  }
+}
+.hero-img {
+  position: absolute;
+  top: 0;
+  // right: 0;
+  // margin-left: 750px;
+  // height: 100%;
+  position: relative;
+  flex: 0 0 60%;
+
+  // clip-path: ellipse(0 0 at 100% 0%);
+  // // animation: grow 1s forwards;
+  // // animation-delay: 1s;
+  // // clip-path: ellipse(80% 80% at 80% 35%); //TODO
+  // clip-path: ellipse(34vw 34vw at 70% 30%);
+
+  .decor-img {
+    background-image: url(../img/team/placeholder@2x-6fed1fb3.jpg);
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    background-size: cover;
+    width: 100%;
+    // padding-bottom: 110%;
+    height: 115%;
+  }
+}
+
+.hero {
+  position: relative;
+  // display: flex;
+  align-items: center;
+  z-index: 2;
+  .inner-wrap {
+    display: flex;
+    justify-content: space-between;
+    // position: relative;
+  }
+
+  svg.circle-svg {
+    position: absolute;
+    top:0;
+    right: 0;
+    width:  40vw;
+    height: 40vw;
+    transform: translate(60%, -60%);
+  }
+}
+
+.hero-full-width {
+  // margin-bottom: 100px;
+  // &.blue-section { }
+  // .hero-img {
+  //   @include section-full;
+  // }
+}
+
+.hero.hide-overflow {
+  //about, whitepaper download
+  .hero-img {
+    margin-right: calc(-50vw + 50%);
+    // margin-left: unset;
+    // width:100vw;
+    overflow: hidden;
+    // clip-path: ellipse(80% 100% at 83% 45%); //TODO
+  }
+  .decor-img {
+    height: 100%;
+  }
+}
+
+.hero-contained {
+}

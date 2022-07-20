@@ -2,7 +2,7 @@
 
 // Rest api stuff
 add_action('rest_api_init', function () {
-	$namespace = 'theme/v1';
+	$namespace = 'swing/v1';
 	// register_rest_route( $namespace, 'get-projects', array(
 	// 	'methods'  => 'GET',
 	// 	'callback' => 'get_posts',

@@ -2,6 +2,7 @@
 $fields = get_fields(); 
 foreach(['subs', 'schools'] as $key) {
    $fields[$key] = array_map(function($p) {
+      $p->feat_img = get_the_post_thumbnail_url($p);
       $p->post_content = wp_strip_all_tags($p->post_content);
       $p->citation_title = get_field('citation_title', $p);
       return $p;

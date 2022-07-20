@@ -20,7 +20,7 @@
    })
    afterUpdate(() => {
       jq('.slick').slick({
-         adaptiveHeight: true,
+         // adaptiveHeight: true,
          arrows: false,
 			dots: true,
 			fade: true,
@@ -34,33 +34,38 @@
 </script>
 
 <div class="home-hear-from section-full">
-   <div class="toggle-switch-wrap d-flex justify-content-end align-items-center">
-      <form class="toggle-switch">
-         <p class="label">Hear from:</p>
-         <div class="switch-field">
-            <input type="radio" id="radio-one" name="switch-one" value="subs" checked on:change={() => (switchState = 'subs')} />
-            <label for="radio-one">From Subs</label>
-            <input type="radio" id="radio-two" name="switch-one" value="schools" on:change={() => (switchState = 'schools')} />
-            <label for="radio-two">From Schools</label>
-            <span class="indicator" />
+   <div class="toggle-main main">
+      <div class="inner-wrap">
+         <div class="toggle-switch-wrap d-flex justify-content-end align-items-center">
+            <form class="toggle-switch">
+               <p class="label">Hear from:</p>
+               <div class="switch-field">
+                  <input type="radio" id="radio-one" name="switch-one" value="subs" checked on:change={() => (switchState = 'subs')} />
+                  <label for="radio-one">Subs</label>
+                  <input type="radio" id="radio-two" name="switch-one" value="schools" on:change={() => (switchState = 'schools')} />
+                  <label for="radio-two">Schools</label>
+                  <span class="indicator" />
+               </div>
+            </form>
          </div>
-      </form>
+      </div>
    </div>
    <div class="slick">
       {#each activeTestimonials as t, idx}
          <div class="home-testimonial">
-            <div
-               class="decor-img"
-               style="background-image: url(https://picsum.photos/800/{(800 + idx).toString()})"
-            />
-            <div class="test-content main">
-               <div class="inner-wrap">
-                  <p>"{t.post_content}"</p>
-                  <cite>
-                     {t.post_title}
-                     <br />
-                     {t.citation_title}
-                  </cite>
+            <div class="main">
+               <div class="inner-wrap flex-column flex-lg-row-reverse d-flex">
+                  <div class="decor-img cover" style="background-image: url({t.feat_img})" />
+                  <div class="test-content _main">
+                     <div class="_inner-wrap">
+                        <p>"{t.post_content}"</p>
+                        <cite>
+                           {t.post_title}
+                           <br />
+                           {t.citation_title}
+                        </cite>
+                     </div>
+                  </div>
                </div>
             </div>
          </div>

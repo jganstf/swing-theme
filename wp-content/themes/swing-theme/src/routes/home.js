@@ -142,8 +142,7 @@ function animateAbout() {
 			)
 		})
 }
-
-
+function animateTestimonials() {}
 function animateJoin() {
 	// var waypoint = new Waypoint({
 	// 	element: $('.home-join')[0],

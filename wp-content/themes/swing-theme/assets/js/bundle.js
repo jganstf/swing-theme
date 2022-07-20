@@ -9755,8 +9755,10 @@
 		return child_ctx;
 	}
 
-	// (50:6) {#each activeTestimonials as t, idx}
+	// (54:6) {#each activeTestimonials as t, idx}
 	function create_each_block(ctx) {
+		let div5;
+		let div4;
 		let div3;
 		let div0;
 		let t0;
@@ -9780,6 +9782,8 @@
 
 		const block = {
 			c: function create() {
+				div5 = element("div");
+				div4 = element("div");
 				div3 = element("div");
 				div0 = element("div");
 				t0 = space();
@@ -9797,21 +9801,27 @@
 				t7 = space();
 				t8 = text(t8_value);
 				t9 = space();
-				attr_dev(div0, "class", "decor-img");
-				set_style(div0, "background-image", "url(https://picsum.photos/800/" + (800 + /*idx*/ ctx[8]).toString() + ")");
-				add_location(div0, file$3, 51, 12, 1739);
-				add_location(p, file$3, 57, 18, 1991);
-				add_location(br, file$3, 60, 21, 2099);
-				add_location(cite, file$3, 58, 18, 2035);
-				attr_dev(div1, "class", "inner-wrap");
-				add_location(div1, file$3, 56, 15, 1948);
-				attr_dev(div2, "class", "test-content main");
-				add_location(div2, file$3, 55, 12, 1901);
-				attr_dev(div3, "class", "home-testimonial");
-				add_location(div3, file$3, 50, 9, 1696);
+				attr_dev(div0, "class", "decor-img cover");
+				set_style(div0, "background-image", "url(" + /*t*/ ctx[6].feat_img + ")");
+				add_location(div0, file$3, 57, 18, 2008);
+				add_location(p, file$3, 60, 24, 2206);
+				add_location(br, file$3, 63, 27, 2332);
+				add_location(cite, file$3, 61, 24, 2256);
+				attr_dev(div1, "class", "_inner-wrap");
+				add_location(div1, file$3, 59, 21, 2156);
+				attr_dev(div2, "class", "test-content _main");
+				add_location(div2, file$3, 58, 18, 2102);
+				attr_dev(div3, "class", "inner-wrap flex-column flex-lg-row-reverse d-flex");
+				add_location(div3, file$3, 56, 15, 1926);
+				attr_dev(div4, "class", "main");
+				add_location(div4, file$3, 55, 12, 1892);
+				attr_dev(div5, "class", "home-testimonial");
+				add_location(div5, file$3, 54, 9, 1849);
 			},
 			m: function mount(target, anchor) {
-				insert_dev(target, div3, anchor);
+				insert_dev(target, div5, anchor);
+				append_dev(div5, div4);
+				append_dev(div4, div3);
 				append_dev(div3, div0);
 				append_dev(div3, t0);
 				append_dev(div3, div2);
@@ -9827,15 +9837,19 @@
 				append_dev(cite, br);
 				append_dev(cite, t7);
 				append_dev(cite, t8);
-				append_dev(div3, t9);
+				append_dev(div5, t9);
 			},
 			p: function update(ctx, dirty) {
+				if (dirty & /*activeTestimonials*/ 2) {
+					set_style(div0, "background-image", "url(" + /*t*/ ctx[6].feat_img + ")");
+				}
+
 				if (dirty & /*activeTestimonials*/ 2 && t2_value !== (t2_value = /*t*/ ctx[6].post_content + "")) set_data_dev(t2, t2_value);
 				if (dirty & /*activeTestimonials*/ 2 && t5_value !== (t5_value = /*t*/ ctx[6].post_title + "")) set_data_dev(t5, t5_value);
 				if (dirty & /*activeTestimonials*/ 2 && t8_value !== (t8_value = /*t*/ ctx[6].citation_title + "")) set_data_dev(t8, t8_value);
 			},
 			d: function destroy(detaching) {
-				if (detaching) detach_dev(div3);
+				if (detaching) detach_dev(div5);
 			}
 		};
 
@@ -9843,7 +9857,7 @@
 			block,
 			id: create_each_block.name,
 			type: "each",
-			source: "(50:6) {#each activeTestimonials as t, idx}",
+			source: "(54:6) {#each activeTestimonials as t, idx}",
 			ctx
 		});
 
@@ -9851,7 +9865,9 @@
 	}
 
 	function create_fragment$3(ctx) {
+		let div5;
 		let div3;
+		let div2;
 		let div1;
 		let form;
 		let p;
@@ -9867,7 +9883,7 @@
 		let t7;
 		let span;
 		let t8;
-		let div2;
+		let div4;
 		let mounted;
 		let dispose;
 		let each_value = /*activeTestimonials*/ ctx[1];
@@ -9880,7 +9896,9 @@
 
 		const block = {
 			c: function create() {
+				div5 = element("div");
 				div3 = element("div");
+				div2 = element("div");
 				div1 = element("div");
 				form = element("form");
 				p = element("p");
@@ -9890,57 +9908,63 @@
 				input0 = element("input");
 				t2 = space();
 				label0 = element("label");
-				label0.textContent = "From Subs";
+				label0.textContent = "Subs";
 				t4 = space();
 				input1 = element("input");
 				t5 = space();
 				label1 = element("label");
-				label1.textContent = "From Schools";
+				label1.textContent = "Schools";
 				t7 = space();
 				span = element("span");
 				t8 = space();
-				div2 = element("div");
+				div4 = element("div");
 
 				for (let i = 0; i < each_blocks.length; i += 1) {
 					each_blocks[i].c();
 				}
 
 				attr_dev(p, "class", "label");
-				add_location(p, file$3, 38, 9, 1107);
+				add_location(p, file$3, 40, 15, 1193);
 				attr_dev(input0, "type", "radio");
 				attr_dev(input0, "id", "radio-one");
 				attr_dev(input0, "name", "switch-one");
 				input0.value = "subs";
 				input0.checked = true;
-				add_location(input0, file$3, 40, 12, 1187);
+				add_location(input0, file$3, 42, 18, 1285);
 				attr_dev(label0, "for", "radio-one");
-				add_location(label0, file$3, 41, 12, 1317);
+				add_location(label0, file$3, 43, 18, 1421);
 				attr_dev(input1, "type", "radio");
 				attr_dev(input1, "id", "radio-two");
 				attr_dev(input1, "name", "switch-one");
 				input1.value = "schools";
-				add_location(input1, file$3, 42, 12, 1370);
+				add_location(input1, file$3, 44, 18, 1475);
 				attr_dev(label1, "for", "radio-two");
-				add_location(label1, file$3, 43, 12, 1498);
+				add_location(label1, file$3, 45, 18, 1609);
 				attr_dev(span, "class", "indicator");
-				add_location(span, file$3, 44, 12, 1554);
+				add_location(span, file$3, 46, 18, 1666);
 				attr_dev(div0, "class", "switch-field");
-				add_location(div0, file$3, 39, 9, 1148);
+				add_location(div0, file$3, 41, 15, 1240);
 				attr_dev(form, "class", "toggle-switch");
-				add_location(form, file$3, 37, 6, 1069);
+				add_location(form, file$3, 39, 12, 1149);
 				attr_dev(div1, "class", "toggle-switch-wrap d-flex justify-content-end align-items-center");
-				add_location(div1, file$3, 36, 3, 984);
-				attr_dev(div2, "class", "slick");
-				add_location(div2, file$3, 48, 3, 1624);
-				attr_dev(div3, "class", "home-hear-from section-full");
-				add_location(div3, file$3, 35, 0, 939);
+				add_location(div1, file$3, 38, 9, 1058);
+				attr_dev(div2, "class", "inner-wrap");
+				add_location(div2, file$3, 37, 6, 1024);
+				attr_dev(div3, "class", "toggle-main main");
+				add_location(div3, file$3, 36, 3, 987);
+				attr_dev(div4, "class", "slick");
+				add_location(div4, file$3, 52, 3, 1777);
+				attr_dev(div5, "class", "home-hear-from section-full");
+				add_location(div5, file$3, 35, 0, 942);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
 			},
 			m: function mount(target, anchor) {
-				insert_dev(target, div3, anchor);
-				append_dev(div3, div1);
+				insert_dev(target, div5, anchor);
+				append_dev(div5, div3);
+				append_dev(div3, div2);
+				append_dev(div2, div1);
 				append_dev(div1, form);
 				append_dev(form, p);
 				append_dev(form, t1);
@@ -9954,11 +9978,11 @@
 				append_dev(div0, label1);
 				append_dev(div0, t7);
 				append_dev(div0, span);
-				append_dev(div3, t8);
-				append_dev(div3, div2);
+				append_dev(div5, t8);
+				append_dev(div5, div4);
 
 				for (let i = 0; i < each_blocks.length; i += 1) {
-					each_blocks[i].m(div2, null);
+					each_blocks[i].m(div4, null);
 				}
 
 				if (!mounted) {
@@ -9984,7 +10008,7 @@
 						} else {
 							each_blocks[i] = create_each_block(child_ctx);
 							each_blocks[i].c();
-							each_blocks[i].m(div2, null);
+							each_blocks[i].m(div4, null);
 						}
 					}
 
@@ -9998,7 +10022,7 @@
 			i: noop,
 			o: noop,
 			d: function destroy(detaching) {
-				if (detaching) detach_dev(div3);
+				if (detaching) detach_dev(div5);
 				destroy_each(each_blocks, detaching);
 				mounted = false;
 				run_all(dispose);
@@ -10038,7 +10062,7 @@
 
 		afterUpdate(() => {
 			jq('.slick').slick({
-				adaptiveHeight: true,
+				// adaptiveHeight: true,
 				arrows: false,
 				dots: true,
 				fade: true,
