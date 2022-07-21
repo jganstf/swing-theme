@@ -147,7 +147,7 @@ body.single-post {
 
             .btn-wrap {
                 .btn {
-                    margin: 20px 0 0 0;
+                    margin: 15px 0 0 0;
                     padding-top: 11px;
                     padding-bottom: 11px;
 
@@ -240,7 +240,7 @@ body.single-post {
         &--banner {
             &-info {
                 h2 {
-                    font-size: 48px;
+                    font-size: 42px;
                 }
             }
         }
@@ -331,7 +331,7 @@ body.single-post {
                 padding: 20px 20px 20px 0;
 
                 h2 {
-                    font-size: 38px;
+                    font-size: 32px;
                 }
 
                 span {
@@ -344,8 +344,8 @@ body.single-post {
             margin-top: 40px;
 
             .inner-wrap {
-                justify-content: flex-start;
-                flex-direction: column;
+                // justify-content: flex-start;
+                // flex-direction: column;
                 
                 p,
                 li {
@@ -353,10 +353,6 @@ body.single-post {
                     text-align: left;
                     margin-bottom: 12px;
                 }
-            }
-
-            .sticky {
-                position: static;
             }
 
             .social-share {
@@ -374,7 +370,7 @@ body.single-post {
             }
 
             &-wrap {
-                max-width: 100%;
+                max-width: calc(100% - 330px);
 
                 h3 {
                     font-size: 26px;
@@ -384,13 +380,6 @@ body.single-post {
             }
 
             &-sidebar {
-                max-width: 440px;
-                margin: 20px auto;
-
-                .sidebar-inner {
-                    position: static;
-                }
-
                 .btn-wrap {
                     .btn {
                         padding: 8px 15px;
@@ -491,6 +480,7 @@ body.single-post {
             }
 
             &-wrap {
+                max-width: 100%;
                 margin-top: 20px;
 
                 h3 {
@@ -500,6 +490,18 @@ body.single-post {
 
             &-sidebar {
                 max-width: 100%;
+                margin-top: 20px;
+
+                .sidebar-inner {
+                    background-color: unset;
+                    padding: 0;
+                }
+
+                .sidebar-cta {
+                    background-color: var(--bg-03);
+                    padding: 20px;
+                    border-radius: 8px;
+                }
 
                 .btn-wrap {
                     .btn {

@@ -170,7 +170,6 @@ function postSlider() {
 		$postSlider.slick({
 			arrows: false,
 			dots: true,
-			fade: true,
 			slidesToShow: 1,
 			slidesToScroll: 1,
 		})

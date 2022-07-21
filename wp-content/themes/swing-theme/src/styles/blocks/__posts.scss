@@ -107,12 +107,35 @@ svg.arrow {
             }
 
             a {
-                transition: all 0.5s;
-                border-bottom: 2px solid transparent;
+                position: relative;
                 padding-bottom: 5px;
 
                 &:hover {
-                    border-color: var(--swing-blue);
+                    &::before {
+                        opacity: 1;
+                        width: 100%;
+                        transition: all 0.5s ease;
+                    }
+
+                    svg {
+                        transform: translateX(5px);
+                    }
+                }
+
+                &::before {
+                    content: "";
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 10%;
+                    height: 3px;
+                    opacity: 0;
+                    transition: all 0.5s ease;
+                    background-color: var(--swing-blue);
+                }
+
+                svg {
+                    transition: all 0.5s;
                 }
             }
         }
@@ -165,6 +188,7 @@ svg.arrow {
 
         span,
         a {
+            color: var(--swing-black);
             margin-right: 20px;
         }
     }
@@ -350,7 +374,7 @@ svg.arrow {
     }
 
     .child-category {
-        background: linear-gradient(var(--swing-blue) 100%,transparent 100%);
+        background: linear-gradient(var(--swing-blue) 70%,transparent 70%);
 
         &--title {
             h1 {
