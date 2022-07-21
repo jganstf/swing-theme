@@ -110,7 +110,6 @@ function mobileMenu() {
 	// 	}
 	// )
 	let $mobileMenu = $('#mobile-menu')
-	console.log($mobileMenu)
 	$mobileMenu.hide()
 	$('#mobile-menu .menu-item-has-children').find('.sub-menu').hide()
 	// $body.addClass('mm-open')
@@ -219,7 +218,7 @@ function animateCTA() {
 			stagger: 0.05,
 			opacity: 1
 		})
-		.from($cta.find('.btns-wrap'), { y: 32 })
+		// .from($cta.find('.btns-wrap'), { y: 32 })
 }
 function animateFooter() {
 	const tl = gsap.timeline({
@@ -227,7 +226,7 @@ function animateFooter() {
 		scrollTrigger:{trigger:'footer'}
 	})
 
-	tl.from('footer', {duration: 0.65, delay: 0.5})
+	tl.from('footer', {duration: 0.65, delay: 0.2})
 	gsap.from('footer .social-icon', {y: 16, opacity: 0, ease:'power1.out', duration: 0.3, stagger: 0.2, scrollTrigger: { trigger: '.footer-social-icons', start: 'center bottom'}})
 	$('.footer-links .col').each((_idx, el) => {
 		gsap.set($(el).children(), {y: 16, opacity: 0 })
@@ -319,7 +318,7 @@ function helpfulArticles() {
 		}
 	})
 	
-	let slider, x = window.matchMedia('(max-width: 700px)')
+	let slider, x = window.matchMedia('(max-width: 767px)') //md
 	x.addListener(haSlider)
 	haSlider(x)
 	

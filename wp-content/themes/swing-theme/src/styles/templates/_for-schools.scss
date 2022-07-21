@@ -3,7 +3,12 @@
 // .page-template-
 .for-schools {
    .hero-full-width .hero-img {
-      clip-path: ellipse(32vw 32vw at 68% 41%);
+      clip-path: ellipse(31vw 31vw at 68% 41%);
+      @media (min-width: 2450px) {
+         clip-path: ellipse(600px 600px at 52% 41%);
+         transform: translateX(-5%);
+         // margin-right: -100px;
+      }
    }
    .call-to-action {
       h2 {

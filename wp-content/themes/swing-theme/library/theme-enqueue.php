@@ -26,8 +26,11 @@ function swing_scripts() {
    } else {
 		
 		wp_enqueue_script( 'jquery', 'https://cdn.jsdelivr.net/npm/cash-dom@8.1.0/dist/cash.min.js', array(), null, true );
-
+		
    }
+	
+	//sly 
+	wp_enqueue_script( 'sly', 'https://cdn.jsdelivr.net/npm/sly-shim@1.6.1/dist/sly.min.js', array('jquery'), null, true );
 
 	//lozad - lazy image loading
 	// wp_enqueue_script('lozad', "https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js", null, $theme->version, true);

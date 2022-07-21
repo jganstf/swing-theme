@@ -132,6 +132,16 @@
 		}
 	}
 
+	//for-schools
+	.wht-ppr {
+		&-img {
+			flex: 0 0 33%;
+		}
+		.d-xl-flex {
+			flex: 0 0 66%;
+			flex-wrap: wrap;
+		}
+	}
 
 	//careers
 	.careers-about {
@@ -289,7 +299,6 @@
 	// 		font-size: 36px;
 	// 	}
 	// }
-	
 
 	//careers
 	.careers .hero-content {
@@ -630,6 +639,20 @@
 	.home-join .btn:not(:last-child) {
 		margin-right: 3%;
 	}
+
+	//for-schools
+	.wht-ppr{
+		padding: 42px 38px;
+		&-img {
+			flex: 0 0 100%;
+			width:100%;
+			margin-right: 0;
+			height: 250px;
+		}
+		.d-xl-flex {
+			padding-left: 0;
+		}
+	}
 }
 @media (max-width: 700px) {
 	.grid-four .grid-item,
@@ -743,6 +766,11 @@
 		}
 	}
 
+	//for-schools//for-schools
+	.wht-ppr{
+		padding: 21px 19px;
+	}
+
 	//careers
 	.life-grid .grid-item {
 		margin: 4.5px auto;
@@ -819,6 +847,28 @@
 @media (max-width:375px) {
 }
 
+@media (max-width: 1100px) and (min-width: 768px){
+	//for-schools
+	.ha-wrap.grid-three {
+		flex-direction: column;
+		.grid-item {
+			width: 100%;
+			flex-direction: row;
+			// border-radius: $border-radius;
+		}
+	}
+	.help-art-img {
+		flex: 0 0 33%;
+		padding-bottom: 200px;
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+	.help-art-content {
+		border-top-left-radius: 0;
+		border-bottom-left-radius: 0;
+	}
+}
+ 
 @media (min-width: 1950px) {
 	// .home .hero-img {
 	// 	clip-path: ellipse(590px 590px at 50% 27%);

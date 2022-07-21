@@ -1,0 +1,134 @@
+.cards-grid {
+   margin: 120px 0;
+   @include respond-below(sm) {
+      margin: 106px 0 92px; //TODO testimonial
+   }
+   h2 {
+      margin-bottom: 0.8846em;
+   }
+   &:not(._cards-overflow) {
+      .scrollbar-custom { display: none; }
+   }
+   // h2 ~ p {
+   //    @include bdy-md;
+   // }
+   
+   .scrollbar { width: 100%; height: 10px;
+      background: #bbb; }
+   .scrollbar .handle {
+      width: 100px; /* overriden if dynamicHandle: 1 */
+      height: 100%;
+      background: #222;
+   }
+}
+.cards-container {
+   @include bdy-md;
+
+   display: flex;
+   ul {
+      display: flex;
+   }
+   margin-top: 81.56px; //97.56px - 1rem;
+   margin-bottom: 86.74px;
+
+   $shift: 1rem;
+   margin: 0 -1rem;
+   .card {
+      display: inline-block;
+      flex: 0 0 calc(33% - #{$shift * 2});
+      text-align: center;
+      margin: 0 1rem;
+   }
+
+   &.cards-overflow {
+      overflow: scroll;
+      margin-right: calc(-50vw + 50%);
+      .card {
+         flex: 0 0 calc(33% - #{$shift * 2 / 3});
+         min-width: min(80%, 506px);
+         max-width: 506px;
+      }
+      &:not(:first-child) {
+         margin-left: $shift;
+      }
+      //TODO
+      // &:not(:last-child) {
+      //    margin-right: $shift;
+      // }
+   }
+
+   .icon-img {
+      @include bg;
+      width:  165px;
+      height: 165px;
+      // padding-bottom: 100%;
+      margin: 0 auto;
+   }
+   
+   h3 {
+      @include hdr-md; //TODO global, mobile
+      margin: 47px 0; 
+   }
+
+   /* Hide scrollbar for IE, Edge and Firefox */
+   -ms-overflow-style: none;  /* IE and Edge */
+   scrollbar-width: none;  /* Firefox */
+   /* Hide scrollbar for Chrome, Safari and Opera */
+   &::-webkit-scrollbar {
+      display: none;
+   }
+
+   //@see https://www.digitalocean.com/community/tutorials/css-scrollbars
+   &::-webkit-scrollbar {
+   width: 12px;               /* width of the entire scrollbar */
+   }
+   
+   &::-webkit-scrollbar-track {
+   background: orange;        /* color of the tracking area */
+   }
+   
+   &::-webkit-scrollbar-thumb {
+   background-color: blue;    /* color of the scroll thumb */
+   border-radius: 20px;       /* roundness of the scroll thumb */
+   border: 3px solid orange;  /* creates padding around scroll thumb */
+   }
+   // & {
+   // }
+   scrollbar-width: thin;          /* "auto" or "thin" */
+   scrollbar-color: blue orange;   /* scroll thumb and track */ 
+
+   /* Works on Firefox */
+   // * {
+   //    scrollbar-width: thin;
+   //    scrollbar-color: blue orange;
+   // }
+   
+   // /* Works on Chrome, Edge, and Safari */
+   // *::-webkit-scrollbar {
+   //    width: 12px;
+   // }
+   
+   // *::-webkit-scrollbar-track {
+   //    background: orange;
+   // }
+   
+   // *::-webkit-scrollbar-thumb {
+   //    background-color: blue;
+   //    border-radius: 20px;
+   //    border: 3px solid orange;
+   // }
+}
+
+.scrollbar-custom {
+   background-color: var(--swing-blue-t70);
+   border-radius: 11px;
+   height: 21px;
+   padding: 4.88px 6.5px;
+   &-thumb {
+      background-color: $blue;
+      border-radius: $border-radius;
+      height: 11px;
+      width: 20%; //dynamic
+      // transform: 
+   }
+}

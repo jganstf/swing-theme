@@ -3,6 +3,7 @@ import common from './routes/common'
 import home from './routes/home'
 import aboutUs from './routes/about'
 import forSubs from './routes/for-subs'
+import forSchools from './routes/for-schools'
 import careers from './routes/careers'
 import singlePost from './routes/single-post'
 import pageTemplateTos from './routes/terms'
@@ -16,6 +17,7 @@ const routes = new Router({
 	home,
 	aboutUs,
 	forSubs,
+	forSchools,
 	careers,
 	pageTemplateTos,
 	singlePost,

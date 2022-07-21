@@ -14,6 +14,16 @@
    }
 }
 
+.ha-wrap {
+   .slick-dots {
+      align-items: center;
+      bottom: 0;
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+   }
+}
+
 .help-art-wrap {
 }
 
@@ -34,13 +44,47 @@
       justify-content: space-between;
       h3 {
          @include hdr-md;
-         color: var(--swing-blue);
+         // color: var(--swing-blue);
       }
-      a {
-         margin-top: auto;
-         @include bdy-sm;
-         color: $blue; //! mixin
-         text-transform: uppercase;
+   }
+}
+.link-learn-more {
+   @include bdy-sm;
+   display: inline-block;
+   align-self: center;
+   margin-top: auto;
+   color: $blue; //! mixin
+   text-transform: uppercase;
+   margin-top: 3em;
+   position: relative;
+   $shift: 0.15em;
+   &:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: calc(100% + #{$shift});
+      height: 2px;
+      background-color: $blue;
+      transform: scaleX(0);
+      transform-origin: 0 50%;
+      transition: 0.35s;
+   }
+   svg {
+      max-height: 1em;
+      max-width: 1em;
+      fill: $blue;
+      margin-bottom: 0.25em; //line-height:
+      transition: 0.2s;
+   }
+   &:hover {
+      color: $blue;
+      &:before {
+         transform: scaleX(1);
+      }
+      svg {
+         margin-left:   $shift;
+         margin-right: -$shift;
       }
    }
 }
@@ -67,20 +111,30 @@
 .wht-ppr {
    background: #FFF;
    border-radius: $border-radius;
+   flex-wrap: wrap;
    padding: 50px 74px 68px;
    &-img {
+      @include bg;
       width:321px;
-      // height: 100%;
-      flex-grow: 1;
+      min-width: 150px;
+      flex: 0 0 20%;
       background-color: #ddd;
       border-radius: $border-radius;
    }
+   .d-xl-flex {
+      display: flex;
+      flex: 0 0 80%;
+      padding: min(40px, 2.08333vw) min(4.635vw, 89px);
+      padding-right: 0;
+   }
    &-content {
-      padding: 40px 89px;
+      // padding-right: calc(min(4.635vw, 89px) / 2);
+      padding-right: calc(min(4.635vw, 89px) / 2);
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       text-align: left;
+      flex-grow: 0;
       // h2, h3 {
       //    margin-bottom: 1rem;
       // }

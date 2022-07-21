@@ -9605,7 +9605,6 @@
 		// 	}
 		// )
 		let $mobileMenu = $$1('#mobile-menu');
-		console.log($mobileMenu);
 		$mobileMenu.hide();
 		$$1('#mobile-menu .menu-item-has-children').find('.sub-menu').hide();
 		$$1('#toggle_nav').on('click', () => {
@@ -9710,8 +9709,8 @@
 				ease: "elastic.out(1,0.5)",
 				stagger: 0.05,
 				opacity: 1
-			})
-			.from($cta.find('.btns-wrap'), { y: 32 });
+			});
+			// .from($cta.find('.btns-wrap'), { y: 32 })
 	}
 	function animateFooter() {
 		const tl = gsapWithCSS.timeline({
@@ -9719,7 +9718,7 @@
 			scrollTrigger:{trigger:'footer'}
 		});
 
-		tl.from('footer', {duration: 0.65, delay: 0.5});
+		tl.from('footer', {duration: 0.65, delay: 0.2});
 		gsapWithCSS.from('footer .social-icon', {y: 16, opacity: 0, ease:'power1.out', duration: 0.3, stagger: 0.2, scrollTrigger: { trigger: '.footer-social-icons', start: 'center bottom'}});
 		$$1('.footer-links .col').each((_idx, el) => {
 			gsapWithCSS.set($$1(el).children(), {y: 16, opacity: 0 });
@@ -9811,7 +9810,7 @@
 			}
 		});
 		
-		let slider, x = window.matchMedia('(max-width: 700px)');
+		let slider, x = window.matchMedia('(max-width: 767px)'); //md
 		x.addListener(haSlider);
 		haSlider(x);
 		
@@ -10500,6 +10499,15 @@
 	   });
 	}
 
+	var forSchools = {
+		init() {
+			gsapWithCSS.registerPlugin(ScrollTrigger$1);
+		},
+		finalize() {
+			// JavaScript to be fired on the home page, after the init JS
+		},
+	};
+
 	const { $: $$5 } = window;
 
 	var careers = {
@@ -10635,6 +10643,7 @@
 		home,
 		aboutUs,
 		forSubs,
+		forSchools,
 		careers,
 		pageTemplateTos,
 		singlePost,

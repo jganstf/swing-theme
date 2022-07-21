@@ -39,6 +39,9 @@ $font-body: $font-promixa-nova;
   line-height: 1.25;
   letter-spacing: var(--unnamed-character-spacing-0);
   color: var(--swing-black);
+  @include media-breakpoint-down(sm) {
+    @include hdr-sm; //for schools scroll cards
+  }
 }
 .hdr-md { @include hdr-md; }
 
@@ -186,6 +189,9 @@ $font-body: $font-promixa-nova;
   line-height: 1.33;
   letter-spacing: var(--unnamed-character-spacing-0);
   color: var(--swing-black);
+  @include media-breakpoint-down(sm) {
+    @include bdy-sm; //for schools scroll cards
+  }
 }
 .bdy-md { @include bdy-md; }
 
