@@ -2,9 +2,9 @@
 
 <div class="home-join">
    <div class="row flex-row-reverse justify-content-between">
-      <div class="partners col-md-6 grid-three">
+      <div class="home-partners col-md-6 grid-three">
          <?php foreach($fields['partners'] as $partner): ?>
-            <div class="partner grid-item">
+            <div class="home-partner grid-item">
                <img src="<?php echo $partner['sizes']['medium'];?>" alt="" width="<?php echo $partner['sizes']['medium-width'];?>" height="<?php echo $partner['sizes']['medium-height'];?>" />
             </div>
          <?php endforeach;?>

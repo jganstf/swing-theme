@@ -15,6 +15,7 @@ function swing_scripts() {
    if(true) {//TODO is_front_page() || is_page('partnership')) {
 		
 		wp_enqueue_script( 'jquery', 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js', array(), null, true );
+		// wp_enqueue_script( 'fittext', 'https://cdn.jsdelivr.net/npm/fittext.js@1.2.0/jquery.fittext.js', array('jquery'), null, true );
 		wp_enqueue_script('passive', $theme_uri . "/assets/js/passive.js", ['jquery'], $theme->version, true);
 		
 		// slick

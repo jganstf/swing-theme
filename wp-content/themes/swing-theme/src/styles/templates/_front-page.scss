@@ -312,7 +312,7 @@
    }
    $x: 20px;
    $y: 30px;//60px;
-   .partners {
+   .home-partners {
       // height: min-content;
       // margin: -$y -$x; 
       margin-left: -$y; 
@@ -321,7 +321,7 @@
       margin-bottom: -$x; 
       justify-content: center;
    }
-   .partner { 
+   .home-partner { 
       max-height: 243px;
       max-height: 92px;
       padding: 0.5%;
@@ -341,6 +341,13 @@
 }
 
 //page-template-home,
+
+.word,
+.letter {
+   transform-origin: 0 100%;
+   display: inline-block;
+   // line-height: 1em;
+}
 .home {
    h1, h2 {
 
@@ -354,12 +361,6 @@
          // padding-right: 0.05em;
          // padding-bottom: 0.1em;
          overflow: hidden;
-      }
-      .word,
-      .letter {
-         transform-origin: 0 100%;
-         display: inline-block;
-         // line-height: 1em;
       }
    }
    h1 {

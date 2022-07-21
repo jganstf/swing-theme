@@ -6,7 +6,7 @@
 
 <div class="helpful-articles">
    <?php if($heading = $fields['heading']):?>
-      <h2><?php echo $heading;?></h2>
+      <h2><span class="letters"><?php echo $heading;?></span></h2>
    <?php endif;?> 
    <div class="ha-wrap grid-three">
       <?php if($posts): 

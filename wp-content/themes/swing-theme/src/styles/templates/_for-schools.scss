@@ -1,6 +1,10 @@
 
 
-.page-template-for-schools {
+// .page-template-
+.for-schools {
+   .hero-full-width .hero-img {
+      clip-path: ellipse(32vw 32vw at 68% 41%);
+   }
    .call-to-action {
       h2 {
          max-width: 20em;

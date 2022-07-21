@@ -3,6 +3,23 @@
     "title": "Partners Slider",
     "fields": [
         {
+            "key": "field_62d88472ec220",
+            "label": "Partners Slider",
+            "name": "",
+            "type": "accordion",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "open": 0,
+            "multi_expand": 0,
+            "endpoint": 0
+        },
+        {
             "key": "field_62cb166a994b0",
             "label": "Partners",
             "name": "partners",
@@ -66,5 +83,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1658102797
+    "modified": 1658356861
 }

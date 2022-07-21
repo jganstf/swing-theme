@@ -4,15 +4,15 @@
 //
 // Define the minimum dimensions at which your layout will change,
 // adapting to different screen sizes, for use in media queries.
-$grid-breakpoints: (
-	xs: 390px,
-	sm: 576px,
-	md: 768px,
-	lg: 992px,
-	xl: 1099px,
-	2xl: 1299px,
-	3xl: 1499px,
-);
+// $grid-breakpoints: (
+// 	xs:  390px,
+// 	sm:  576px,
+// 	md:  768px,
+// 	lg:  992px,
+// 	xl:  1100px,
+// 	2xl: 1300px,
+// 	3xl: 1500px,
+// );
 
 @mixin respond-above($breakpoint) {
 	// If the breakpoint exists in the map.

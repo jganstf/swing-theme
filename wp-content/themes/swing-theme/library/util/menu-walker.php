@@ -23,7 +23,7 @@ class Theme_Menu_Walker extends Walker_Nav_Menu {
 			$output .= '<span>';
 		}
 		if($item->description) {
-			$output .= '<span class="link-title">'.$item->title.'h'.'</span>';
+			$output .= '<span class="link-title">'.$item->title.'</span>';
 		} else {
 			$output .= $item->title;
 		}

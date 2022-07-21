@@ -47,6 +47,8 @@
 - [ ] swing logo
 - [ ] menu-color-primary
 - [ ] menu-color-primary menu.scss - remove hover? 1100
+- [ ] modal p
+- [ ] deprecations
 - [ ] 
 - [ ] 
 
