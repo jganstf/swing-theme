@@ -9514,6 +9514,7 @@
 			gsapWithCSS.registerPlugin(ScrollTrigger$1);
 			mobileMenu();
 			testimonialSlider();
+			stepSlider();
 			textCardsBlock();
 			animateWpBlockMediaText();
 			helpfulArticles();
@@ -9767,6 +9768,35 @@
 		}
 	}
 
+
+	/**
+	 * Step Slider
+	 */
+	function stepSlider() { //single Job post
+
+		const $stepSlider = $$1('.step-slider .slider');
+		const $stepSliderNav = $$1('.step-slider .ss-nav');
+		
+		if(!$stepSlider.length) {
+			return
+		}
+
+		$stepSlider.slick({
+			// adaptiveHeight: true, //TODO flex? - for subs
+			arrows: false,
+			dots: false,
+			fade: true,
+			slidesToShow: 1,
+			slidesToScroll: 1,
+		});
+		
+		$$1($stepSliderNav).find('a[data-slide]').click(function(e) {
+		   e.preventDefault();
+		   let slideno = $$1(this).data('slide');
+		   $stepSlider.slick('slickGoTo', slideno - 1);
+		 });
+		
+	}
 
 
 	/**

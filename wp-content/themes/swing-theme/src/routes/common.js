@@ -19,6 +19,7 @@ export default {
 		gsap.registerPlugin(ScrollTrigger)
 		mobileMenu()
 		testimonialSlider()
+		stepSlider()
 		textCardsBlock()
 		animateWpBlockMediaText()
 		helpfulArticles()
@@ -275,6 +276,35 @@ function postSlider() {
 	}
 }
 
+
+/**
+ * Step Slider
+ */
+function stepSlider() { //single Job post
+
+	const $stepSlider = $('.step-slider .slider');
+	const $stepSliderNav = $('.step-slider .ss-nav');
+	
+	if(!$stepSlider.length) {
+		return
+	}
+
+	$stepSlider.slick({
+		// adaptiveHeight: true, //TODO flex? - for subs
+		arrows: false,
+		dots: false,
+		fade: true,
+		slidesToShow: 1,
+		slidesToScroll: 1,
+	});
+	
+	$($stepSliderNav).find('a[data-slide]').click(function(e) {
+	   e.preventDefault();
+	   let slideno = $(this).data('slide');
+	   $stepSlider.slick('slickGoTo', slideno - 1);
+	 });
+	
+}
 
 
 /**

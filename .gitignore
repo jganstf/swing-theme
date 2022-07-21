@@ -66,3 +66,4 @@ wp-content/mu-plugins/wpe-wp-sign-on-plugin*
 *.asf
 *.wmv
 *.avi
+.nova/
