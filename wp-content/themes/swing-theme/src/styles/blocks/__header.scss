@@ -9,6 +9,11 @@
   box-shadow: $box-shadow;
   // filter: drop-shadow(0 4px 4px rgba(0,0,0,0.35));
 }
+// .navbar-wrap { //TODO
+//    box-shadow: unset;
+//    filter: drop-shadow(0pt,3pt,37pt, #4650601A);
+// }
+
 .navbar {
   display: flex;
   justify-content: space-between;

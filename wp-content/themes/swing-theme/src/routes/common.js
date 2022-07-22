@@ -7,7 +7,9 @@ import GetStartedModal from '../components/popup-get-started.svelte'
 import NewsLetterModal from '../components/popup-newsletter.svelte'
 
 import { 
-	partnerSlider 
+	gettingStartedSteps,
+	partnerSlider,
+	storiesSlider
 } from './blocks'
 
 const { $ } = window
@@ -17,6 +19,7 @@ const $body = $(document.body)
 export default {
 	init() {
 		gsap.registerPlugin(ScrollTrigger)
+
 		mobileMenu()
 		testimonialSlider()
 		stepSlider()
@@ -24,6 +27,8 @@ export default {
 		animateWpBlockMediaText()
 		helpfulArticles()
 		partnerSlider()
+		storiesSlider() //partnership
+		gettingStartedSteps() //partnership
 
 		if(window.innerWidth < 767) { //TODO move to route
 			postSlider()
@@ -269,7 +274,6 @@ function postSlider() {
 		$postSlider.slick({
 			arrows: false,
 			dots: true,
-			fade: true,
 			slidesToShow: 1,
 			slidesToScroll: 1,
 		})
@@ -368,7 +372,7 @@ function helpfulArticles() {
 		}
 	}
 	
-	if($('.helpful-articles h2'.length)) {
+	if($('.helpful-articles h2').length) {
 		var textWrapper = $('.helpful-articles h2 .letters')[0]
 		textWrapper.innerHTML = textWrapper.textContent.replace(/\S+/g, "<span class='word'>$&</span>")
 		gsap.set($('.helpful-articles h2 .word'), {opacity: 0, y: 24})

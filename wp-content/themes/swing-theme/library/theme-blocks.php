@@ -99,6 +99,26 @@ function theme_register_blocks() {
    //    'supports' => ['align' => false],
    // ]);
 	acf_register_block([
+		'name'			=> 'partnership-states',
+		'title'			=> 'Partnership States',
+		'render_template'	=> 'blocks/partnership-states.php',
+		'category'		=> 'theme-blocks',
+		'icon'			=> 'thumbs-up',
+		'mode'			=> 'edit',
+      'keywords'		=> ['partnership', 'states', 'hero', 'swing', 'education'],
+      'supports' => ['align' => false],
+   ]);
+	acf_register_block([
+		'name'			=> 'partnership-pricing',
+		'title'			=> 'Partnership Pricing',
+		'render_template'	=> 'blocks/partnership-pricing.php',
+		'category'		=> 'theme-blocks',
+		'icon'			=> 'thumbs-up',
+		'mode'			=> 'edit',
+      'keywords'		=> ['partnership', 'pricing', 'hero', 'swing', 'education'],
+      'supports' => ['align' => false],
+   ]);
+	acf_register_block([
 		'name'			=> 'swing-hero-full-width',
 		'title'			=> 'Full-Width Hero',
 		'render_template'	=> 'blocks/full-width-hero.php',

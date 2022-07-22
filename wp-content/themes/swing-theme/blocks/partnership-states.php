@@ -1,6 +1,6 @@
 <?php $fields = get_fields(); ?>
 
-<div class="partner-states blue-section">
+<div class="partnership-states blue-section">
    <div class="d-md-flex">
       <div class="partner-states-content">
          <h2>Ready to partner with you in Arizona, California, Texas, New Jersey, New York, and Washington D.C.</h2>
@@ -10,6 +10,9 @@
             <?php echo $btn['title']?:'Request Demo'; ?>
          </a>
          <?php endif;?>
+      </div>
+      <div class="partner-states-map">
+         <!-- //TODO -->
       </div>
    </div>
 </div>

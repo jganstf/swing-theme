@@ -37,9 +37,13 @@
       display: inline-block;
       flex: 0 0 calc(33% - #{$shift * 2});
       text-align: center;
-      margin: 0 1rem;
+      margin: 1rem;
    }
 
+   &:not(.cards-overflow) {
+      flex-wrap: wrap;
+      justify-content: center;
+   }
    &.cards-overflow {
       overflow: scroll;
       margin-right: calc(-50vw + 50%);

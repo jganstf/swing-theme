@@ -1,0 +1,131 @@
+//hero, etc.
+
+// three lines for h1 at and above 1920
+.getting-started {
+   .blue-section.hero-contained {
+      .hero-img {
+         flex: 0 0 46%;
+      }
+   }
+}
+.partnership {
+   .blue-section.hero-contained {
+      .hero-img {
+         flex: 0 0 48%;
+      }
+   }
+}
+//--
+
+.getting-started,
+.partnership {
+   .hero .inner-wrap {
+      border-radius: 8px;
+      overflow: hidden;
+   }
+   .blue-section.hero-contained {
+      .hero-content {
+         padding-left: 60px; 
+         padding-top: 76px;
+         padding-bottom: 157px;
+      }
+   }
+   .cards-container {
+      margin: -11px;
+      .card {
+         margin: 11px;
+      }
+   }
+}
+
+
+@media (max-width: 1700px) {
+   .getting-started,
+   .partnership {
+      h1 { 
+         font-size: 56px;
+      }
+   }
+}
+@media (max-width: 1500px) {
+   .getting-started,
+   .partnership {
+      h1 { 
+         font-size: 50px;
+      }
+   }
+}
+@media (max-width: 1300px) {
+   .getting-started,
+   .partnership {
+      .hero-content {
+         max-width: unset;
+      }
+      h1 { font-size: 44px; }
+      .blue-section.hero-contained .hero-img {
+         flex: 0 0 44%;
+      }
+   }
+}
+@media (max-width: 1100px) {
+   .getting-started,
+   .partnership {
+      .blue-section.hero-contained .hero-img {
+         flex: 0 0 40%;
+      }
+   }
+}
+@include respond-below(lg) {
+   .getting-started,
+   .partnership {
+      .hero .inner-wrap {
+         flex-direction: column;
+      }
+      .hero-img {
+         width: 100%;
+         height: 325px;
+         .decor-img {
+            background-position: top center;
+         }
+      }
+      h1 {
+         max-width: unset;
+         font-size: 56px;
+      }
+   }
+   .getting-started .blue-section.hero-contained .hero-content,
+   .partnership .blue-section.hero-contained .hero-content {
+      padding-bottom: 56px;
+   }
+   .getting-started .blue-section.hero-contained .hero-img,
+   .partnership .blue-section.hero-contained .hero-img {
+      clip-path: ellipse(66% 100% at 50% 100%);
+      flex: unset;
+   }
+}
+@include respond-below(md) {
+   .getting-started,
+   .partnership {
+      h1 {
+         font-size: 48px;
+      }
+      .blue-section.hero-contained .hero-content {
+         padding: 50px 26px !important;
+      }
+   }
+}
+@include respond-below(sm) {
+   .getting-started,
+   .partnership {
+      h1 {
+         @include hdl-sm;
+      }
+   }
+}
+@media (max-width: 520px) {
+   .getting-started .blue-section.hero-contained .hero-img,
+   .partnership .blue-section.hero-contained .hero-img {
+      clip-path: ellipse(90% 100% at 50% 100%);
+   }
+}
+

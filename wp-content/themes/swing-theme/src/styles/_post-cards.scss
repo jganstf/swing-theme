@@ -37,6 +37,20 @@
                         transform: scale(1.1);
                     }
                 }
+
+                .post-info {
+                    span {
+                        &::before {
+                            opacity: 1;
+                            width: 100%;
+                            transition: all 0.5s ease;
+                        }
+
+                        svg {
+                            transform: translateX(5px);
+                        }
+                    }
+                }
             }
 
             figure {
@@ -44,6 +58,7 @@
                 width: 100%;
                 padding-top: 54%;
                 margin-bottom: 0;
+                overflow: hidden;
 
                 img {
                     position: absolute;
@@ -59,7 +74,7 @@
 
             .post-info {
                 text-align: center;
-                padding: 35px;
+                padding: 30px;
                 background-color: var(--bg-03);
 
                 small {
@@ -77,13 +92,24 @@
                     color: var(--swing-black);
                 }
 
-                a {
-                    transition: all 0.5s;
-                    border-bottom: 2px solid transparent;
+                span {
+                    position: relative;
                     padding-bottom: 5px;
-    
-                    &:hover {
-                        border-color: var(--swing-blue);
+
+                    &::before {
+                        content: "";
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        width: 10%;
+                        height: 3px;
+                        opacity: 0;
+                        transition: all 0.5s ease;
+                        background-color: var(--swing-blue);
+                    }
+
+                    svg {
+                        transition: all 0.5s;
                     }
                 }
             }
@@ -149,6 +175,20 @@
                                 }
                             }
                         }
+
+                        .post-info {
+                            span {
+                                &::before {
+                                    opacity: 1;
+                                    width: 100%;
+                                    transition: all 0.5s ease;
+                                }
+
+                                svg {
+                                    transform: translateX(5px);
+                                }
+                            }
+                        }
                     }
 
                     .post-image {
@@ -194,6 +234,28 @@
                             font-size: var(--unnamed-font-size-21);
                             color: var(--swing-black-t20);
                         }
+
+                        span {
+                            display: none;
+                            position: relative;
+                            padding-bottom: 5px;
+
+                            &::before {
+                                content: "";
+                                position: absolute;
+                                bottom: 0;
+                                left: 0;
+                                width: 10%;
+                                height: 3px;
+                                opacity: 0;
+                                transition: all 0.5s ease;
+                                background-color: var(--swing-blue);
+                            }
+
+                            svg {
+                                transition: all 0.5s;
+                            }
+                        }
                     }
                 }
             }
@@ -206,8 +268,6 @@
         &--grid {
             &-item {
                 .post-info {
-                    padding: 20px;
-
                     small {
                         margin-bottom: 15px;
                     }
@@ -253,12 +313,6 @@
                     max-width: 50%;
                 }
             }
-
-            &-item {
-                .post-info {
-                    padding: 15px;
-                }
-            }
         }
 
         &--single {
@@ -286,14 +340,23 @@
 
                         .post-image {
                             max-width: 100%;
+
+                            figure {
+                                padding-top: 54%;
+                            }
                         }
 
                         .post-info {
-                            padding: 15px;
+                            padding: 30px;
                             max-width: 100%;
+                            text-align: center;
 
                             p {
                                 font-size: var(---unnamed-font-size-15-75);
+                            }
+
+                            span {
+                                display: inline-block;
                             }
                         }
                     }
@@ -319,6 +382,46 @@
                 .post-info {
                     h3 {
                         font-size: var(--unnamed-font-size-21);
+                    }
+                }
+            }
+
+            ul.slick-dots {
+                display: flex;
+                overflow: hidden;
+                border-radius: 50px;
+                border: 4px solid var(--swing-blue-t70);
+                background-color: var(--swing-blue-t70);
+
+                li {
+                    width: 100%;
+                    margin: 0;
+                    border-radius: 0;
+                    background-color: var(--swing-blue-t70);
+
+                    &:first-child {
+                        border-radius:20px 0 0 20px;
+                    }
+
+                    &:last-child {
+                        border-radius: 0 20px 20px 0;
+                    }
+
+                    button {
+                        width: 0;
+                        transition: all 0.5s ease;
+                        background: var(--swing-blue);
+                        padding: 0;
+                        opacity: 0;
+                    }
+
+                    &.slick-active {
+                        button {
+                            opacity: 1;
+                            width: 100%;
+                            transition: all 0.5s ease;
+                            background: var(--swing-blue);
+                        }
                     }
                 }
             }

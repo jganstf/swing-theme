@@ -14,7 +14,16 @@
    z-index: 2;
    &-full-width {
       .hero-img {
+         // flex: 0 0 60%;
+         margin-right: calc(-50vw + 50%);
+         width: 50vw;
+         clip-path: ellipse(36vw 36vw at 77% 50%);
          clip-path: ellipse(60% 78% at 64% 36%);
+         @media (min-width: 2450px) {
+            clip-path: ellipse(600px 600px at 52% 41%);
+            // transform: translateX(-5%);
+            // margin-right: -100px;
+         }
       }
       .decor-img {
          height: 115%;
@@ -28,9 +37,9 @@
          height: 100%;
       }
    }
-   &-img {
+   &-img { //edit full then contains (partnership)
       // flex: 0 0 60%;
-      margin-right: calc(-50vw + 50%);
+      // margin-right: calc(-50vw + 50%);
       width: 50vw;
       clip-path: ellipse(36vw 36vw at 77% 50%);
       .decor-img {
@@ -58,20 +67,17 @@
         }
       }
       .btns-wrap {
-        margin-top: 34px;//50px;
-        .btn {
-          margin-top: 1rem;
-          &:not(:last-child) {
-            margin-right: 1em;
-          }
-        }
-        @include respond-below(2xl) {
-          .btn { 
-            display: block;
-            width:100%;
+         margin-top: 34px;//50px;
+         .btn {
+            margin-top: 1rem;
             max-width: 250px;
-          }
-        }
+            &:not(:last-child) {
+               margin-right: 1em;
+            }
+         }
+         @include respond-below(xl) {
+            margin-top: 1rem;
+         }
       }
    }
    .inner-wrap {
@@ -100,7 +106,7 @@
 
 @media (max-width: 1700px) {
    h1 { 
-      font-size: 56px !important;
+      font-size: 56px;//TODO !important;
       & ~ p { 
          font-size: 24px!important; 
          max-width: 23em;
@@ -117,7 +123,7 @@
       padding: 110px 0;
    }
    h1 { 
-      font-size: 48px !important;
+      font-size: 48px;// !important;
       & ~ p { 
          font-size: 21px!important; 
       }
@@ -125,7 +131,7 @@
 }
 @media (max-width: 1100px) {
    h1 { 
-      font-size: 42px !important;
+      font-size: 42px;// !important;
       & ~ p { 
          font-size: 20px!important; 
       }
@@ -133,7 +139,7 @@
 }
 @media (max-width: 900px) {
    h1 { 
-      font-size: 36px !important;
+      font-size: 36px;// !important;
       & ~ p { 
          font-size: 18px!important; 
       }
@@ -169,5 +175,15 @@
             // transform: translateY(50%);
          }
       }
+   }
+}
+
+.single-job {
+   .hero-img,
+   .hero-full-width .hero-img {
+      clip-path: unset!important;
+   }
+   .hero-img {
+      width: unset;
    }
 }

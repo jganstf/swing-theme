@@ -1,0 +1,51 @@
+
+//grid-outline - two
+.part-price-stat {
+   $xshift: 11px;
+   margin: 0.75rem $xshift;
+   padding: 2rem;
+   text-align: left;
+   width: calc(50% - #{$xshift * 2});
+   &-wrap { //grid-two
+      margin: -0.75rem #{-$xshift};
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+   }
+   .pps-icon {
+      height: 52px;
+      width: 52px;
+   }
+   h3 {
+      @include hdr-sm;
+      margin-bottom: 0.857em;
+   }
+   p {
+      @include bdy-sm;
+      margin-bottom: 0;
+   }
+   // @media (max-width: 1100px) {
+   //    .grid-two .grid-item {
+   //       margin: 0.75rem 2% 1.75rem;
+   //    }
+   // }
+}
+
+.partnership-pricing {
+   @include bdy-md;
+   padding: 162px 0;
+   text-align: center;
+   h2 {
+      margin-bottom: 1.5em;
+   }
+
+   h2,
+   h2 ~ p {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 900px;
+   }
+   h2 ~ p:not(:last-of-type) {
+      margin-bottom: 3.5em;
+   }
+}

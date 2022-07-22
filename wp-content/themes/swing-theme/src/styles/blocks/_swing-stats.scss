@@ -5,6 +5,24 @@
       @include cover;
       background-color: var(--bg-03);
    }
+   h2 {
+      @include h2-dark-blue;
+      margin-bottom: 0.62324em;
+      max-width: 18em;
+   }
+   .d-flex {
+      margin: -2%;
+   }
+   @include respond-below(xl) {
+      .d-flex {
+         flex-wrap: wrap;
+      }
+   }
+}
+.swing-stat {
+   // min-width: min(100%, 300px);
+   margin: 2%;
+   flex: 1 0 29.333%;
 }
 .ss-quantity { 
    // @include hdl-xx;
@@ -15,11 +33,11 @@
    //line-height: var(--unnamed-line-spacing-27-989999771118164);
    line-height: 1.1767368183;//calc(104px / 88.38px);
    letter-spacing: var(--unnamed-character-spacing-0);
-   color: var(--swing-blue-shd);
+   color: var(--swing-black);
 }
 .ss-item { 
    @include bdy-lg; 
-   color: var(--swing-blue-shd);
+   color: $black;
    font-weight: 800;
    margin-bottom: 27px;
 }
@@ -28,7 +46,7 @@
    max-width: 18em;
 }
 
-.hero.has-space + .swing-stats {
-   margin-top: -166px;//match
+.hero-contained + .swing-stats {
+   margin-top: -66px;//match
    z-index: 0;
 }

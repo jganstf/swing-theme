@@ -16,7 +16,9 @@ $tags = implode(', ', wp_get_post_terms($post->ID, 'post_tag', ['fields' => 'nam
 ?>
 <main id="main_content" class="main-content-wrap">
     <div class="main">
-        <div class="breadcrumb"><?php get_breadcrumb(); ?></div>
+        <div class="breadcrumb">
+            <div class="inner-wrap"><?php get_breadcrumb(); ?></div>
+        </div>
         <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
                 <div class="single-post--banner">
                     <div class="inner-wrap">
@@ -37,13 +39,13 @@ $tags = implode(', ', wp_get_post_terms($post->ID, 'post_tag', ['fields' => 'nam
                             <div class="social-share--inner sticky">
                                 <p>Share</p>
                                 <div class="d-flex social-share--list">
-                                    <a href="<?php echo social_share('twitter'); ?>" class="social-icon">
+                                    <a href="<?php echo social_share('twitter'); ?>" target="_blank" class="social-icon">
                                         <?php insert_svg('twitter'); ?>
                                     </a>
-                                    <a href="<?php echo social_share('facebook'); ?>" class="social-icon">
+                                    <a href="<?php echo social_share('facebook'); ?>" target="_blank" class="social-icon">
                                         <?php insert_svg('facebook'); ?>
                                     </a>
-                                    <a href="<?php echo social_share('linkedin'); ?>" class="social-icon">
+                                    <a href="<?php echo social_share('linkedin'); ?>" target="_blank" class="social-icon">
                                         <?php insert_svg('linkedin'); ?>
                                     </a>
                                 </div>
@@ -93,12 +95,12 @@ $tags = implode(', ', wp_get_post_terms($post->ID, 'post_tag', ['fields' => 'nam
                             Related Articles
                         </h2>
                     </div>
-                    <div class="post-cards--grid">
+                    <div class="post-cards--grid slick">
                         <ul class="post-cards--grid-inner">
                             <?php foreach ($related_posts as $related_post) {
                                 $category = implode(',', wp_get_post_terms($related_post->ID, 'category', ['fields' => 'names'])); ?>
                                 <li class="post-cards--grid-wrap">
-                                    <div class="post-cards--grid-item">
+                                    <a href="<?php echo get_the_permalink($related_post->ID); ?>" class="post-cards--grid-item">
                                         <figure>
                                             <?php echo get_the_post_thumbnail($related_post->ID); ?>
                                         </figure>
@@ -106,15 +108,15 @@ $tags = implode(', ', wp_get_post_terms($post->ID, 'post_tag', ['fields' => 'nam
                                             <small>
                                                 <?php echo date("M d, Y", strtotime($related->post_date)); ?>
                                             </small>
-                                            <h3><?php echo $related->post_title; ?></h3>
+                                            <h3><?php echo $related_post->post_title; ?></h3>
                                             <small><?php echo $category; ?></small>
-                                            <a href="<?php echo get_the_permalink($related_post->ID); ?>">LEARN MORE
+                                            <span>LEARN MORE
                                                 <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
                                                     <path d="M4 15a1 1 0 0 0 1 1h19.586l-4.292 4.292a1 1 0 0 0 1.414 1.414l6-6a.99.99 0 0 0 .292-.702V15c0-.13-.026-.26-.078-.382a.99.99 0 0 0-.216-.324l-6-6a1 1 0 0 0-1.414 1.414L24.586 14H5a1 1 0 0 0-1 1z" />
                                                 </svg>
-                                            </a>
+                                            </span>
                                         </div>
-                                    </div>
+                                    </a>
                                 </li>
                             <?php } ?>
                         </ul>

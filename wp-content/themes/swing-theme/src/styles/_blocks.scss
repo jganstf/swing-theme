@@ -8,6 +8,8 @@
 @import "blocks/swing-stats";
 @import "blocks/_stories-slider";
 @import "blocks/_get-started-steps";
+@import "blocks/_partnership-pricing";
+@import "blocks/_partnership-states";
 @import "blocks/_posts";
 @import "blocks/_newsletter";
 
@@ -62,6 +64,7 @@
    }
 }
 
+.light-blue-bg, //TODO
 .is-style-light-blue-bg {
    @include is-style-bg;
    &::before {

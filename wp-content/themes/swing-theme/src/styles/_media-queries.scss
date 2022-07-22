@@ -28,6 +28,11 @@
 			clip-path: ellipse(32vw 32vw at 68% 30%);
 		}
 	}
+
+	//partnership
+	.ss-quantity {
+		font-size: 72px;
+	}
 }
 @media (max-width: 1600px) {
 	// .hero .hero-img {
@@ -99,11 +104,6 @@
 		width: 42px;
 		height: 42px;
 	}
-	.main-content-wrap {
-		p {
-			font-size: 20px;
-		}
-	}
 
 	//home
 	.home h2 {
@@ -141,6 +141,14 @@
 			flex: 0 0 66%;
 			flex-wrap: wrap;
 		}
+	}
+
+	//partnership
+	.ss-quantity {
+		font-size: 66px;
+	}
+	.ss-item {
+		font-size: 24px;
 	}
 
 	//careers
@@ -248,11 +256,6 @@
    #main-content {
       padding-top: 64px;
    }
-	.main-content-wrap {
-		p {
-			font-size: 18px;
-		}
-	}
 	li.btn *, *:not(li).btn {
 		font-size: 16px;
 	}
@@ -299,6 +302,17 @@
 	// 		font-size: 36px;
 	// 	}
 	// }
+
+	//partnership
+	.swing-stat {
+		width: 46%;
+	}
+	.ss-quantity {
+		font-size: 60px;
+	}
+	.ss-item {
+		font-size: 21px;
+	}
 
 	//careers
 	.careers .hero-content {
@@ -758,6 +772,19 @@
 
 }
 @media (max-width: 575px) {
+	.navbar-wrap {
+		&:before {
+			content:"";
+			width:100%;
+			position: absolute;
+			top: -2px;
+			height: 4px;
+			left: 10%;
+			width: 80%; //TODO inner-wrap 100%
+			background-color: $blue;
+			z-index: 1;
+		}
+	}
 
 	//home
 	.home-about .grid-item {

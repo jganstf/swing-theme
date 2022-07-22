@@ -49,6 +49,8 @@
 - [ ] menu-color-primary menu.scss - remove hover? 1100
 - [ ] modal p
 - [ ] deprecations
+- [ ] page-specific position hero images
+- [ ] 
 - [ ] 
 - [ ] 
 

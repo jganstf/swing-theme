@@ -90,7 +90,7 @@ if (!empty($child_cats)) { ?>
                         $ids[] = $post->ID;
                     ?>
                         <li class="post-cards--grid-wrap">
-                            <div class="post-cards--grid-item">
+                            <a href="<?php echo get_the_permalink($post->ID); ?>" class="post-cards--grid-item">
                                 <figure>
                                     <?php echo get_the_post_thumbnail($post->ID); ?>
                                 </figure>
@@ -100,13 +100,13 @@ if (!empty($child_cats)) { ?>
                                     </small>
                                     <h3><?php echo $post->post_title; ?></h3>
                                     <?php if (!empty($tags)) { ?><small><?php echo $tags; ?></small><?php } ?>
-                                    <a href="<?php echo get_the_permalink($post->ID); ?>">LEARN MORE
+                                    <span>LEARN MORE
                                         <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
                                             <path d="M4 15a1 1 0 0 0 1 1h19.586l-4.292 4.292a1 1 0 0 0 1.414 1.414l6-6a.99.99 0 0 0 .292-.702V15c0-.13-.026-.26-.078-.382a.99.99 0 0 0-.216-.324l-6-6a1 1 0 0 0-1.414 1.414L24.586 14H5a1 1 0 0 0-1 1z" />
                                         </svg>
-                                    </a>
+                                    </span>
                                 </div>
-                            </div>
+                            </a>
                         </li>
                     <?php } ?>
                 </ul>
@@ -182,7 +182,8 @@ if (!empty($moreChildPosts) && !empty($cat)) { ?>
                     <?php echo get_the_post_thumbnail($sticky_posts[0]->ID); ?>
                 </div>
                 <div class="inner-banner-content">
-                    <span><?php echo date("M d, Y", strtotime($sticky_posts[0]->post_date)); ?></span>
+                    <?php $category = implode(',', wp_get_post_terms($sticky_posts[0]->ID, 'category', ['fields' => 'names'])); ?>
+                    <span><?php echo date("M d, Y", strtotime($sticky_posts[0]->post_date)); ?> // <?php echo $category; ?></span>
                     <h3><?php echo $sticky_posts[0]->post_title; ?></h3>
                     <p><?php echo $sticky_posts[0]->post_excerpt; ?></p>
                     <a href="<?php echo get_the_permalink($sticky_posts[0]->ID); ?>">LEARN MORE
@@ -208,7 +209,7 @@ if (!empty($moreChildPosts) && !empty($cat)) { ?>
                         $category = implode(',', wp_get_post_terms($latest_post->ID, 'category', ['fields' => 'names']));
                     ?>
                         <li class="post-cards--grid-wrap">
-                            <div class="post-cards--grid-item">
+                            <a href="<?php echo get_the_permalink($latest_post->ID); ?>" class="post-cards--grid-item">
                                 <figure>
                                     <?php echo get_the_post_thumbnail($latest_post->ID); ?>
                                 </figure>
@@ -218,13 +219,13 @@ if (!empty($moreChildPosts) && !empty($cat)) { ?>
                                     </small>
                                     <h3><?php echo $latest_post->post_title; ?></h3>
                                     <small><?php echo $category; ?></small>
-                                    <a href="<?php echo get_the_permalink($latest_post->ID); ?>">LEARN MORE
+                                    <span>LEARN MORE
                                         <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
                                             <path d="M4 15a1 1 0 0 0 1 1h19.586l-4.292 4.292a1 1 0 0 0 1.414 1.414l6-6a.99.99 0 0 0 .292-.702V15c0-.13-.026-.26-.078-.382a.99.99 0 0 0-.216-.324l-6-6a1 1 0 0 0-1.414 1.414L24.586 14H5a1 1 0 0 0-1 1z" />
                                         </svg>
-                                    </a>
+                                    </span>
                                 </div>
-                            </div>
+                            </a>
                         </li>
                     <?php } ?>
                 </ul>
@@ -267,6 +268,11 @@ if (!empty($moreChildPosts) && !empty($cat)) { ?>
                                         <div class="post-info">
                                             <h3><?php echo $latest_post->post_title; ?></h3>
                                             <p><?php echo $post->post_excerpt; ?></p>
+                                            <span>LEARN MORE
+                                                <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                                                    <path d="M4 15a1 1 0 0 0 1 1h19.586l-4.292 4.292a1 1 0 0 0 1.414 1.414l6-6a.99.99 0 0 0 .292-.702V15c0-.13-.026-.26-.078-.382a.99.99 0 0 0-.216-.324l-6-6a1 1 0 0 0-1.414 1.414L24.586 14H5a1 1 0 0 0-1 1z" />
+                                                </svg>
+                                            </span>
                                         </div>
                                     </a>
                                 </li>

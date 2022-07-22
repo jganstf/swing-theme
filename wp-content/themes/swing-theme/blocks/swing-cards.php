@@ -1,6 +1,6 @@
 <?php $fields = get_fields(); ?>
 
-<div class="cards-grid<?php if($fields['settings']['enable_horizontal_scroll']) { echo ' _cards-overflow'; } ?>">
+<div class="cards-grid<?php if($fields['settings']['overlap_next_section']) { echo ' overlap-section'; } ?>">
    <?php echo $fields['overview_content']; ?>
    <div class="cards-container<?php if($fields['settings']['enable_horizontal_scroll']) { echo ' cards-overflow'; } ?>">
    <!-- <div class="cards-container-inner"> -->

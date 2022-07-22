@@ -93,14 +93,6 @@ button.lity-close[type="button"] {
       }
    }
 }
-.main-content-wrap {
-   p {
-      @include bdy-md;
-   }
-   .blue-section p {
-      color: #FFF;
-   }
-}
 .error404 .main-content-wrap p {
    color: #FFF;
 }

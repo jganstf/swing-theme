@@ -1,10 +1,10 @@
 {
-    "key": "group_62cca75cc168e",
-    "title": "Swing Stats",
+    "key": "group_62dac2918f225",
+    "title": "Partnership Pricing",
     "fields": [
         {
-            "key": "field_62ccaf60d1f84",
-            "label": "Swing Stats",
+            "key": "field_62dac298b4e42",
+            "label": "Partnership Pricing",
             "name": "",
             "type": "accordion",
             "instructions": "",
@@ -20,7 +20,7 @@
             "endpoint": 0
         },
         {
-            "key": "field_62dad59541c43",
+            "key": "field_62dac29eb4e43",
             "label": "Heading",
             "name": "heading",
             "type": "text",
@@ -39,9 +39,28 @@
             "maxlength": ""
         },
         {
-            "key": "field_62cca766dd33a",
-            "label": "Stats",
-            "name": "stats",
+            "key": "field_62dac2dcb4e44",
+            "label": "Content",
+            "name": "content",
+            "type": "wysiwyg",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "tabs": "all",
+            "toolbar": "full",
+            "media_upload": 1,
+            "delay": 0
+        },
+        {
+            "key": "field_62dac2dfb4e45",
+            "label": "Statements",
+            "name": "statements",
             "type": "repeater",
             "instructions": "",
             "required": 0,
@@ -58,9 +77,9 @@
             "button_label": "",
             "sub_fields": [
                 {
-                    "key": "field_62cca76bdd33b",
-                    "label": "Quantity",
-                    "name": "quantity",
+                    "key": "field_62dac31c846ad",
+                    "label": "Statement Heading",
+                    "name": "heading",
                     "type": "text",
                     "instructions": "",
                     "required": 0,
@@ -77,28 +96,9 @@
                     "maxlength": ""
                 },
                 {
-                    "key": "field_62cca772dd33c",
-                    "label": "Item",
-                    "name": "item",
-                    "type": "text",
-                    "instructions": "",
-                    "required": 0,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "",
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": "",
-                    "maxlength": ""
-                },
-                {
-                    "key": "field_62cca780dd33d",
-                    "label": "Description",
-                    "name": "descr",
+                    "key": "field_62dac2e5b4e46",
+                    "label": "Statement Content",
+                    "name": "content",
                     "type": "text",
                     "instructions": "",
                     "required": 0,
@@ -122,7 +122,7 @@
             {
                 "param": "block",
                 "operator": "==",
-                "value": "acf\/swing-stats"
+                "value": "acf\/partnership-pricing"
             }
         ]
     ],
@@ -135,5 +135,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1658508698
+    "modified": 1658507510
 }

@@ -1,0 +1,19 @@
+.partner-states-content {
+   max-width: 640px;
+   margin-right: auto;
+}
+
+.partnership-states {
+   padding: 228px 0 266px;
+}
+
+.cards-grid.overlap-section + .partnership-states {
+   padding-top: 362px;
+   z-index: 1;
+}
+
+.overlap-section {
+   position: relative;
+   z-index: 2;
+   margin-bottom: calc(228px - 362px);
+}

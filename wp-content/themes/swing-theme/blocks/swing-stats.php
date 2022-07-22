@@ -1,7 +1,10 @@
 <?php // first found on partnership design
 $fields = get_fields(); ?>
 <div class="swing-stats">
-   <div class="d-md-flex justify-content-between">
+   <?php if($heading = $fields['heading']): ?>
+      <h2><?php echo $heading; ?></h2>
+   <?php endif;?>
+   <div class="d-flex">
       <?php foreach($fields['stats'] as $i => $stat ):?>
          <div class="swing-stat">
             <div class="ss-quantity"><?php echo $stat['quantity']; ?></div>

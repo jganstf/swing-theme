@@ -216,7 +216,8 @@ optgroup {
       padding-right: 3rem;
     }
     .hero-img { //gs
-      clip-path: ellipse(60% 78% at 60% 50%);
+      // clip-path: ellipse(60% 78% at 60% 50%);
+      clip-path: ellipse(60% 80% at 60% 46%);
       flex: 0 0 50%;
       .decor-img {
         height: 100%;
@@ -233,6 +234,9 @@ optgroup {
   h1 {
     @include hdl-xx;
     max-width:11em;
+  }
+  p {
+    color: white;
   }
   .btn {
      background: #fff;

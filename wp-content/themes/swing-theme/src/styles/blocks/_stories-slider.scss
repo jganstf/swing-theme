@@ -1,3 +1,9 @@
 .story-slider {
    padding: 114px 0 147px;
 }
+
+.story-img {
+   @include bg; //TODO [class*=-img] {
+   height: 100%;
+   width: 50%;
+}
