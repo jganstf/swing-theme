@@ -28,6 +28,12 @@ class Theme_Menu_Walker extends Walker_Nav_Menu {
 			$output .= $item->title;
 		}
 		
+		//TODO
+		if (in_array('btn', $item->classes)) {
+			// $output .= insert_svg('arrow-right', false);
+		}
+		
+		
 		// if ($args->show_carets && ($args->walker->has_children || in_array('menu-item-has-children', $item->classes))) {
       //    $output .= '<i class="caret fa fa-angle-down"></i>';
 		// }

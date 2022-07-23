@@ -19,7 +19,7 @@ require_once 'library/theme-rest.php';
 require_once 'library/cpt/stories.php';
 require_once 'library/cpt/testimonials.php';
 require_once 'library/cpt/whitepaper.php';
-
+require_once 'library/cpt/job.php';
 
 //dev setup automation
 if (IS_LOCAL) {

@@ -91,7 +91,7 @@ function animateAbout() {
 		defaults: { opacity: 0, },
 		scrollTrigger: {
 			trigger: '.home-about',
-			start: 'top bottom-=250px'
+			start: 'top bottom-=250px' //! ? -
 		}
 	})
 	
@@ -142,8 +142,7 @@ function animateAbout() {
 			)
 		})
 }
-
-
+function animateTestimonials() {}
 function animateJoin() {
 	// var waypoint = new Waypoint({
 	// 	element: $('.home-join')[0],

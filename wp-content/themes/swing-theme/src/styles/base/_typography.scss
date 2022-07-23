@@ -39,6 +39,9 @@ $font-body: $font-promixa-nova;
   line-height: 1.25;
   letter-spacing: var(--unnamed-character-spacing-0);
   color: var(--swing-black);
+  @include media-breakpoint-down(sm) {
+    @include hdr-sm; //for schools scroll cards
+  }
 }
 .hdr-md { @include hdr-md; }
 
@@ -186,6 +189,9 @@ $font-body: $font-promixa-nova;
   line-height: 1.33;
   letter-spacing: var(--unnamed-character-spacing-0);
   color: var(--swing-black);
+  @include media-breakpoint-down(sm) {
+    @include bdy-sm; //for schools scroll cards
+  }
 }
 .bdy-md { @include bdy-md; }
 
@@ -268,7 +274,8 @@ $font-body: $font-promixa-nova;
   font-style: var(--unnamed-font-style-italic);
   font-weight: var(--unnamed-font-weight-normal);
   font-size: var(--unnamed-font-size-37-310001373291016);
-  line-height: var(--unnamed-line-spacing-49-7400016784668);
+  // line-height: var(--unnamed-line-spacing-49-7400016784668);
+  line-height: 1.333;
   letter-spacing: var(--unnamed-character-spacing-0);
   color: var(--swing-black);
 }
@@ -279,7 +286,8 @@ $font-body: $font-promixa-nova;
   font-style: var(--unnamed-font-style-italic);
   font-weight: var(--unnamed-font-weight-normal);
   font-size: var(--unnamed-font-size-49-7400016784668);
-  line-height: var(--unnamed-line-spacing-66-30000305175781);
+  // line-height: var(--unnamed-line-spacing-66-30000305175781);
+  line-height: 1.333;
   letter-spacing: var(--unnamed-character-spacing-0);
   color: var(--swing-black);
 }
@@ -290,7 +298,8 @@ $font-body: $font-promixa-nova;
   font-style: var(--unnamed-font-style-normal);
   font-weight: var(--unnamed-font-weight-normal);
   font-size: var(--unnamed-font-size-15-75);
-  line-height: var(--unnamed-line-spacing-21);
+  // line-height: var(--unnamed-line-spacing-21);
+  line-height: 1.333;
   letter-spacing: var(--unnamed-character-spacing-0);
   color: var(--swing-black-t40);
 }
@@ -299,7 +308,8 @@ $font-body: $font-promixa-nova;
   font-style: var(--unnamed-font-style-normal);
   font-weight: var(--unnamed-font-weight-bold);
   font-size: var(--unnamed-font-size-27-989999771118164);
-  line-height: var(--unnamed-line-spacing-34-97999954223633);
+  // line-height: var(--unnamed-line-spacing-34-97999954223633);
+  line-height: 1.25;
   letter-spacing: var(--unnamed-character-spacing-0);
   color: var(--swing-blue);
 }
@@ -308,7 +318,8 @@ $font-body: $font-promixa-nova;
   font-style: var(--unnamed-font-style-italic);
   font-weight: var(--unnamed-font-weight-medium);
   font-size: var(--unnamed-font-size-27-989999771118164);
-  line-height: var(--unnamed-line-spacing-37-310001373291016);
+  // line-height: var(--unnamed-line-spacing-37-310001373291016);
+  line-height: 1.25;
   letter-spacing: var(--unnamed-character-spacing-0);
   color: var(--bg-01);
 }
@@ -317,7 +328,8 @@ $font-body: $font-promixa-nova;
   font-style: var(--unnamed-font-style-italic);
   font-weight: var(--unnamed-font-weight-medium);
   font-size: var(--unnamed-font-size-37-310001373291016);
-  line-height: var(--unnamed-line-spacing-49-7400016784668);
+  // line-height: var(--unnamed-line-spacing-49-7400016784668);
+  line-height: 1.333;
   letter-spacing: var(--unnamed-character-spacing-0);
   color: var(--bg-01);
 }
@@ -326,7 +338,8 @@ $font-body: $font-promixa-nova;
   font-style: var(--unnamed-font-style-italic);
   font-weight: var(--unnamed-font-weight-medium);
   font-size: var(--unnamed-font-size-49-7400016784668);
-  line-height: var(--unnamed-line-spacing-66-30000305175781);
+  // line-height: var(--unnamed-line-spacing-66-30000305175781);
+  line-height: 1.333;
   letter-spacing: var(--unnamed-character-spacing-0);
   color: var(--bg-01);
 }

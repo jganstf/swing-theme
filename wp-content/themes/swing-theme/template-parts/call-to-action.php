@@ -11,7 +11,11 @@ $btns = $fields['cta_links'];
 
 <?php if($heading && $btns): ?>
 <div class="call-to-action blue-section">
-   <h2><?php echo $heading; ?></h2>
+   <h2>
+      <spac class="letters">
+         <?php echo $heading; ?>
+      </span>
+   </h2>
    <div class="btns-wrap">
       <?php if($btns): foreach($btns as $btn): $btn = $btn['btn_link']; ?>
          <a href="<?php echo $btn['url'];?>" target="<?php echo $btn['target']?:'_self';?>" class="btn">

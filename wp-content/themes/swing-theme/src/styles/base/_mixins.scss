@@ -1,17 +1,15 @@
-// mixins - //TODO
-
 // Grid breakpoints
 //
 // Define the minimum dimensions at which your layout will change,
 // adapting to different screen sizes, for use in media queries.
 $grid-breakpoints: (
-	xs: 390px,
-	sm: 576px,
-	md: 768px,
-	lg: 992px,
-	xl: 1099px,
-	2xl: 1299px,
-	3xl: 1499px,
+	xs:  390px,
+	sm:  576px,
+	md:  768px,
+	lg:  992px,
+	xl:  1099px,
+	2xl: 1300px,
+	3xl: 1500px,
 );
 
 @mixin respond-above($breakpoint) {
@@ -108,7 +106,7 @@ $grid-breakpoints: (
 @mixin rel() {
 	position: relative;
 	z-index: 1;
-	&:after,
+	// &:after,
 	&:before {
 		content: '';
 		z-index: -1;

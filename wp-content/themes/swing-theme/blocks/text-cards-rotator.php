@@ -6,9 +6,13 @@ $total = strval(count($cards));
 ?>
 
 <div class="text-cards-rotator">
-   <div class="d-md-flex align-items-center">
-      <div class="tcr-content w-50">
-         <h2><?php echo $fields['heading']; ?></h2>
+   <div class="d-xl-flex align-items-center">
+      <div class="tcr-content col-xl-6 px-0">
+         <h2>
+            <span class="letters">
+               <?php echo $fields['heading']; ?>
+            </span>
+         </h2>
          <p><?php echo $fields['content']; ?></p>
          <ul class="slick-dots" style="" role="tablist">
             <!-- TODO leading zero -->
@@ -19,7 +23,7 @@ $total = strval(count($cards));
             <?php endforeach;?>
          </ul>
       </div>
-      <div class="tcr-cards cards slick w-50">
+      <div class="tcr-cards cards slick col-xl-6 px-0">
          <?php foreach($cards as $card):?>
             <div class="card bg3">
                <!-- card template -->
@@ -29,5 +33,13 @@ $total = strval(count($cards));
             </div>
          <?php endforeach;?>
       </div>
+      <ul class="slick-dots" style="" role="tablist">
+         <!-- TODO leading zero -->
+         <?php foreach($cards as $i => $card):?>
+            <li <?php if($i == 0) { echo 'class="slick-active"';}?> role="presentation">
+               <button type="button" role="tab" id="slick-slide-control0<?php echo strval($i);?>" aria-controls="slick-slide0<?php echo strval($i);?>" aria-label="<?php echo strval($i + 1);?> of <?php echo $total;?>" tabindex="<?php echo strval($i);?>" <?php if($i == 0) { echo 'aria-selected="true"';}?>><?php echo strval($i);?></button>
+            </li>
+         <?php endforeach;?>
+      </ul>
    </div>
 </div>

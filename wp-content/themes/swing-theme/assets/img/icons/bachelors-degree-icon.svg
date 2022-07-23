@@ -1,0 +1,46 @@
+<svg id="Group_701" data-name="Group 701" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="56" height="28" viewBox="0 0 56 28">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_466" data-name="Rectangle 466" width="56" height="28" fill="none"/>
+    </clipPath>
+    <clipPath id="clip-path-3">
+      <rect id="Rectangle_462" data-name="Rectangle 462" width="54" height="16.875" transform="translate(1 1.125)" fill="none"/>
+    </clipPath>
+    <clipPath id="clip-path-4">
+      <rect id="Rectangle_463" data-name="Rectangle 463" width="15.393" height="18" transform="translate(28)" fill="none"/>
+    </clipPath>
+    <clipPath id="clip-path-5">
+      <rect id="Rectangle_464" data-name="Rectangle 464" width="10" height="14" transform="translate(23)" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="Group_700" data-name="Group 700" clip-path="url(#clip-path)">
+    <g id="Group_699" data-name="Group 699">
+      <g id="Group_698" data-name="Group 698" clip-path="url(#clip-path)">
+        <path id="Path_184" data-name="Path 184" d="M52.589,18C53.921,18,55,13.971,55,9s-1.079-7.875-2.411-7.875H3.411C2.079,1.125,1,4.029,1,9s1.079,9,2.411,9Z" fill="#d1d3d7"/>
+        <g id="Group_691" data-name="Group 691" opacity="0.15">
+          <g id="Group_690" data-name="Group 690">
+            <g id="Group_689" data-name="Group 689" clip-path="url(#clip-path-3)">
+              <path id="Path_185" data-name="Path 185" d="M52.589,18C53.921,18,55,13.971,55,9s-1.079-7.875-2.411-7.875H3.411C2.079,1.125,1,4.029,1,9s1.079,9,2.411,9Z" fill="#231f20"/>
+            </g>
+          </g>
+        </g>
+        <path id="Path_186" data-name="Path 186" d="M56,9c0-4.971-1.119-9-2.5-9H2.5C1.119,0,0,4.029,0,9a35.77,35.77,0,0,0,.337,5H55.663A35.77,35.77,0,0,0,56,9" fill="#e8e8eb"/>
+        <g id="Group_694" data-name="Group 694" opacity="0.1">
+          <g id="Group_693" data-name="Group 693">
+            <g id="Group_692" data-name="Group 692" clip-path="url(#clip-path-4)">
+              <path id="Path_187" data-name="Path 187" d="M43.393,18H28V0h5Z" fill="#231f20"/>
+            </g>
+          </g>
+        </g>
+        <path id="Path_188" data-name="Path 188" d="M33,28l-5-2.887L23,28V0H33Z" fill="#f2a900"/>
+        <g id="Group_697" data-name="Group 697" opacity="0.15">
+          <g id="Group_696" data-name="Group 696">
+            <g id="Group_695" data-name="Group 695" clip-path="url(#clip-path-5)">
+              <path id="Path_189" data-name="Path 189" d="M33,8.227,23,14V0H33Z" fill="#fff"/>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
